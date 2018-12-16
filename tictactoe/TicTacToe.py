@@ -23,11 +23,16 @@ def checkWin():
 	# Check for diagonal win condition 
 	# Index [1][1] is common so check that it's not 0
 	if(board[1][1] > 0):
-		if(board[0][0] == board[1][1] and board[1][1] == board[2][2]):
-			return[1][1]
+		# Top left to bottom right
+		if(board[0][0] == board[1][1] and board[1][1] == board[2][2]) :
+			return board[1][1]
+		# Bottom left to top right
+		if(board[2][0] == board[1][1] and board[1][1] == board[0][2]) :
+			return board[1][1]
 	# No win condition detected 
 	return 0
 
+# Displays the game board
 def displayBoard():
 	print(str(board[0][0]) + " | " + str(board[0][1]) + 
 		" | " + str(board[0][2]))
@@ -51,7 +56,7 @@ def validateRowOrCol(querry):
 			flag = False
 	return x
 
-# Chack if move is legal - Space is empty
+# Check if move is legal - Space is empty
 def validateMove(row, col):
 	if board[row][col] == 0:
 		return 1
@@ -72,15 +77,16 @@ def main():
 		print("Player " + str(player) + " where do you want to move?")
 		flag = True
 		while flag == True:
-			row = int(validateRowOrCol("Row?"))
-			col = int(validateRowOrCol("Col?"))
+			row = int(validateRowOrCol("Row? "))
+			col = int(validateRowOrCol("Col? "))
 			if validateMove(row, col) == 1:
 				board[int(row)][int(col)] = player
 				flag = False
 
 	# Display winner
 	winner = checkWin()
-	print("Player " + str(winner) + "wins")
+	displayBoard()
+	print("Player " + str(winner) + " wins")
 
 if __name__ == "__main__":
 	main()

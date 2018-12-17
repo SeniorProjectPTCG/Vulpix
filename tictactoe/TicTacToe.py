@@ -3,6 +3,8 @@
 # For use in Monte Carlo Tree Search research
 # Chris Crisson
 
+import sys
+
 # Initialize the game board
 board = [[0,0,0], [0,0,0],[0,0,0]]
 
@@ -71,6 +73,9 @@ def main():
 	# Game Loop
 	while checkWin() < 1 :
 		turn += 1
+		# After 9 turns the board is full so its a tie
+		if turn > 9 :
+			break
 		print("Turn: " + str(turn))
 		player = ((turn + 1) % 2) + 1
 		displayBoard()
@@ -86,7 +91,11 @@ def main():
 	# Display winner
 	winner = checkWin()
 	displayBoard()
-	print("Player " + str(winner) + " wins")
+	if winner > 0 :
+		print("Player " + str(winner) + " wins")
+	else :
+		print("It's a tie")
 
 if __name__ == "__main__":
 	main()
+	sys.exit()

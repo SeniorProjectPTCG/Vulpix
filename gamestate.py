@@ -58,6 +58,9 @@ class Gameboard():
         self.playerPrize.append(self.playerDeck[self.playerDeckIndex])
         self.playerDeckIndex += 1
 
+    def oppIsBasic(self, i):
+        #Searches player's hand for a basic pokemon
+        return self.oppHand[i].isBasic()
     
         
 
@@ -69,7 +72,7 @@ class Gameboard():
         # If no basics then set mulligan and shuffle/redraw
         i = 0
         basic = False
-
+        print("Starting to set up Player's board...")
         #Draw cards from player hand
         for i in range(7): # should do this 7 times...need to test to be sure  
             self.playerDrawCard()
@@ -78,22 +81,58 @@ class Gameboard():
         #print(self.oppHand)
 
         ###CHECK FOR BASIC HERE!!!  ##
-        for i in range(len(self.playerHand)-1):  #loop length of player hand - 1
+        for i in range(len(self.playerHand)):  #loop length of player hand - 1
             if self.playerIsBasic(i):
                 basic = True #if atleast one basic is found
                 print("Basic found!!")
             else:
-                print("No basic found!!")
-            
+                print("You have to take a mulligan!")
+                ## Need to add support for mulligan
+            print(i)
 
-        #If player has basic set up prices#
+
+        #If player has basic set up pries#
         if basic: 
             for i in range(6):
                 self.playerSetPrize()
                 print(self.playerPrize[i]["Name"])
 
+        print("Starting to set up Opponent's board...")
+        basic = False
+
+        for i in range(len(self.oppHand)):  #loop length of player hand - 1
+            if self.oppIsBasic(i):
+                basic = True #if atleast one basic is found
+                print("Basic found!!")
+            else:
+                print("No basic found!!")
+                ## Need to add support for mulligan
+            
+
+class Card():
+    ##Option #1 - Class based cards
+    Name = ''
+    Card_Type = ''
+    Type = ''
+    Basic = False
+    HP = 0
+    Attack_One = 0
+    Attack_Two = 0
+
+    def __init__(self, name, card_type, Type, basic, hp, atk1, atk2):
+        self.Name = name
+        self.Card_Type = card_type
+        self.Type = Type
+        self.Basic = basic
+        self.HP = hp
+        self.Attack_One = atk1
+        self.Attack_Two = atk2
+    def isBasic(self):
+        return self.Basic
+
     
-        
+    
+## Option #2 - Dioctionary based cards        
 card1 = {"Name" : "Zorua",
          "Type" : "Pokemon",
          "Basic" : True,
@@ -126,6 +165,12 @@ card5 = {"Name" : "Dark Energy",
          "Attack 2" : "None"}
          
 obb = Gameboard()
-obb.playerDeck = [card1, card2, card3, card4, card5, card1, card2, card3, card2 , card1, card2 , card3, card1, card4, card3, card5, card5, card5, card5, card5,]
-obb.oppDeck = [card1, card2, card3, card2 , card1, card2 , card3, card1, card4, card3, card5]
+Card1 = Card("Pikachu", "Pokemon", "Electric", True, 60, 10, 30)
+Card2 = Card("Raichu", "Pokemon", "Electric", False, 120, 50, 100)
+Card3 = Card("Pokeball", "Item", "None", False, 0, 0, 0)
+Card4 = Card("Bridgett", "Supporter", "None", False, 0, 0, 0)
+Card5 = Card("Electric Energy", "Energy", "Electric", False, 0, 0, 0)
+obb.playerDeck = [card1, card2, card3, card4, card5, card1, card2, card3, card2 , card1, card2 , card3, card1, card4, card3, card5, card5, card5, card5, card5]
+obb.oppDeck = [Card1, Card2, Card3, Card2 , Card1, Card2 , Card3, Card1, Card4, Card3, Card5, Card5, Card5, Card5, Card5, Card5]
+
 obb.setup()

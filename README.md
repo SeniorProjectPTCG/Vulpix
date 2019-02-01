@@ -4,7 +4,7 @@ The Project Vulpix team is
 Chris Crisson, Andrew Siddall, Matthew Bedillion, and Adlene Bellaoucha.
 
 ![Gantt Chart](https://seniorprojectptcg.github.io/Vulpix/assets/Vulpix_Gantt.JPG)
-[Week 1 Report](https://seniorprojectptcg.github.io/Vulpix/assets/ProjectVulpixWk1.pdf)\n
+[Week 1 Report](https://seniorprojectptcg.github.io/Vulpix/assets/ProjectVulpixWk1.pdf)
 [Design Doc](https://seniorprojectptcg.github.io/Vulpix/assets/DesignDoc.pdf)
 [Proposal Doc](https://seniorprojectptcg.github.io/Vulpix/assets/ProposalDoc.pdf)
 [Requirements Doc](https://seniorprojectptcg.github.io/Vulpix/assets/RequirementsDoc.pdf)

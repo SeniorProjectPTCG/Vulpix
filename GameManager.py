@@ -57,6 +57,8 @@ class Card():
             self.Attack_Two_Effect = obj['Attack2Effect']
             self.Attack_Two_Cost = obj['Attack2Cost']
     def isBasic(self):
-        return self.Stage == 0
-
+        if self.Card_Type == 'Pokemon':
+            return self.Stage == 0
+        else:
+            return False
 

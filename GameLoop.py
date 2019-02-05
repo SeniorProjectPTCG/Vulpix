@@ -23,115 +23,157 @@ def GameLoop():
         print("Starting player deck Population...")
         obj = GameManager.Card(card1)
         gameboard.playerDeck.append(obj)
+        gameboard.oppDeck.append(obj)
         obj = GameManager.Card(card1)
         gameboard.playerDeck.append(obj)
+        gameboard.oppDeck.append(obj)
 
         obj = GameManager.Card(card2)
         gameboard.playerDeck.append(obj)
+        gameboard.oppDeck.append(obj)
         obj = GameManager.Card(card2)
         gameboard.playerDeck.append(obj)
+        gameboard.oppDeck.append(obj)
 
         obj = GameManager.Card(card3)
         gameboard.playerDeck.append(obj)
+        gameboard.oppDeck.append(obj)
         obj = GameManager.Card(card3)
         gameboard.playerDeck.append(obj)
+        gameboard.oppDeck.append(obj)
         obj = GameManager.Card(card3)
         gameboard.playerDeck.append(obj)
+        gameboard.oppDeck.append(obj)
 
         obj = GameManager.Card(card4)
         gameboard.playerDeck.append(obj)
+        gameboard.oppDeck.append(obj)
         obj = GameManager.Card(card4)
         gameboard.playerDeck.append(obj)
+        gameboard.oppDeck.append(obj)
 
         obj = GameManager.Card(card5)
         gameboard.playerDeck.append(obj)
+        gameboard.oppDeck.append(obj)
         obj = GameManager.Card(card5)
         gameboard.playerDeck.append(obj)
+        gameboard.oppDeck.append(obj)
+        
 
         obj = GameManager.Card(card6)
         gameboard.playerDeck.append(obj)
+        gameboard.oppDeck.append(obj)
 
         obj = GameManager.Card(card7)
         gameboard.playerDeck.append(obj)
+        gameboard.oppDeck.append(obj)
         obj = GameManager.Card(card7)
         gameboard.playerDeck.append(obj)
+        gameboard.oppDeck.append(obj)
 
         obj = GameManager.Card(card8)
         gameboard.playerDeck.append(obj)
+        gameboard.oppDeck.append(obj)
 
         obj = GameManager.Card(card9)
         gameboard.playerDeck.append(obj)
+        gameboard.oppDeck.append(obj)
 
         obj = GameManager.Card(card10)
         gameboard.playerDeck.append(obj)
+        gameboard.oppDeck.append(obj)
         obj = GameManager.Card(card10)
         gameboard.playerDeck.append(obj)
+        gameboard.oppDeck.append(obj)
 
         obj = GameManager.Card(card11)
         gameboard.playerDeck.append(obj)
+        gameboard.oppDeck.append(obj)
         obj = GameManager.Card(card11)
         gameboard.playerDeck.append(obj)
+        gameboard.oppDeck.append(obj)
 
         obj = GameManager.Card(card12)
         gameboard.playerDeck.append(obj)
+        gameboard.oppDeck.append(obj)
 
         obj = GameManager.Card(card13)
         gameboard.playerDeck.append(obj)
+        gameboard.oppDeck.append(obj)
         obj = GameManager.Card(card13)
         gameboard.playerDeck.append(obj)
+        gameboard.oppDeck.append(obj)
 
         obj = GameManager.Card(card14)
         gameboard.playerDeck.append(obj)
+        gameboard.oppDeck.append(obj)
 
         obj = GameManager.Card(card15)
         gameboard.playerDeck.append(obj)
+        gameboard.oppDeck.append(obj)
         obj = GameManager.Card(card15)
         gameboard.playerDeck.append(obj)
+        gameboard.oppDeck.append(obj)
 
         obj = GameManager.Card(card16)
         gameboard.playerDeck.append(obj)
+        gameboard.oppDeck.append(obj)
 
         obj = GameManager.Card(card17)
         gameboard.playerDeck.append(obj)
+        gameboard.oppDeck.append(obj)
 
         for i in range(3):
                 obj = GameManager.Card(card18)
                 gameboard.playerDeck.append(obj)
+                gameboard.oppDeck.append(obj)
 
         obj = GameManager.Card(card19)
         gameboard.playerDeck.append(obj)
+        gameboard.oppDeck.append(obj)
         obj = GameManager.Card(card19)
         gameboard.playerDeck.append(obj)
+        gameboard.oppDeck.append(obj)
 
         obj = GameManager.Card(card20)
         gameboard.playerDeck.append(obj)
+        gameboard.oppDeck.append(obj)
         obj = GameManager.Card(card20)
         gameboard.playerDeck.append(obj)
+        gameboard.oppDeck.append(obj)
 
         obj = GameManager.Card(card21)
         gameboard.playerDeck.append(obj)
+        gameboard.oppDeck.append(obj)
 
         obj = GameManager.Card(card22)
         gameboard.playerDeck.append(obj)
+        gameboard.oppDeck.append(obj)
         obj = GameManager.Card(card22)
         gameboard.playerDeck.append(obj)
+        gameboard.oppDeck.append(obj)
 
         obj = GameManager.Card(card23)
         gameboard.playerDeck.append(obj)
+        gameboard.oppDeck.append(obj)
         obj = GameManager.Card(card23)
         gameboard.playerDeck.append(obj)
+        gameboard.oppDeck.append(obj)
 
         for i in range(12):
                 obj = GameManager.Card(card24)
                 gameboard.playerDeck.append(obj)
+                gameboard.oppDeck.append(obj)
         for i in range(8):
                 obj = GameManager.Card(card25)
                 gameboard.playerDeck.append(obj)
+                gameboard.oppDeck.append(obj)
 
         print("Player deck created")
 
-        for i in gameboard.playerDeck:
-                print(i.Name)
+        
+
+        gameboard.setup()
 
 card1 = {'Name' : 'Solgaleo',
         'Card_Type' : 'Pokemon',

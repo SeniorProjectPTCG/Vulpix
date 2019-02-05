@@ -11,7 +11,8 @@
 ###################DESCRIPTION########################
 ## This file contains methods for controling game objects
 ## and performing actions on them
-
+debug = True
+import random
 ## This class will control the entire Gameboard
 class Gameboard():
     #Player Lists
@@ -33,6 +34,168 @@ class Gameboard():
     #Helper Structures
     playerDeckIndex = 0
     oppDeckIndex = 0
+
+    ## All of the player/opp member functions could possibly be combined into one function each and have a flag based on turn or access.
+    ## Just a thought to reduce redundant code. Currently, I am just trying to get code down, but if we choose to do this we can edit it in Phase 3.
+    ## This will also depend on how we handle turns and stuff like that. We can discuss it during our next weekly team meeting.
+
+    
+
+    ###  GENRAL MEMBER FUNCTIONS  ###
+    def randomizeDecks(self):
+        temp = []
+        if debug:
+            print("Size of Player's Deck: " + str(len(self.playerDeck)))
+            
+            
+
+        random.shuffle(self.playerDeck)
+        random.shuffle(self.oppDeck)
+        if debug:
+            for i in range(len(self.playerDeck)):
+                print("Card " + str(i) + " of Player's deck is " + self.playerDeck[i].Name)
+            print("\n")
+            print("Size of Opponent's Deck: " + str(len(self.oppDeck)))
+            for i in range(len(self.oppDeck)):
+                print("Card " + str(i) + " of Opponent's deck is " + self.oppDeck[i].Name)
+
+    def displayBoard(self):
+        #displays the current boardstate. Should show everything known to the user on both sides. Including user's hand
+        # Does nothing curently.
+        print("Active: ")
+
+    ### PLAYER MEMBER FUCNTIONS  ###
+
+    def playerDrawCard(self):
+        
+        self.playerHand.append(self.playerDeck.pop(self.playerDeckIndex))
+        #self.playerDeckIndex += 1
+
+    def playerIsBasic(self, i):
+        #Searches player's hand for a basic pokemon
+        if self.playerHand[i].isBasic() == True: #This will need to be changed once the card structure is finalized. Currently each card is a dict and the hand is a list of card dicts
+            return True
+        else:
+            return False
+
+    def playerSetPrize(self):
+        if debug:
+            print("Setting up player prizes")
+        self.playerPrize.append(self.playerDeck.pop(self.playerDeckIndex))
+        #self.playerDeckIndex += 1
+
+
+
+    ###  OPPONENT MEMBER FUNCTIONS  ###
+
+
+    def oppDrawCard(self):
+        self.oppHand.append(self.oppDeck.pop(self.oppDeckIndex))
+        #self.oppDeckIndex += 1
+
+    def oppIsBasic(self, i):
+        #Searches player's hand for a basic pokemon
+        return self.oppHand[i].isBasic()
+
+    def oppSetPrize(self):
+        if debug:
+            print("Setting up opponent's prizes")
+        self.oppPrize.append(self.oppDeck.pop(self.oppDeckIndex))
+
+    
+        
+
+    def setup(self):
+        # Need to randomize deck amd assign it to the deck list
+        # Then draw 7 cards
+        # Check for a basic
+        # If Basics in hand then place a basic on bench/active and fill up the prize list
+        # If no basics then set mulligan and shuffle/redraw
+        
+        i = 0
+        basic = False
+        count = 0
+        mulligan = 0
+        if debug:
+            print("Shuffling Decks...")
+            
+        self.randomizeDecks()
+        
+        if debug:
+            print("Starting to set up Player's board...")
+            
+        
+        #Draw cards from player hand
+        for i in range(7): # should do this 7 times...need to test to be sure
+            
+            self.playerDrawCard()
+            self.oppDrawCard()
+        #print(self.playerHand)
+        #print(self.oppHand)
+
+        ###CHECK FOR BASIC HERE!!!  ##
+        for i in range(len(self.playerHand)):  #loop length of player hand - 1
+            if self.playerIsBasic(i):
+                basic = True #if atleast one basic is found
+                count += 1
+                print(str(count) + " basic(s) found!!")
+            else:
+                continue
+                ## Need to add support for mulligan
+        if count == 0:
+            print("No basic found!! Take a Mulligan!")
+
+
+        #If player has basic set up pries#
+        if basic: 
+            for i in range(6):
+                self.playerSetPrize()
+                print(self.playerPrize[i].Name)
+            # If Player only has one basic it must go to active spot
+            if count == 1:
+                for i in range(len(self.playerHand)):
+                    if self.playerIsBasic(i):
+                        self.playerActive.append(self.playerHand.pop(i)) # pops the basic from hand to active spot
+                        break
+            else: # more than one basic
+                ## Needs an option for user to select active or AI in our case.
+                print("Too many basics")
+                
+                        
+
+        if debug:
+            print("Starting to set up Opponent's board...")
+        basic = False
+        count = 0
+
+        for i in range(len(self.oppHand)):  #loop length of player hand - 1
+            if self.oppIsBasic(i):
+                basic = True #if atleast one basic is found
+                count += 1
+                print(str(count) + " basic(s) found!!")
+            else:
+                continue
+                ## Need to add support for mulligan
+        if count is 0:
+            print("No basic found!! Take a Mulligan!")
+
+        #If player has basic set up pries#
+        if basic: 
+            for i in range(6):
+                self.oppSetPrize()
+                #print(self.oppPrize[i]["Name"])
+            # If Player only has one basic it must go to active spot
+            if count == 1:
+                for i in range(len(self.oppHand)):
+                    if self.oppIsBasic(i):
+                        self.oppActive.append(self.oppHand.pop(i)) # pops the basic from hand to active spot
+                        break
+            else: # more than one basic
+                ## Needs an option for user to select active or AI in our case.
+                pass
+
+    def turn(self):
+        pass
 
 class Card():
     Name = ''

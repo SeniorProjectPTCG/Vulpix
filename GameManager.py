@@ -158,7 +158,29 @@ class Gameboard():
                         self.playerActive.append(self.playerHand.pop(i)) # pops the basic from hand to active spot
                         break
             else: # more than one basic
-                ## Needs an option for user to select active or AI in our case.
+##                temp = []
+##                num = count
+##                i =0
+##                while i < len(self.playerHand):
+##                    if self.playerIsBasic(i):
+##                        temp.append(self.playerHand.pop(i))
+##                        num -= 1
+##                    if num == 0:
+##                        break
+##                    i+=1    
+##                    
+##                
+##                    
+##                random.shuffle(temp)
+##                for i in range(len(temp)):
+##                    print(temp[i].Name)
+##                self.playerActive.append(temp.pop(0)) #Randomly selects the active from list of basics
+##                if count <= 5:
+##                    for i in range(count-1):
+##                        for i in range(len(temp)):
+##                            print(temp[i].Name)
+##                        self.playerBench.append(temp.pop(i)) #Fills bench up with all basics  NOT IDEAL!!!! TESTING PURPOSES ONLY!!!!
+##                ## Needs an option for user to select active or AI in our case.
                 print("Too many basics")
                 
                         
@@ -195,7 +217,32 @@ class Gameboard():
                 pass
 
     def turn(self):
-        pass
+        # Player's Turn
+        if turn == 'p':
+            break
+
+        # Opponent's Turn
+        elif turn == 'o':
+            pass
+
+    def winConditions(self):
+
+        ## Opponent Win Conditions ##
+        if len(playerActive) == 0 and len(playerBench) == 0:
+            print("Opponent wins!")
+        if len(oppPrize) == 0:
+            print("Opponent wins!")
+        if len(playerDeck) == 0:
+            print("Opponent wins!")
+
+        ## Player Win Conditions ##
+        if len(oppActive) == 0 and len(oppBench) == 0:  # Empty bench and active
+            print("Opponent wins!")
+        if len(playerPrize) == 0:  # No prizes left
+            print("Opponent wins!")
+        #Deckout may need to be re-evaluated since deckouts only occur when the player draws for turn. This shoould work but I didn't spend too much time on it
+        if len(oppDeck) == 0:  # Deckout
+            print("Opponent wins!")
 
 class Card():
     Name = ''

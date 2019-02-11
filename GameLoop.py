@@ -124,10 +124,14 @@ def GameLoop():
         gameboard.oppDeck.append(obj)
 
         obj = GameManager.Card(card15)
+        obj.setOwner('p')
         gameboard.playerDeck.append(obj)
+        obj.setOwner('o')
         gameboard.oppDeck.append(obj)
         obj = GameManager.Card(card15)
+        obj.setOwner('p')
         gameboard.playerDeck.append(obj)
+        obj.setOwner('o')
         gameboard.oppDeck.append(obj)
 
         obj = GameManager.Card(card16)

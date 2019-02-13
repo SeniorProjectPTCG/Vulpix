@@ -111,7 +111,7 @@ class Gameboard():
         
 
     def setup(self):
-        # Need to randomize deck amd assign it to the deck list
+        # Need to randomize deck and assign it to the deck list
         # Then draw 7 cards
         # Check for a basic
         # If Basics in hand then place a basic on bench/active and fill up the prize list
@@ -163,30 +163,42 @@ class Gameboard():
                         self.playerActive.append(self.playerHand.pop(i)) # pops the basic from hand to active spot
                         break
             else: # more than one basic
-##                temp = []
-##                num = count
-##                i =0
-##                while i < len(self.playerHand):
-##                    if self.playerIsBasic(i):
-##                        temp.append(self.playerHand.pop(i))
-##                        num -= 1
-##                    if num == 0:
-##                        break
-##                    i+=1    
-##                    
-##                
-##                    
-##                random.shuffle(temp)
-##                for i in range(len(temp)):
-##                    print(temp[i].Name)
-##                self.playerActive.append(temp.pop(0)) #Randomly selects the active from list of basics
-##                if count <= 5:
-##                    for i in range(count-1):
-##                        for i in range(len(temp)):
-##                            print(temp[i].Name)
-##                        self.playerBench.append(temp.pop(i)) #Fills bench up with all basics  NOT IDEAL!!!! TESTING PURPOSES ONLY!!!!
-##                ## Needs an option for user to select active or AI in our case.
-                print("Too many basics")
+                temp = []
+                for i in range(len(self.playerHand)):
+                    if self.playerIsBasic(i):
+                        temp.append(self.playerHand[i])
+
+
+            print("Temp list of basics:")
+            random.shuffle(temp)
+            self.playerActive.append(temp[0])
+            for i in range(1, count):
+                self.playerBench.append(temp[i])
+            for i in range(len(self.playerBench)):
+                print(self.playerBench[i].Name)
+
+##          Delete from hand
+            temp2 = []
+            for i in range(len(temp)):
+                for j in range(len(self.playerHand)):
+                    if temp[i].Name == self.playerHand[j].Name:
+                        temp2.append(j)
+               
+            for i in temp2:
+                self.playerHand.pop(i)
+
+            del temp, temp2
+
+            print("Player hand after settting up play: ")
+            for i in range(len(self.playerHand)):
+                print(self.playerHand[i].Name)
+#               if count <= 5:
+ #                  for i in range(count-1):
+  #                     for i in range(len(temp)):
+   #                        print(temp[i].Name)
+    #                   self.playerBench.append(temp.pop(i)) #Fills bench up with all basics  NOT IDEAL!!!! TESTING PURPOSES ONLY!!!!
+               ## Needs an option for user to select active or AI in our case.
+              #print("Too many basics")
                 
                         
 
@@ -228,6 +240,14 @@ class Gameboard():
         ## Use one of the card's attack. This ends the turn
         ## Must have proper amount and type of energy
         pass
+
+    def attackDamage(self, attacker, defender, choice):
+
+        print(defender.Name + " HP: " + str(defender.Hp));
+        defender.Hp = defender.Hp - attacker.Attack_One_Damage;
+        print("Attack succesful");
+        print(defender.Name + " HP: " + str(defender.Hp));
+
     def evolve(self, turn):
         ## Evolves a pokemon on the bench with card in hand
         pass
@@ -292,7 +312,7 @@ class Gameboard():
         # Check for statuses(Mainly ones that happen between turns)
         # Player's Turn
         if turn == 'p':
-            break
+            pass
 
         # Opponent's Turn
         elif turn == 'o':
@@ -317,17 +337,12 @@ class Gameboard():
         if len(oppDeck) == 0:  # Deckout
             print("Opponent wins!")
 
-    def attackDamage(self, defender, damage):
-        print(defender.Name + " HP: " + str(defender.Hp));
-        defender.Hp = int(defender.Hp)- damage;
-        print("Attack succesful");
-        print(defender.Name + " HP: " + str(defender.Hp));
+
 
 class Card():
     Name = ''
     Card_Type = ''
-    Type = ''
-    Basic = False
+    #Basic = False
     Hp = 0
     Attack_One_Damage = 0
     Attack_One_Effect = ''
@@ -338,12 +353,15 @@ class Card():
     
     Retreat_Cost = 0
     Pokemon_Type = ''
+
     Weakness = ''
     Resistance = ''
-    #Pre-Evolution = ''
-    #Stage = 0
+    PreEvolution = ''
+    Stage = 0
     Effect = ''
     Owner = ''
+    Energies = []
+    Tools = []
 
     def __init__(self, obj):
         self.Name = obj['Name']

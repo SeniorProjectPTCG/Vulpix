@@ -174,6 +174,7 @@ def GameLoop():
         
 
         gameboard.setup()
+        gameboard.attackDamage(gameboard.playerHand[1], 10)
 
 card1 = {'Name' : 'Solgaleo',
         'Card_Type' : 'Pokemon',

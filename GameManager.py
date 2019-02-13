@@ -35,6 +35,10 @@ class Gameboard():
     playerDeckIndex = 0
     oppDeckIndex = 0
 
+    #Limit Supporters to one per turn
+    supporterPlayed = False
+    stadiumPlayed = False
+
     ## All of the player/opp member functions could possibly be combined into one function each and have a flag based on turn or access.
     ## Just a thought to reduce redundant code. Currently, I am just trying to get code down, but if we choose to do this we can edit it in Phase 3.
     ## This will also depend on how we handle turns and stuff like that. We can discuss it during our next weekly team meeting.
@@ -146,7 +150,7 @@ class Gameboard():
             print("No basic found!! Take a Mulligan!")
 
 
-        #If player has basic set up pries#
+        #If player has basic set up prizes#
         if basic: 
             for i in range(6):
                 self.playerSetPrize()
@@ -197,12 +201,18 @@ class Gameboard():
     def turn(self):
         pass
 
+    def attackDamage(self, defender, damage):
+        print(defender.Name + " HP: " + str(defender.Hp));
+        defender.Hp = int(defender.Hp)- damage;
+        print("Attack succesful");
+        print(defender.Name + " HP: " + str(defender.Hp));
+
 class Card():
     Name = ''
     Card_Type = ''
     Type = ''
     Basic = False
-    HP = 0
+    Hp = 0
     Attack_One_Damage = 0
     Attack_One_Effect = ''
     Attack_One_Cost = ''

@@ -187,7 +187,7 @@ class Gameboard():
             for i in temp2:
                 self.playerHand.pop(i)
 
-            del temp, temp2
+            #del temp, temp2
 
             print("Player hand after settting up play: ")
             for i in range(len(self.playerHand)):

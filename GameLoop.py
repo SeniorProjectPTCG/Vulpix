@@ -16,6 +16,21 @@ import GameManager
 from setlists import SUM
 
 def GameLoop():
+        # Game loop should keep track of whose turn it is
+        # using the turn flag. We can then use this flag to
+        # set up the functions in the Gamemanager file to
+        # condense the fuctions that are currently seperated
+        # like player and opp prize setups. At the begining of
+        # the game we can  have a random number generator acting
+        # as a coin to select who goes first and sets the flag.
+        # Then all the setups will take place for that player then
+        # change the flag and setup the next player and so on.
+        # We just need to make sure we setup the boardstate before hand,
+        # ie have prizes layed out and determine mulligans.
+
+        
+        turn = ''
+        
         ## Initialize the gameboard
         gameboard = GameManager.Gameboard()
 
@@ -109,10 +124,14 @@ def GameLoop():
         gameboard.oppDeck.append(obj)
 
         obj = GameManager.Card(card15)
+        obj.setOwner('p')
         gameboard.playerDeck.append(obj)
+        obj.setOwner('o')
         gameboard.oppDeck.append(obj)
         obj = GameManager.Card(card15)
+        obj.setOwner('p')
         gameboard.playerDeck.append(obj)
+        obj.setOwner('o')
         gameboard.oppDeck.append(obj)
 
         obj = GameManager.Card(card16)
@@ -432,6 +451,9 @@ card25 = {'Name' : 'Psychic Energy',
         'Card_Type' : 'Energy',
         'Effect' : ''}
 
+
+
+## MAIN ##
 GameLoop()
 
 

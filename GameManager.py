@@ -34,6 +34,7 @@ class Gameboard():
     #Helper Structures
     playerDeckIndex = 0
     oppDeckIndex = 0
+    stadium = []
 
     #Limit Supporters to one per turn
     supporterPlayed = False
@@ -162,7 +163,29 @@ class Gameboard():
                         self.playerActive.append(self.playerHand.pop(i)) # pops the basic from hand to active spot
                         break
             else: # more than one basic
-                ## Needs an option for user to select active or AI in our case.
+##                temp = []
+##                num = count
+##                i =0
+##                while i < len(self.playerHand):
+##                    if self.playerIsBasic(i):
+##                        temp.append(self.playerHand.pop(i))
+##                        num -= 1
+##                    if num == 0:
+##                        break
+##                    i+=1    
+##                    
+##                
+##                    
+##                random.shuffle(temp)
+##                for i in range(len(temp)):
+##                    print(temp[i].Name)
+##                self.playerActive.append(temp.pop(0)) #Randomly selects the active from list of basics
+##                if count <= 5:
+##                    for i in range(count-1):
+##                        for i in range(len(temp)):
+##                            print(temp[i].Name)
+##                        self.playerBench.append(temp.pop(i)) #Fills bench up with all basics  NOT IDEAL!!!! TESTING PURPOSES ONLY!!!!
+##                ## Needs an option for user to select active or AI in our case.
                 print("Too many basics")
                 
                         
@@ -198,8 +221,101 @@ class Gameboard():
                 ## Needs an option for user to select active or AI in our case.
                 pass
 
-    def turn(self):
+
+
+##  THINGS THAT CAN BE DONE DURING TURNS
+    def attack(self, turn):
+        ## Use one of the card's attack. This ends the turn
+        ## Must have proper amount and type of energy
         pass
+    def evolve(self, turn):
+        ## Evolves a pokemon on the bench with card in hand
+        pass
+    def playEnergy(self, turn):
+        ## ONCE PER TURN (Typically)
+        ## Plays an energy from hand to a pokemon
+        pass
+    def playItem(self, turn):
+        ## Plays an item from hand and does the effect
+        pass
+    def playSupporter(self, turn):
+        ## ONCE PER TURN (typically)
+        ## Plays a supporter from hand
+        pass
+    def playTool(self, turn):
+        ## Plays a tool from hand and places it on the pokemon card in play
+        pass
+    def playStadium(self, turn):
+        ## ONCE PER TURN
+        ## Plays a stadium from hand
+        ## Can't play if stadium in play shares same name
+
+        ## **CURENTLY I AM ASSUMING ONLY ONE STADIUM IS FOUND
+        ## **NEEDS EDITED FOR MULTIPLE AND OPPONENT'S TURN
+        temp = []
+        #count = 0
+        index = 0
+        if turn == 'p':
+            for i in range(len(self.playerHand)):
+                if self.playerHand[i].Card_Type == 'Stadium':
+                    temp.append(self.playerHand[i])
+                    #count += 1 # Counts total number of stadium type cards
+                    index = i # appends the index where the stadium is located in hand for removal later
+            if len(temp) == 1: #If there is a stadium in hand
+                if len(self.stadium) == 1: # If there is a stdium in play
+                    if self.stadium[0].Name == temp[0].Name:  # If the stadium is already in play
+                        pass  # Card can't be played so I just pass
+                    else:  # Stadium with same name not in play
+                        if self.stadium[0].Owner == 'p':
+                            self.playerDiscard.append(self.stadium.pop(0)) # Discard current stadium if it is owned by player
+                            self.stadium.append(self.playerHand.pop(index)) # moves card from hand to stadium spot
+                        if self.stadium[0].Owner == '0':
+                            self.oppDiscard.append(self.stadium.pop(0)) # Discard current stadium if it is owned by opponent
+                            self.stadium.append(self.playerHand.pop(index)) # moves card from hand to stadium spot
+                        
+        pass
+    def retreat(self, turn):
+        ## ONCE PER TURN (typically)
+        ## Switches active with a bench pokemon
+        pass
+    def useAbility(self, turn):
+        ## USAGE AMOUNT VARIES
+        ## Uses an ability and processes effects
+        pass
+    def playBasic(self, turn):
+        ## Plays a basic from hand to bench, space permitting)
+        pass
+    
+    
+    def turn(self, turn):
+        # Check for wins
+        # Check for statuses(Mainly ones that happen between turns)
+        # Player's Turn
+        if turn == 'p':
+            break
+
+        # Opponent's Turn
+        elif turn == 'o':
+            pass
+
+    def winConditions(self):
+
+        ## Opponent Win Conditions ##
+        if len(playerActive) == 0 and len(playerBench) == 0:
+            print("Opponent wins!")
+        if len(oppPrize) == 0:
+            print("Opponent wins!")
+        if len(playerDeck) == 0:
+            print("Opponent wins!")
+
+        ## Player Win Conditions ##
+        if len(oppActive) == 0 and len(oppBench) == 0:  # Empty bench and active
+            print("Opponent wins!")
+        if len(playerPrize) == 0:  # No prizes left
+            print("Opponent wins!")
+        #Deckout may need to be re-evaluated since deckouts only occur when the player draws for turn. This shoould work but I didn't spend too much time on it
+        if len(oppDeck) == 0:  # Deckout
+            print("Opponent wins!")
 
     def attackDamage(self, defender, damage):
         print(defender.Name + " HP: " + str(defender.Hp));
@@ -225,8 +341,9 @@ class Card():
     Weakness = ''
     Resistance = ''
     #Pre-Evolution = ''
-
+    #Stage = 0
     Effect = ''
+    Owner = ''
 
     def __init__(self, obj):
         self.Name = obj['Name']
@@ -251,4 +368,6 @@ class Card():
             return self.Stage == 0
         else:
             return False
+    def setOwner(self, owner):
+        self.Owner = owner
 

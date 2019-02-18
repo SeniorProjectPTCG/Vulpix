@@ -13,6 +13,7 @@
 
 import SetListTest
 import GameManager
+#import gamedisplay
 from setlists import SUM
 
 def GameLoop():
@@ -193,7 +194,6 @@ def GameLoop():
         
 
         gameboard.setup()
-       ## gameboard.attackDamage(gameboard.playerActive[0], gameboard.oppActive[0])
 
 card1 = {'Name' : 'Solgaleo',
         'Card_Type' : 'Pokemon',
@@ -454,7 +454,7 @@ card25 = {'Name' : 'Psychic Energy',
 
 
 ## MAIN ##
-GameLoop()
+#GameLoop()
 
 
         

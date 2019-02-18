@@ -13,6 +13,7 @@
 ## and performing actions on them
 debug = True
 import random
+#import gamedisplay
 ## This class will control the entire Gameboard
 class Gameboard():
     #Player Lists
@@ -169,25 +170,31 @@ class Gameboard():
                         temp.append(self.playerHand[i])
 
 
-            print("Temp list of basics:")
-            random.shuffle(temp)
-            self.playerActive.append(temp[0])
-            for i in range(1, count):
-                self.playerBench.append(temp[i])
-            for i in range(len(self.playerBench)):
-                print(self.playerBench[i].Name)
+                print("Temp list of basics:")
+                random.shuffle(temp)
+                self.playerActive.append(temp[0])
+                for i in range(1, count):
+                    self.playerBench.append(temp[i])
+                for i in range(len(self.playerBench)):
+                    print(self.playerBench[i].Name)
 
-##          Delete from hand
-            temp2 = []
-            for i in range(len(temp)):
-                for j in range(len(self.playerHand)):
-                    if temp[i].Name == self.playerHand[j].Name:
-                        temp2.append(j)
-               
-            for i in temp2:
-                self.playerHand.pop(i)
+    ##          Delete from hand
 
-            #del temp, temp2
+                #### ISSUE HERE CAUSING INDEX OUTOF BOUND ERROR DOUBLES SOME NUMBER
+                temp2 = []
+                for i in range(len(temp)):
+                    for j in range(len(self.playerHand)):
+                        if temp[i].Name == self.playerHand[j].Name:
+                            temp2.append(j)
+                temp2.sort(reverse=True)   
+                for i in temp2:
+                    print("I : ", i)
+                    print("Temp2: ", temp2)
+                    self.playerHand.pop(i)  ## INDEX CHANGES AFTER REMOVAL THIS WON"T WORK
+                    ## WHEN SOMETHING IS POPPED THE INDEX CHANGES
+                    ## OUR TEMP WILL BE WRONG AFTER FIRST POP
+                    ## UNLESS WE SORT FROM HIGHEST TO LOWEST AND POP LARGEST FIRST
+                #del temp, temp2
 
             print("Player hand after settting up play: ")
             for i in range(len(self.playerHand)):
@@ -200,7 +207,7 @@ class Gameboard():
                ## Needs an option for user to select active or AI in our case.
               #print("Too many basics")
                 
-                        
+            print("Player's hand done showing")            
 
         if debug:
             print("Starting to set up Opponent's board...")
@@ -234,7 +241,7 @@ class Gameboard():
                 pass
 
 
-
+        #gamedisplay.Ui_MainWindow.setActive(self.playerActive[0].Name,self.playerActive[0].Hp) 
 ##  THINGS THAT CAN BE DONE DURING TURNS
     def attack(self, turn):
         ## Use one of the card's attack. This ends the turn

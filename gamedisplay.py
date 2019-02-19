@@ -233,6 +233,24 @@ class Ui_MainWindow(object):
             self.bench5Name.setText(GameManager.Gameboard.playerBench[4].Name)
             self.bench5HP.setText(str(GameManager.Gameboard.playerBench[4].Hp))
 
+    def setPrize(self):
+        self.prize1.setText(GameManager.Gameboard.playerPrize[0].Name)
+        self.prize2.setText(GameManager.Gameboard.playerPrize[1].Name)
+        self.prize3.setText(GameManager.Gameboard.playerPrize[2].Name)
+        self.prize4.setText(GameManager.Gameboard.playerPrize[3].Name)
+        self.prize5.setText(GameManager.Gameboard.playerPrize[4].Name)
+        self.prize6.setText(GameManager.Gameboard.playerPrize[5].Name)
+
+    def setDiscard(self):
+        for i in range(len(GameManager.Gameboard.playerDiscard)):
+            self.discardList.appendRow(GameManager.Gameboard.playerDiscard[i].Name)
+        
+    def setDeck(self):
+        for i in range(len(GameManager.Gameboard.playerDeck)):
+            self.discardList.appendRow(GameManager.Gameboard.playerDeck[i].Name)
+        
+    
+
 
 if __name__ == "__main__":
     import sys
@@ -243,6 +261,9 @@ if __name__ == "__main__":
     GameLoop.GameLoop()
     ui.setActive()
     ui.setBench()
+    ui.setPrize()
+    #ui.setDiscard()
+    #ui.setDeck()
     MainWindow.show()
     sys.exit(app.exec_())
 

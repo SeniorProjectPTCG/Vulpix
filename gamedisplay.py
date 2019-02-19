@@ -242,14 +242,26 @@ class Ui_MainWindow(object):
         self.prize6.setText(GameManager.Gameboard.playerPrize[5].Name)
 
     def setDiscard(self):
+        model = QtGui.QStandardItemModel()
+        self.discardList.setModel(model)
         for i in range(len(GameManager.Gameboard.playerDiscard)):
-            self.discardList.appendRow(GameManager.Gameboard.playerDiscard[i].Name)
+            model.appendRow(QtGui.QStandardItem(GameManager.Gameboard.playerDiscard[i].Name))
         
     def setDeck(self):
+        model = QtGui.QStandardItemModel()
+        self.deckList.setModel(model)
         for i in range(len(GameManager.Gameboard.playerDeck)):
-            self.discardList.appendRow(GameManager.Gameboard.playerDeck[i].Name)
-        
-    
+            model.appendRow(QtGui.QStandardItem(GameManager.Gameboard.playerDeck[i].Name))
+
+    def setActiveAttached(self):
+        model = QtGui.QStandardItemModel()
+        self.activeAttach.setModel(model)
+        for i in range(len(GameManager.Gameboard.playerActive[0].Energies)):
+            model.appendRow(QtGui.QStandardItem(GameManager.Gameboard.playerActive[0].Energies[i].Name))
+        for i in range(len(GameManager.Gameboard.playerActive[0].Tools)):
+            model.appendRow(QtGui.QStandardItem(GameManager.Gameboard.playerActive[0].Tools[i].Name))        
+
+
 
 
 if __name__ == "__main__":
@@ -259,11 +271,17 @@ if __name__ == "__main__":
     ui = Ui_MainWindow()
     ui.setupUi(MainWindow)
     GameLoop.GameLoop()
+    GameManager.Gameboard.playerDiscard.append(GameManager.Gameboard.playerDeck.pop(0))
+    GameManager.Gameboard.playerActive[0].Energies.append(GameManager.Gameboard.playerDeck.pop(1))
+    end = False
+    
     ui.setActive()
     ui.setBench()
     ui.setPrize()
-    #ui.setDiscard()
-    #ui.setDeck()
+    ui.setDiscard()
+    ui.setDeck()
+    ui.setActiveAttached()
+    
     MainWindow.show()
     sys.exit(app.exec_())
 

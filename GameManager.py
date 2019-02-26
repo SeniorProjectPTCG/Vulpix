@@ -243,13 +243,50 @@ class Gameboard():
 
         #gamedisplay.Ui_MainWindow.setActive(self.playerActive[0].Name,self.playerActive[0].Hp) 
 ##  THINGS THAT CAN BE DONE DURING TURNS
-    def attack(self, turn):
-        ## Use one of the card's attack. This ends the turn
-        ## Must have proper amount and type of energy
+    def attack(self, attacker, defender, choice, turn):
+        attackParser(self, attacker, defender, choice)
         pass
 
-    def attackDamage(self, attacker, defender, choice):
+    def mindJack(self, controller, defender):
+        if controller == 'player':
+            defender.Hp -= 10 + (30 * len(opponent.bench))
+        else:
+            defender.Hp -= 10 + (30 * len(player.bench))
 
+    def whimseyTackle(self, attacker, defender):
+        x = randint(1,2)
+        if x == 1:
+            defender.Hp -= 60
+
+    def recklessCharge(self, attacker, defender):
+        attacker.Hp -= 10
+        defender.Hp -= 20
+
+    def coreBeam(self, attacker, defender, damage):
+        attacker.Energies.replace("S", "", 1)
+        #need to figure out how to put card into discard
+        defender.Hp -= damage
+
+    def dustGathering(self, controller):
+        if controller == "player":
+            playerDrawCard()
+        elif controller == "opponent":
+            oppDrawCard()
+
+    def shiningArrow(self, defender):
+        defender.Hp -= 50
+
+    def dangerousBlow(self, defender):
+        if defender.Stage == 0:
+            defender.Hp -= 120
+        else:
+            defender.Hp -= 60
+
+    def anchorShot(self, defender):
+        # Defending pokemon can't retreat next turn
+        defender.Hp -= 70
+        
+    def attackDamage(self, attacker, defender, choice):
         print(defender.Name + " HP: " + str(defender.Hp));
         defender.Hp = defender.Hp - attacker.Attack_One_Damage;
         print("Attack succesful");

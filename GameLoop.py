@@ -194,6 +194,7 @@ def GameLoop():
         
 
         gameboard.setup()
+        gameboard.retreat(0, "p")
 
 card1 = {'Name' : 'Solgaleo',
         'Card_Type' : 'Pokemon',
@@ -208,7 +209,8 @@ card1 = {'Name' : 'Solgaleo',
         'Attack2Cost' : 'MMC',
         'RetreatCost' : 3,
         'Weakness' : 'R',
-        'Resistance' : 'P'}
+        'Resistance' : 'P',
+        'PreEvolution' : 'Cosmoem'}
 
 
 
@@ -225,7 +227,8 @@ card2 = {'Name' : 'Cosmoem',
         'Attack2Cost' : 'None',
         'RetreatCost' : 3,
         'Weakness' : 'P',
-        'Resistance' : ''}
+        'Resistance' : '',
+        'PreEvolution' : 'Cosmog'}
 
 card3 = {'Name' : 'Cosmog',
         'Card_Type' : 'Pokemon',
@@ -255,7 +258,8 @@ card4 = {'Name' : 'Metang',
         'Attack2Cost' : 'MMC',
         'RetreatCost' : 3,
         'Weakness' : 'R',
-        'Resistance' : 'P'}
+        'Resistance' : 'P',
+        'PreEvolution' : 'Beldum'}
 
 card5 = {'Name' : 'Beldum',
         'Card_Type' : 'Pokemon',
@@ -285,7 +289,8 @@ card6 = {'Name' : 'Slowbro',
         'Attack2Cost' : 'PCC',
         'RetreatCost' : 3,
         'Weakness' : 'P',
-        'Resistance' : ''}
+        'Resistance' : '',
+        'PreEvolution' : 'Slowpoke'}
 
 card7 = {'Name' : 'Slowpoke',
         'Card_Type' : 'Pokemon',
@@ -345,7 +350,8 @@ card10 = {'Name' : 'Bewear',
         'Attack2Cost' : 'None',
         'RetreatCost' : 2,
         'Weakness' : 'F',
-        'Resistance' : ''}
+        'Resistance' : '',
+        'PreEvolution' : 'Stufful'}
 
 card11 = {'Name' : 'Stufful',
         'Card_Type' : 'Pokemon',
@@ -375,7 +381,8 @@ card12 = {'Name' : 'Swellow',
         'Attack2Cost' : 'None',
         'RetreatCost' : 1,
         'Weakness' : 'L',
-        'Resistance' : 'F'}
+        'Resistance' : 'F',
+        'PreEvolution' : 'Taillow'}
 
 card13 = {'Name' : 'Taillow',
         'Card_Type' : 'Pokemon',
@@ -454,7 +461,7 @@ card25 = {'Name' : 'Psychic Energy',
 
 
 ## MAIN ##
-#GameLoop()
+GameLoop()
 
 
         

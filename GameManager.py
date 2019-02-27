@@ -40,6 +40,7 @@ class Gameboard():
     #Limit Supporters to one per turn
     supporterPlayed = False
     stadiumPlayed = False
+    energyPlayed = False
 
     ## All of the player/opp member functions could possibly be combined into one function each and have a flag based on turn or access.
     ## Just a thought to reduce redundant code. Currently, I am just trying to get code down, but if we choose to do this we can edit it in Phase 3.
@@ -150,6 +151,8 @@ class Gameboard():
                 ## Need to add support for mulligan
         if count == 0:
             print("No basic found!! Take a Mulligan!")
+            mulligan += 1
+
 
 
         #If player has basic set up prizes#
@@ -239,8 +242,7 @@ class Gameboard():
             else: # more than one basic
                 ## Needs an option for user to select active or AI in our case.
                 pass
-
-
+            #retreat(1, "p")
         #gamedisplay.Ui_MainWindow.setActive(self.playerActive[0].Name,self.playerActive[0].Hp) 
 ##  THINGS THAT CAN BE DONE DURING TURNS
     def attack(self, attacker, defender, choice, turn):
@@ -285,16 +287,33 @@ class Gameboard():
     def anchorShot(self, defender):
         # Defending pokemon can't retreat next turn
         defender.Hp -= 70
-        
+
     def attackDamage(self, attacker, defender, choice):
         print(defender.Name + " HP: " + str(defender.Hp));
         defender.Hp = defender.Hp - attacker.Attack_One_Damage;
         print("Attack succesful");
         print(defender.Name + " HP: " + str(defender.Hp));
 
-    def evolve(self, turn):
+    def evolve(self, pokemonIndex, loc, benchIndex, turn):
         ## Evolves a pokemon on the bench with card in hand
-        pass
+        if turn == 'p':
+            if loc == 'active':
+                if self.playerActive[0].Name == self.playerHand[pokemonIndex].PreEvolution: #Pokemon evolves into pokemon in active
+                    for i in range(len(self.playerActive.Energies),-1,-1):
+                        self.playerHand[pokemonIndex].Energies.append(self.playerActive.Energies.pop(i))
+                    if len(self.playerActive[0].Tools) > 0:
+                        self.playerHand[pokemonIndex].Tools.append(self.playerActive[0].Tools.pop(0))
+                    self.playerHand[pokemonIndex].Pokemon.append(self.playerActive.pop(0))
+                    self.playerActive[0].append(self.playerHand[pokemonIndex])
+            elif loc == 'bench':
+                if self.playerBench[benchIndex].Name == self.playerHand[pokemonIndex].PreEvolution: #Pokemon evolves into pokemon in active
+                    for i in range(len(self.playerBench.Energies),-1,-1):
+                        self.playerHand[pokemonIndex].Energies.append(self.playerBench.Energies.pop(i))
+                    if len(self.playerBench[benchIndex].Tools) > 0:
+                        self.playerHand[pokemonIndex].Tools.append(self.playerBench[benchIndex].Tools.pop(0))
+                    self.playerHand[pokemonIndex].Pokemon.append(self.playerBench.pop(benchIndex))
+                    self.playerBench[benchIndex].append(self.playerHand[pokemonIndex])
+                # do the same for bench
     def playEnergy(self, turn):
         ## ONCE PER TURN (Typically)
         ## Plays an energy from hand to a pokemon
@@ -338,24 +357,61 @@ class Gameboard():
                             self.stadium.append(self.playerHand.pop(index)) # moves card from hand to stadium spot
                         
         pass
-    def retreat(self, turn):
+    def retreat(self, pokemonIndex, turn):
         ## ONCE PER TURN (typically)
         ## Switches active with a bench pokemon
-        pass
+        if turn == 'p':
+            print("active before: " + self.playerBench[0].Name)
+            if self.playerActive[0].RetreatCost <= len(self.playerActive[0].Energies):
+                self.switch(pokemonIndex, turn)
+            else:
+                print("thats not a pokemon")
+
+    def switch(self, pokemonIndex, turn):
+        if len(self.playerBench) > 0:
+            temp = self.playerActive.pop(0)
+            self.playerActive.append(self.playerBench.pop(pokemonIndex))
+            self.playerBench.append(temp)
+            print("active after: " + self.playerActive[0].Name)
+
     def useAbility(self, turn):
         ## USAGE AMOUNT VARIES
         ## Uses an ability and processes effects
         pass
-    def playBasic(self, turn):
+    def playBasic(self, handIndex, turn):
         ## Plays a basic from hand to bench, space permitting)
-        pass
-    
-    
+        if turn == 'p':
+            if len(playerBench) <= 5:
+                playerBench.append(playerHand.pop[handIndex])
+
     def turn(self, turn):
         # Check for wins
         # Check for statuses(Mainly ones that happen between turns)
         # Player's Turn
+        choice = ''
         if turn == 'p':
+            # Check win conditions
+            # Check status
+            energyPlayed = False
+            supporterPlayed = False
+            stadiumPlayed = False
+            ## SHOULD CHECK FOR THINGS BEFORE CALLING FUNCTIONS OR THAT SHOULD BE WHAT WE DO I THINK
+            playerDrawCard()
+            if choice == 'play basic':
+                for i in range(len(playerHand)):
+                    if playerIsBasic(i):
+                        playBasic(i)
+            elif choice == 'play stadium':
+                playStadium(turn)
+            elif choice == 'play energy':
+                playEnergy(turn)
+            elif choice == 'play tool':
+                playTool(turn)
+            elif choice == 'play supporter':
+                supporterPlayed = True
+                playSupporter(turn)
+            elif choice = 'attack':
+                #attack(turn)
             pass
 
         # Opponent's Turn
@@ -395,12 +451,13 @@ class Card():
     Attack_Two_Effect = ''
     Attack_Two_Cost = ''
     
-    Retreat_Cost = 0
+    RetreatCost = 0
     Pokemon_Type = ''
 
     Weakness = ''
     Resistance = ''
     PreEvolution = ''
+    Pokemon = []
     Stage = 0
     Effect = ''
     Owner = ''

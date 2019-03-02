@@ -246,7 +246,6 @@ class Gameboard():
         #gamedisplay.Ui_MainWindow.setActive(self.playerActive[0].Name,self.playerActive[0].Hp) 
 ##  THINGS THAT CAN BE DONE DURING TURNS
     def attack(self, attacker, defender, choice, turn):
-        attackParser(self, attacker, defender, choice)
         pass
 
     def mindJack(self, controller, defender):
@@ -314,7 +313,10 @@ class Gameboard():
                     self.playerHand[pokemonIndex].Pokemon.append(self.playerBench.pop(benchIndex))
                     self.playerBench[benchIndex].append(self.playerHand[pokemonIndex])
                 # do the same for bench
-    def playEnergy(self, turn):
+    def playEnergy(self,energy, pokemon, turn):
+        if energyPlayed == false:
+            if turn == 'p':
+                pokemon.Energies.append(self.playerHand[energy].pop());
         ## ONCE PER TURN (Typically)
         ## Plays an energy from hand to a pokemon
         pass
@@ -410,7 +412,7 @@ class Gameboard():
             elif choice == 'play supporter':
                 supporterPlayed = True
                 playSupporter(turn)
-            elif choice = 'attack':
+            elif choice == 'attack':
                 #attack(turn)
             pass
 

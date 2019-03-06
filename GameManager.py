@@ -12,7 +12,7 @@
 ###################DESCRIPTION########################
 ## This file contains methods for controling game objects
 ## and performing actions on them
-debug = True
+debug = False
 import random
 turn = 'p'
 #import gamedisplay
@@ -38,6 +38,8 @@ class Gameboard():
     playerDeckIndex = 0
     oppDeckIndex = 0
     stadium = []
+    playerMulligan = 0
+    oppMulligan = 0
 
     #Limit Supporters to one per turn
     supporterPlayed = False
@@ -110,7 +112,14 @@ class Gameboard():
                 continue
                 ## Need to add support for mulligan
         if count == 0:
-            print("No basic found!! Take a Mulligan!")
+            print("No basic found!! Player Take a Mulligan!")
+            self.playerMulligan += 1
+            for i in range(0, len(self.playerHand)+ 1, -1):
+                self.playerDeck.append(self.playerHand.pop(i))
+            random.shuffle(self.playerDeck)
+            for i in range(7): # should do this 7 times...need to test to be sure
+                self.playerDrawCard()
+            self.playerSetUp()
 
 
         #If player has basic set up prizes#
@@ -203,7 +212,18 @@ class Gameboard():
                 continue
                 ## Need to add support for mulligan
         if count == 0:
-            print("No basic found!! Take a Mulligan!")
+            print("No basic found!! Opp Take a Mulligan!")
+            self.oppMulligan += 1
+            #pop hand back into deck
+            
+            for i in range(0, len(self.oppHand)+ 1, -1):
+                self.oppDeck.append(self.oppHand.pop(i))
+            random.shuffle(self.oppDeck)
+            for i in range(7): # should do this 7 times...need to test to be sure
+                self.oppDrawCard()
+            self.oppSetUp()
+        
+            
 
 
         #If player has basic set up prizes#
@@ -275,7 +295,7 @@ class Gameboard():
         i = 0
         basic = False
         count = 0
-        mulligan = 0
+
         if debug:
             print("Shuffling Decks...")
             
@@ -287,7 +307,15 @@ class Gameboard():
             self.oppDrawCard()
         self.playerSetUp()
         self.oppSetUp()
-        
+        if self.playerMulligan - self.oppMulligan > 0:
+            for i in range(self.playerMulligan - self.oppMulligan):
+                self.oppDrawCard()
+                print("Opponent drew a mulligan!")
+        if self.oppMulligan - self.playerMulligan > 0:
+            for i in range(self.oppMulligan - self.playerMulligan):
+                self.playerDrawCard()
+                print("Player drew a mulligan!")
+
 
 
 
@@ -410,9 +438,11 @@ class Gameboard():
         ## Uses an ability and processes effects
         pass
     
-    def playBasic(self, turn):
+    def playBasic(self, handIndex, turn):
         ## Plays a basic from hand to bench, space permitting)
-        pass
+        if turn == 'p':
+            if len(playerBench) <= 5:
+                playerBench.append(playerHand.pop[handIndex])
     
     
     def turn(self, turn):
@@ -443,7 +473,7 @@ class Gameboard():
                 playSupporter(turn)
             elif choice == 'attack':
                 #attack(turn)
-            pass
+                pass
 
         # Opponent's Turn
         elif turn == 'o':

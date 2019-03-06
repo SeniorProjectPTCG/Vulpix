@@ -490,18 +490,22 @@ class Ui_MainWindow(object):
             model.appendRow(QtGui.QStandardItem(GameManager.Gameboard.playerActive[0].Energies[i].Name))
         for i in range(len(GameManager.Gameboard.playerActive[0].Tools)):
             model.appendRow(QtGui.QStandardItem(GameManager.Gameboard.playerActive[0].Tools[i].Name))        
+
     def create():
         app = QtWidgets.QApplication(sys.argv)
         MainWindow = QtWidgets.QMainWindow()
         ui = Ui_MainWindow()
         ui.setupUi(MainWindow)
+
     def attack(self, test):
         test.attack('p')
         self.setActive()
+
     def retreat(self, test, pkmnIndex):
         test.switch(pkmnIndex, 'p')
         self.setActive()
         self.setBench()
+
 
 if __name__ == "__main__":
     #import sys

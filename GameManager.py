@@ -93,54 +93,12 @@ class Gameboard():
         self.playerPrize.append(self.playerDeck.pop(self.playerDeckIndex))
         #self.playerDeckIndex += 1
 
-
-
-    ###  OPPONENT MEMBER FUNCTIONS  ###
-
-
-    def oppDrawCard(self):
-        self.oppHand.append(self.oppDeck.pop(self.oppDeckIndex))
-        #self.oppDeckIndex += 1
-
-    def oppIsBasic(self, i):
-        #Searches player's hand for a basic pokemon
-        return self.oppHand[i].isBasic()
-
-    def oppSetPrize(self):
-        if debug:
-            print("Setting up opponent's prizes")
-        self.oppPrize.append(self.oppDeck.pop(self.oppDeckIndex))
-
-    
-        
-
-    def setup(self):
-        # Need to randomize deck and assign it to the deck list
-        # Then draw 7 cards
-        # Check for a basic
-        # If Basics in hand then place a basic on bench/active and fill up the prize list
-        # If no basics then set mulligan and shuffle/redraw
-        
-        i = 0
-        basic = False
+    def playerSetUp(self):
         count = 0
-        mulligan = 0
-        if debug:
-            print("Shuffling Decks...")
-            
-        self.randomizeDecks()
-        
+        basic = False
         if debug:
             print("Starting to set up Player's board...")
-            
-        
-        #Draw cards from player hand
-        for i in range(7): # should do this 7 times...need to test to be sure
-            
-            self.playerDrawCard()
-            self.oppDrawCard()
-        #print(self.playerHand)
-        #print(self.oppHand)
+
 
         ###CHECK FOR BASIC HERE!!!  ##
         for i in range(len(self.playerHand)):  #loop length of player hand - 1
@@ -207,13 +165,35 @@ class Gameboard():
                ## Needs an option for user to select active or AI in our case.
               #print("Too many basics")
                 
-            print("Player's hand done showing")            
+            print("Player's hand done showing") 
 
+
+
+    ###  OPPONENT MEMBER FUNCTIONS  ###
+
+
+    def oppDrawCard(self):
+        self.oppHand.append(self.oppDeck.pop(self.oppDeckIndex))
+        #self.oppDeckIndex += 1
+
+    def oppIsBasic(self, i):
+        #Searches player's hand for a basic pokemon
+        return self.oppHand[i].isBasic()
+
+    def oppSetPrize(self):
         if debug:
-            print("Starting to set up Opponent's board...")
-        basic = False
-        count = 0
+            print("Setting up opponent's prizes")
+        self.oppPrize.append(self.oppDeck.pop(self.oppDeckIndex))
 
+    def oppSetUp(self):
+        count = 0
+        basic = False
+        if debug:
+            print("Starting to set up Opponenet's board...")
+            
+
+
+        ###CHECK FOR BASIC HERE!!!  ##
         for i in range(len(self.oppHand)):  #loop length of player hand - 1
             if self.oppIsBasic(i):
                 basic = True #if atleast one basic is found
@@ -222,14 +202,15 @@ class Gameboard():
             else:
                 continue
                 ## Need to add support for mulligan
-        if count is 0:
+        if count == 0:
             print("No basic found!! Take a Mulligan!")
 
-        #If player has basic set up pries#
+
+        #If player has basic set up prizes#
         if basic: 
             for i in range(6):
                 self.oppSetPrize()
-                #print(self.oppPrize[i]["Name"])
+                print(self.oppPrize[i].Name)
             # If Player only has one basic it must go to active spot
             if count == 1:
                 for i in range(len(self.oppHand)):
@@ -237,16 +218,89 @@ class Gameboard():
                         self.oppActive.append(self.oppHand.pop(i)) # pops the basic from hand to active spot
                         break
             else: # more than one basic
-                ## Needs an option for user to select active or AI in our case.
-                pass
+                temp = []
+                for i in range(len(self.oppHand)):
+                    if self.oppIsBasic(i):
+                        temp.append(self.oppHand[i])
 
 
-        #gamedisplay.Ui_MainWindow.setActive(self.playerActive[0].Name,self.playerActive[0].Hp) 
-##  THINGS THAT CAN BE DONE DURING TURNS
-    def attack(self):
+                print("Temp list of basics:")
+                random.shuffle(temp)
+                self.oppActive.append(temp[0])
+                for i in range(1, count):
+                    self.oppBench.append(temp[i])
+                for i in range(len(self.oppBench)):
+                    print(self.oppBench[i].Name)
+
+    ##          Delete from hand
+
+                #### ISSUE HERE CAUSING INDEX OUTOF BOUND ERROR DOUBLES SOME NUMBER
+                temp2 = []
+                for i in range(len(temp)):
+                    for j in range(len(self.oppHand)):
+                        if temp[i].Name == self.oppHand[j].Name:
+                            temp2.append(j)
+                temp2.sort(reverse=True)   
+                for i in temp2:
+                    print("I : ", i)
+                    print("Temp2: ", temp2)
+                    self.oppHand.pop(i)  
+                    
+##
+##            print("Player hand after settting up play: ")
+##            for i in range(len(self.playerHand)):
+##                print(self.playerHand[i].Name)
+###               if count <= 5:
+## #                  for i in range(count-1):
+##  #                     for i in range(len(temp)):
+##   #                        print(temp[i].Name)
+##    #                   self.playerBench.append(temp.pop(i)) #Fills bench up with all basics  NOT IDEAL!!!! TESTING PURPOSES ONLY!!!!
+##               ## Needs an option for user to select active or AI in our case.
+##              #print("Too many basics")
+##                
+            print("Opponent's hand done showing")                
+
+
+
+    
+        
+
+    def setup(self):
+        # Need to randomize deck and assign it to the deck list - DONE
+        # Then draw 7 cards - DONE
+        # Check for a basic - DONE
+        # If Basics in hand then place a basic on bench/active and fill up the prize list - DONE
+        # If no basics then set mulligan and shuffle/redraw
+        
+        i = 0
+        basic = False
+        count = 0
+        mulligan = 0
+        if debug:
+            print("Shuffling Decks...")
+            
+        self.randomizeDecks()
+        #Draw cards from player hand
+        for i in range(7): # should do this 7 times...need to test to be sure
+            
+            self.playerDrawCard()
+            self.oppDrawCard()
+        self.playerSetUp()
+        self.oppSetUp()
+        
+
+
+
+
+
+
+
+
+    ##  THINGS THAT CAN BE DONE DURING TURNS
+    def attack(self, turn):
         ## Use one of the card's attack. This ends the turn
         ## Must have proper amount and type of energy
-        global turn
+        #global turn
         if turn == 'p':
             self.oppActive[0].Hp -= 10
         else:    
@@ -259,9 +313,28 @@ class Gameboard():
         print("Attack succesful");
         print(defender.Name + " HP: " + str(defender.Hp));
 
-    def evolve(self, turn):
+    def evolve(self, pokemonIndex, loc, benchIndex, turn):
         ## Evolves a pokemon on the bench with card in hand
-        pass
+        if turn == 'p':
+            if loc == 'active':
+                if self.playerActive[0].Name == self.playerHand[pokemonIndex].PreEvolution: #Pokemon evolves into pokemon in active
+                    for i in range(len(self.playerActive.Energies),-1,-1):
+                        self.playerHand[pokemonIndex].Energies.append(self.playerActive.Energies.pop(i))
+                    if len(self.playerActive[0].Tools) > 0:
+                        self.playerHand[pokemonIndex].Tools.append(self.playerActive[0].Tools.pop(0))
+                    self.playerHand[pokemonIndex].Pokemon.append(self.playerActive.pop(0))
+                    self.playerActive[0].append(self.playerHand[pokemonIndex])
+            elif loc == 'bench':
+                if self.playerBench[benchIndex].Name == self.playerHand[pokemonIndex].PreEvolution: #Pokemon evolves into pokemon in active
+                    for i in range(len(self.playerBench.Energies),-1,-1):
+                        self.playerHand[pokemonIndex].Energies.append(self.playerBench.Energies.pop(i))
+                    if len(self.playerBench[benchIndex].Tools) > 0:
+                        self.playerHand[pokemonIndex].Tools.append(self.playerBench[benchIndex].Tools.pop(0))
+                    self.playerHand[pokemonIndex].Pokemon.append(self.playerBench.pop(benchIndex))
+                    self.playerBench[benchIndex].append(self.playerHand[pokemonIndex])
+                # do the same for bench
+
+    
     def playEnergy(self):
         ## ONCE PER TURN (Typically)
         ## Plays an energy from hand to a pokemon
@@ -315,14 +388,28 @@ class Gameboard():
                             self.stadium.append(self.playerHand.pop(index)) # moves card from hand to stadium spot
                         
         pass
-    def retreat(self, turn):
+    def retreat(self, pokemonIndex, turn):
         ## ONCE PER TURN (typically)
         ## Switches active with a bench pokemon
-        pass
+        if turn == 'p':
+            print("active before: " + self.playerBench[0].Name)
+            if self.playerActive[0].RetreatCost <= len(self.playerActive[0].Energies):
+                self.switch(pokemonIndex, turn)
+            else:
+                print("thats not a pokemon")
+
+    def switch(self, pokemonIndex, turn):
+        if len(self.playerBench) > 0:
+            temp = self.playerActive.pop(0)
+            self.playerActive.append(self.playerBench.pop(pokemonIndex))
+            self.playerBench.append(temp)
+            print("active after: " + self.playerActive[0].Name)
+            
     def useAbility(self, turn):
         ## USAGE AMOUNT VARIES
         ## Uses an ability and processes effects
         pass
+    
     def playBasic(self, turn):
         ## Plays a basic from hand to bench, space permitting)
         pass
@@ -332,12 +419,37 @@ class Gameboard():
         # Check for wins
         # Check for statuses(Mainly ones that happen between turns)
         # Player's Turn
+        choice = ''
         if turn == 'p':
+            # Check win conditions
+            # Check status
+            energyPlayed = False
+            supporterPlayed = False
+            stadiumPlayed = False
+            ## SHOULD CHECK FOR THINGS BEFORE CALLING FUNCTIONS OR THAT SHOULD BE WHAT WE DO I THINK
+            playerDrawCard()
+            if choice == 'play basic':
+                for i in range(len(playerHand)):
+                    if playerIsBasic(i):
+                        playBasic(i)
+            elif choice == 'play stadium':
+                playStadium(turn)
+            elif choice == 'play energy':
+                playEnergy(turn)
+            elif choice == 'play tool':
+                playTool(turn)
+            elif choice == 'play supporter':
+                supporterPlayed = True
+                playSupporter(turn)
+            elif choice == 'attack':
+                #attack(turn)
             pass
 
         # Opponent's Turn
         elif turn == 'o':
             pass
+
+
 
     def winConditions(self):
 
@@ -372,12 +484,13 @@ class Card():
     Attack_Two_Effect = ''
     Attack_Two_Cost = ''
     
-    Retreat_Cost = 0
+    RetreatCost = 0
     Pokemon_Type = ''
 
     Weakness = ''
     Resistance = ''
     PreEvolution = ''
+    Pokemon = []
     Stage = 0
     Effect = ''
     Owner = ''

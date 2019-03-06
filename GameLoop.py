@@ -196,8 +196,10 @@ def GameLoop():
 
         print("Player deck created")
 
-        def attackT():
+        def attackT():  #used to pass arguements
                 gui.attack(gameboard)
+        def retreatT():
+                gui.retreat(gameboard, 0)
 
         gameboard.setup()
         #gameboard.playEnergy()
@@ -206,9 +208,16 @@ def GameLoop():
         #ui = Ui_MainWindow()
         gui.setupUi(MainWindow)
         gui.setActive()
-        gui.atkButton.clicked.connect(attackT)
+        gui.setBench()
+        gui.setPrize()
+        gui.setDiscard()
+        gui.setDeck()
+        gui.atkButton.clicked.connect(attackT)  #Doesn't allow the passing of arguements
+        gui.retreatButton.clicked.connect(retreatT)
         MainWindow.show()
         sys.exit(app.exec_())
+
+        
 card1 = {'Name' : 'Solgaleo',
         'Card_Type' : 'Pokemon',
         'Stage' : 2,

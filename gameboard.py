@@ -399,6 +399,13 @@ class Ui_MainWindow(object):
         self.retreatButton.setText(_translate("MainWindow", "Retreat"))
         self.endButton.setText(_translate("MainWindow", "End"))
 
+    def update(self):
+        ui.setActive()
+        ui.setBench()
+        ui.setPrize()
+        ui.setDiscard()
+        ui.setDeck()
+        ui.setActiveAttached()
         
     def setActive(self):
         
@@ -423,6 +430,22 @@ class Ui_MainWindow(object):
         if len(GameManager.Gameboard.playerBench) == 5:
             self.bench5Name.setText(GameManager.Gameboard.playerBench[4].Name)
             self.bench5HP.setText(str(GameManager.Gameboard.playerBench[4].Hp))
+
+        if len(GameManager.Gameboard.oppBench) >= 1:
+            self.oppbench1Name.setText(GameManager.Gameboard.oppBench[0].Name)
+            self.oppbench1HP.setText(str(GameManager.Gameboard.oppBench[0].Hp))
+        if len(GameManager.Gameboard.oppBench) >= 2:
+            self.oppbench2Name.setText(GameManager.Gameboard.oppBench[1].Name)
+            self.oppbench2HP.setText(str(GameManager.Gameboard.oppBench[1].Hp))
+        if len(GameManager.Gameboard.oppBench) >= 3:
+            self.oppbench3Name.setText(GameManager.Gameboard.oppBench[2].Name)
+            self.oppbench3HP.setText(str(GameManager.Gameboard.oppBench[2].Hp))
+        if len(GameManager.Gameboard.oppBench) >= 4:
+            self.oppbench4Name.setText(GameManager.Gameboard.oppBench[3].Name)
+            self.oppbench4HP.setText(str(GameManager.Gameboard.oppBench[3].Hp))
+        if len(GameManager.Gameboard.oppBench) == 5:
+            self.oppbench5Name.setText(GameManager.Gameboard.oppBench[4].Name)
+            self.oppbench5HP.setText(str(GameManager.Gameboard.oppBench[4].Hp))
 
     def setPrize(self):
         self.prize1.setText(GameManager.Gameboard.playerPrize[0].Name)
@@ -473,8 +496,12 @@ class Ui_MainWindow(object):
         ui = Ui_MainWindow()
         ui.setupUi(MainWindow)
     def attack(self, test):
-        test.attack()
+        test.attack('p')
         self.setActive()
+    def retreat(self, test, pkmnIndex):
+        test.switch(pkmnIndex, 'p')
+        self.setActive()
+        self.setBench()
 
 if __name__ == "__main__":
     #import sys

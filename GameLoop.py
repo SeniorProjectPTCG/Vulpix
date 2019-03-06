@@ -33,6 +33,7 @@ def GameLoop():
 
         
         turn = ''
+        winner = False
         
         ## Initialize the gameboard
         #ui = display.Ui_MainWindow()
@@ -214,8 +215,22 @@ def GameLoop():
         gui.setDeck()
         gui.atkButton.clicked.connect(attackT)  #Doesn't allow the passing of arguements
         gui.retreatButton.clicked.connect(retreatT)
+        gameboard.turn('p')
         MainWindow.show()
         sys.exit(app.exec_())
+##        while winner == False:
+##                turn = 'p'
+##                print("Menu")
+##                print("1. Play Basic")
+##                print("2. Play Staidum")
+##                print("3. Play Energy")
+##                print("4. Play Tool")
+##                print("5. Play Supporter")
+##                print("6. Play Attack")
+##                print("7. End Turn")
+##                
+##                gameboard.turn(turn)
+        
 
         
 card1 = {'Name' : 'Solgaleo',

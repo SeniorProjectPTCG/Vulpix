@@ -441,39 +441,42 @@ class Gameboard():
     def playBasic(self, handIndex, turn):
         ## Plays a basic from hand to bench, space permitting)
         if turn == 'p':
-            if len(playerBench) <= 5:
-                playerBench.append(playerHand.pop[handIndex])
+            if len(self.playerBench) <= 5:
+                self.playerBench.append(self.playerHand.pop[handIndex])
     
     
     def turn(self, turn):
         # Check for wins
         # Check for statuses(Mainly ones that happen between turns)
         # Player's Turn
-        choice = ''
+        
+        choice = input("What would you like to do?")
         if turn == 'p':
-            # Check win conditions
-            # Check status
-            energyPlayed = False
-            supporterPlayed = False
-            stadiumPlayed = False
+            
+            self.energyPlayed = False
+            self.supporterPlayed = False
+            self.stadiumPlayed = False
             ## SHOULD CHECK FOR THINGS BEFORE CALLING FUNCTIONS OR THAT SHOULD BE WHAT WE DO I THINK
-            playerDrawCard()
-            if choice == 'play basic':
-                for i in range(len(playerHand)):
-                    if playerIsBasic(i):
-                        playBasic(i)
-            elif choice == 'play stadium':
+            self.playerDrawCard()
+            if choice == 1: #Play Basic
+                for i in range(len(self.playerHand)):
+                    if self.playerIsBasic(i):
+                        self.playBasic(i)
+            elif choice == 2:
                 playStadium(turn)
-            elif choice == 'play energy':
+            elif choice == 3:
+                energyPlayer = True
                 playEnergy(turn)
-            elif choice == 'play tool':
+            elif choice == 4:
                 playTool(turn)
-            elif choice == 'play supporter':
+            elif choice == 5:
                 supporterPlayed = True
                 playSupporter(turn)
-            elif choice == 'attack':
-                #attack(turn)
+            elif choice == 6:
+                attack(turn)
                 pass
+            elif choice == 7:
+                exit
 
         # Opponent's Turn
         elif turn == 'o':

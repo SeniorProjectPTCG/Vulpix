@@ -100,7 +100,16 @@ def anchorShot(attacker, defender, damage, player):
 	damage = checkWeakeness(attacker, defender, damage)
 	attackDamage(defender, damage)
 
-#Not sure how to impliment Weather Teller [Castform]
+def weatherTeller(attacker, player):
+	if player == 'p':
+		for i in reversed(playerDeck):
+			if i.Card_Type == "Stadium":
+				playerHand.append(playerDeck.pop(i))
+	else:
+		for i in reversed(oppDeck):
+			if i.Card_Type == "Stadium":
+				oppHand.append(oppDeck.pop(i))
+
 
 def waterPulse(attacker, defender, damage, player):
 	if player == 'p':

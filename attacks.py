@@ -1,21 +1,21 @@
 def attackDamage(defender, damage):
 	defender.Hp -= damage
 
-def checkWeakeness(attacker, defender, damage):
+def checkWeakness(attacker, defender, damage):
 	if (attacker.Pokemon_Type == defender.Weakness):
 		damage *= 2
 	return damage
 
 def whimsyTackle(attacker, defender, damage):
 	x = randint(0,1) #coin flip
-	damage = checkWeakeness(attacker, defender, damage)
+	damage = checkWeakness(attacker, defender, damage)
 	if x == 1:
 		attackDamage(defender, damage)
 	else:
 		print("tails, attack does no damage")
 
 def amnesia(attacker, defender, damage, player, choice):
-	damage = checkWeakeness(attacker, defender, damage)
+	damage = checkWeakness(attacker, defender, damage)
 	if player == 'p':
 		oppAttackNotAvail = choice
 	else:
@@ -26,11 +26,11 @@ def facade(attacker, defender, damage, player):
 	if player == 'p':
 		if playerBurned == True or playerPoisoned == True:
 			damage += 80
-	damage = checkWeakeness(attacker, defender, damage)
+	damage = checkWeakness(attacker, defender, damage)
 	attackDamage(attacker, defender, damage)
 
 def recklessCharge(attacker, defender, damage):
-	damage = checkWeakeness(attacker, defender, damage)
+	damage = checkWeakness(attacker, defender, damage)
 	attackDamage(defender, damage)
 	attackDamage(attacker, 10)
 
@@ -39,7 +39,7 @@ def agility(attacker, defender, damage, player):
 		playerAgility = True
 	else:
 		oppAgility = True
-	damage = checkWeakeness(attacker, defender, damage)
+	damage = checkWeakness(attacker, defender, damage)
 	attackDamage(attacker, damage)
 
 def swallowDive(attacker, defender, damage, player):
@@ -50,11 +50,11 @@ def swallowDive(attacker, defender, damage, player):
 	else:
 		if oppAgility == True:
 			damage += 80
-	damage = checkWeakeness(attacker, defender, damage)
+	damage = checkWeakness(attacker, defender, damage)
 	attackDamage(defender, damage)
 
 def coreBeam(attacker, defender, damage, player):
-	damage = checkWeakeness(attacker, defender, damage)
+	damage = checkWeakness(attacker, defender, damage)
 	for i in attacker.Energies:
 		if i.Name == "Metal Energy":
 			x = i
@@ -75,7 +75,7 @@ def teleport(pokemonIndex, player):
 
 def shiningArrow(attacker, defender, location):
 	if location == 'active':
-		damage = checkWeakeness(attacker, defender, damage)
+		damage = checkWeakness(attacker, defender, damage)
 	attackDamage(defender, damage)
 
 def fangsOfTheSunne(attacker, defender, damage, player):
@@ -83,13 +83,13 @@ def fangsOfTheSunne(attacker, defender, damage, player):
 		playerAttackNotAvail = 2
 	else:
 		oppAttackNotAvail = 2
-	damage = checkWeakeness(attacker, defender, damage)
+	damage = checkWeakness(attacker, defender, damage)
 	attackDamage(defender, damage)
 
 def dangerousBlow(attacker, defender, damage):
 	if defender.Stage == 0:
 		damage += 60
-	damage = checkWeakeness(attacker, defender, damage)
+	damage = checkWeakness(attacker, defender, damage)
 	attackDamage(defender, damage)
 
 def anchorShot(attacker, defender, damage, player):
@@ -97,7 +97,7 @@ def anchorShot(attacker, defender, damage, player):
 		oppCantRetreat = True
 	else:
 		playerCantRetreat = True
-	damage = checkWeakeness(attacker, defender, damage)
+	damage = checkWeakness(attacker, defender, damage)
 	attackDamage(defender, damage)
 
 def weatherTeller(attacker, player):
@@ -126,7 +126,7 @@ def psybeam(attacker, defender, damage, player):
 		oppConfused = True
 	else:
 		playerConfused = True
-	damage = checkWeakeness(attacker, defender, damage)
+	damage = checkWeakness(attacker, defender, damage)
 	attackDamage(defender, damage)
 
 def flickeringFlames(attacker, defender, damage, player):
@@ -134,7 +134,7 @@ def flickeringFlames(attacker, defender, damage, player):
 		oppAsleep = True
 	else:
 		playerAsleep = True
-	damage = checkWeakeness(attacker, defender, damage)
+	damage = checkWeakness(attacker, defender, damage)
 	attackDamage(defender, damage)
 
 def shatterShot(attacker, defender, damage):
@@ -143,12 +143,12 @@ def shatterShot(attacker, defender, damage):
 		if i.Name == 'Psychic Energy':
 			energyCount += 1
 	damage = damage * energyCount
-	damage = checkWeakeness(attacker, defender, damage)
+	damage = checkWeakness(attacker, defender, damage)
 	attackDamage(defender, damage)
 
 def wingsOfTheMoon(attacker, defender, damage, player):
 	#####NEED TO MOVE ENERGIES#####
-	damage = checkWeakeness(attacker, defender, damage)
+	damage = checkWeakness(attacker, defender, damage)
 	attackDamage(defender, damage)
 
 def supernaturalDance(attacker, defender, player):
@@ -166,7 +166,7 @@ def supernaturalDance(attacker, defender, player):
 
 def revelationDance(attacker, defender, damage):
 	if len(stadium) > 0:
-		damage = checkWeakeness(attacker, defender, damage)
+		damage = checkWeakness(attacker, defender, damage)
 		attackDamage(defender, damage)
 
 def venoshock(attacker, defender, damage, player):
@@ -176,13 +176,13 @@ def venoshock(attacker, defender, damage, player):
 	else:
 		if playerPoisoned == True:
 			damage += 40
-	damage = checkWeakeness(attacker, defender, damage)
+	damage = checkWeakness(attacker, defender, damage)
 	attackDamage(defender, damage)
 
 def flamethrower(attacker, defender, damage, player):
 	if player == 'p':
 		playerDiscard.append(attacker.Energies.pop(0))
-	damage = checkWeakeness(attacker, defender, damage)
+	damage = checkWeakness(attacker, defender, damage)
 	attackDamage(defender, damage)
 
 def filch(player):

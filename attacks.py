@@ -102,12 +102,12 @@ def anchorShot(attacker, defender, damage, player):
 
 def weatherTeller(attacker, player):
 	if player == 'p':
-		for i in reversed(playerDeck):
-			if i.Card_Type == "Stadium":
+		for i, e in reversed(playerDeck):
+			if e.Card_Type == "Stadium":
 				playerHand.append(playerDeck.pop(i))
 	else:
-		for i in reversed(oppDeck):
-			if i.Card_Type == "Stadium":
+		for i, e in reversed(oppDeck):
+			if e.Card_Type == "Stadium":
 				oppHand.append(oppDeck.pop(i))
 
 

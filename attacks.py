@@ -9,7 +9,7 @@ def checkWeakness(attacker, defender, damage):
 def basicAttack(attacker, defender, damage):
 	damage = checkWeakness(attacker, defender, damage)
 	attackDamage(defender, damage)
-	
+
 def whimsyTackle(attacker, defender, damage):
 	x = randint(0,1) #coin flip
 	damage = checkWeakness(attacker, defender, damage)
@@ -106,11 +106,11 @@ def anchorShot(attacker, defender, damage, player):
 
 def weatherTeller(attacker, player):
 	if player == 'p':
-		for i, e in reversed(playerDeck):
+		for i, e in reversed(list(enumerate(playerDeck))):
 			if e.Card_Type == "Stadium":
 				playerHand.append(playerDeck.pop(i))
 	else:
-		for i, e in reversed(oppDeck):
+		for i, e in reversed(list(enumerate(oppDeck))):
 			if e.Card_Type == "Stadium":
 				oppHand.append(oppDeck.pop(i))
 
@@ -152,6 +152,14 @@ def shatterShot(attacker, defender, damage):
 
 def wingsOfTheMoon(attacker, defender, damage, player):
 	#####NEED TO MOVE ENERGIES#####
+	if player == 'p':
+		if len(playerBench) > 0:
+			for i in reversed(list(enumerate(attacker.Energies))):
+				playerBench[0].Energies.append(attacker.Energies.pop(i))
+	else:
+		if len(oppBench) > 0:
+			for i in reversed(list(enumerate(attacker.Energies))):
+				oppBench[0].Energies.append(attacker.Energies.pop(i))
 	damage = checkWeakness(attacker, defender, damage)
 	attackDamage(defender, damage)
 
@@ -197,6 +205,58 @@ def filch(player):
 		oppDrawCard()
 		oppDrawCard()
 
-def copycat(attacker, defender, damage, player):
-	####NOT SURE HOW TO DO THIS ONE####
-	pass
+def copycat(attack, attacker, defender, damage, player, choice, pokemonIndex, location):
+	if attack == whimseyTackle:
+		whimsyTackle(attacker, defender, damage)
+	if attack == amnesia:
+		amnesia(attacker, defender, damage, player, choice)
+	if attack == facade:
+		facade(attacker, defender, damage, player)
+	if attack == recklessCharge:
+		recklessCharge(attacker, defender, damage)
+	if attack == agility:
+		agility(attacker, defender, damage, player)
+	if attack == swallowDive:
+		swallowDive(attacker, defender, damage, player)
+	if attack == coreBeam:
+		coreBeam(attacker, defender, damage, player)
+	if attack == dustGathering:
+		dustGathering(player)
+	if attack == teleport:
+		teleport(pokemonIndex, player)
+	if attack == shiningArrow:
+		shiningArrow(attacker, defender, location)
+	if attack == fangsOfTheSunne:
+		fangsOfTheSunne(attacker, defender, damage, player)
+	if attack == dangerousBlow:
+		dangerousBlow(attacker, defender, damage)
+	if attack == anchorShot:
+		anchorShot(attacker, defender, damage, player)
+	if attack == weatherTeller:
+		weatherTeller(attacker, player)
+	if attack == waterPulse:
+		waterPulse(attacker, defender, damage, player)
+	if attack == blownKiss:
+		blownKiss(attacker, defender, damage)
+	if attack == psybeam:
+		psybeam(attacker, defender, damage, player)
+	if attack == flickeringFlames:
+		flickeringFlames(attacker, defender, damage, player)
+	if attack == shatterShot:
+		shatterShot(attacker, defender, damage)
+	if attack == wingsOfTheMoon:
+		wingsOfTheMoon(attacker, defender, damage, player)
+	if attack == supernaturalDance:
+		supernaturalDance(attacker, defender, player)
+	if attack == revelationDance:
+		revelationDance(attacker, defender, damage)
+	if attack == venoshock:
+		venoshock(attacker, defender, damage, player)
+	if attack == flamethrower:
+		flamethrower(attacker, defender, damage, player)
+	if attack == filch:
+		filch(player)
+	if attack == copycat:
+		pass
+	else:
+		basicAttack(defender, damage)

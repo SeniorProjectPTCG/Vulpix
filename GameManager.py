@@ -1,3 +1,4 @@
+
 ######################################################
 ##                 Project Vulpix                   ##
 ##                Senior Project 2                  ##
@@ -13,6 +14,7 @@
 ## and performing actions on them
 debug = True
 import random
+turn = 'p'
 #import gamedisplay
 ## This class will control the entire Gameboard
 class Gameboard():
@@ -151,8 +153,6 @@ class Gameboard():
                 ## Need to add support for mulligan
         if count == 0:
             print("No basic found!! Take a Mulligan!")
-            mulligan += 1
-
 
 
         #If player has basic set up prizes#
@@ -193,11 +193,8 @@ class Gameboard():
                 for i in temp2:
                     print("I : ", i)
                     print("Temp2: ", temp2)
-                    self.playerHand.pop(i)  ## INDEX CHANGES AFTER REMOVAL THIS WON"T WORK
-                    ## WHEN SOMETHING IS POPPED THE INDEX CHANGES
-                    ## OUR TEMP WILL BE WRONG AFTER FIRST POP
-                    ## UNLESS WE SORT FROM HIGHEST TO LOWEST AND POP LARGEST FIRST
-                #del temp, temp2
+                    self.playerHand.pop(i)  
+                    
 
             print("Player hand after settting up play: ")
             for i in range(len(self.playerHand)):
@@ -242,84 +239,43 @@ class Gameboard():
             else: # more than one basic
                 ## Needs an option for user to select active or AI in our case.
                 pass
-            #retreat(1, "p")
+
+
         #gamedisplay.Ui_MainWindow.setActive(self.playerActive[0].Name,self.playerActive[0].Hp) 
 ##  THINGS THAT CAN BE DONE DURING TURNS
-    def attack(self, attacker, defender, choice, turn):
-        pass
-
-    def mindJack(self, controller, defender):
-        if controller == 'player':
-            defender.Hp -= 10 + (30 * len(opponent.bench))
-        else:
-            defender.Hp -= 10 + (30 * len(player.bench))
-
-    def whimseyTackle(self, attacker, defender):
-        x = randint(1,2)
-        if x == 1:
-            defender.Hp -= 60
-
-    def recklessCharge(self, attacker, defender):
-        attacker.Hp -= 10
-        defender.Hp -= 20
-
-    def coreBeam(self, attacker, defender, damage):
-        attacker.Energies.replace("S", "", 1)
-        #need to figure out how to put card into discard
-        defender.Hp -= damage
-
-    def dustGathering(self, controller):
-        if controller == "player":
-            playerDrawCard()
-        elif controller == "opponent":
-            oppDrawCard()
-
-    def shiningArrow(self, defender):
-        defender.Hp -= 50
-
-    def dangerousBlow(self, defender):
-        if defender.Stage == 0:
-            defender.Hp -= 120
-        else:
-            defender.Hp -= 60
-
-    def anchorShot(self, defender):
-        # Defending pokemon can't retreat next turn
-        defender.Hp -= 70
+    def attack(self):
+        ## Use one of the card's attack. This ends the turn
+        ## Must have proper amount and type of energy
+        global turn
+        if turn == 'p':
+            self.oppActive[0].Hp -= 10
+        else:    
+            pass
 
     def attackDamage(self, attacker, defender, choice):
+
         print(defender.Name + " HP: " + str(defender.Hp));
         defender.Hp = defender.Hp - attacker.Attack_One_Damage;
         print("Attack succesful");
         print(defender.Name + " HP: " + str(defender.Hp));
 
-    def evolve(self, pokemonIndex, loc, benchIndex, turn):
+    def evolve(self, turn):
         ## Evolves a pokemon on the bench with card in hand
-        if turn == 'p':
-            if loc == 'active':
-                if self.playerActive[0].Name == self.playerHand[pokemonIndex].PreEvolution: #Pokemon evolves into pokemon in active
-                    for i in range(len(self.playerActive.Energies),-1,-1):
-                        self.playerHand[pokemonIndex].Energies.append(self.playerActive.Energies.pop(i))
-                    if len(self.playerActive[0].Tools) > 0:
-                        self.playerHand[pokemonIndex].Tools.append(self.playerActive[0].Tools.pop(0))
-                    self.playerHand[pokemonIndex].Pokemon.append(self.playerActive.pop(0))
-                    self.playerActive[0].append(self.playerHand[pokemonIndex])
-            elif loc == 'bench':
-                if self.playerBench[benchIndex].Name == self.playerHand[pokemonIndex].PreEvolution: #Pokemon evolves into pokemon in active
-                    for i in range(len(self.playerBench.Energies),-1,-1):
-                        self.playerHand[pokemonIndex].Energies.append(self.playerBench.Energies.pop(i))
-                    if len(self.playerBench[benchIndex].Tools) > 0:
-                        self.playerHand[pokemonIndex].Tools.append(self.playerBench[benchIndex].Tools.pop(0))
-                    self.playerHand[pokemonIndex].Pokemon.append(self.playerBench.pop(benchIndex))
-                    self.playerBench[benchIndex].append(self.playerHand[pokemonIndex])
-                # do the same for bench
-    def playEnergy(self,energy, pokemon, turn):
-        if energyPlayed == false:
-            if turn == 'p':
-                pokemon.Energies.append(self.playerHand[energy].pop());
+        pass
+    def playEnergy(self):
         ## ONCE PER TURN (Typically)
         ## Plays an energy from hand to a pokemon
-        pass
+        temp = []
+        for i in range(len(self.playerHand)):
+            if self.playerHand[i].Card_Type == 'Energy':
+               temp.append(i)
+        if len(temp) > 0:
+            temp.sort(reverse = True)
+            for i in temp:
+                if self.energyPlayed == False:
+                    self.playerActive[0].Energies.append(self.playerHand.pop(i))
+                    energyPlayed = True
+        
     def playItem(self, turn):
         ## Plays an item from hand and does the effect
         pass
@@ -359,61 +315,24 @@ class Gameboard():
                             self.stadium.append(self.playerHand.pop(index)) # moves card from hand to stadium spot
                         
         pass
-    def retreat(self, pokemonIndex, turn):
+    def retreat(self, turn):
         ## ONCE PER TURN (typically)
         ## Switches active with a bench pokemon
-        if turn == 'p':
-            print("active before: " + self.playerBench[0].Name)
-            if self.playerActive[0].RetreatCost <= len(self.playerActive[0].Energies):
-                self.switch(pokemonIndex, turn)
-            else:
-                print("thats not a pokemon")
-
-    def switch(self, pokemonIndex, turn):
-        if len(self.playerBench) > 0:
-            temp = self.playerActive.pop(0)
-            self.playerActive.append(self.playerBench.pop(pokemonIndex))
-            self.playerBench.append(temp)
-            print("active after: " + self.playerActive[0].Name)
-
+        pass
     def useAbility(self, turn):
         ## USAGE AMOUNT VARIES
         ## Uses an ability and processes effects
         pass
-    def playBasic(self, handIndex, turn):
+    def playBasic(self, turn):
         ## Plays a basic from hand to bench, space permitting)
-        if turn == 'p':
-            if len(playerBench) <= 5:
-                playerBench.append(playerHand.pop[handIndex])
-
+        pass
+    
+    
     def turn(self, turn):
         # Check for wins
         # Check for statuses(Mainly ones that happen between turns)
         # Player's Turn
-        choice = ''
         if turn == 'p':
-            # Check win conditions
-            # Check status
-            energyPlayed = False
-            supporterPlayed = False
-            stadiumPlayed = False
-            ## SHOULD CHECK FOR THINGS BEFORE CALLING FUNCTIONS OR THAT SHOULD BE WHAT WE DO I THINK
-            playerDrawCard()
-            if choice == 'play basic':
-                for i in range(len(playerHand)):
-                    if playerIsBasic(i):
-                        playBasic(i)
-            elif choice == 'play stadium':
-                playStadium(turn)
-            elif choice == 'play energy':
-                playEnergy(turn)
-            elif choice == 'play tool':
-                playTool(turn)
-            elif choice == 'play supporter':
-                supporterPlayed = True
-                playSupporter(turn)
-            elif choice == 'attack':
-                #attack(turn)
             pass
 
         # Opponent's Turn
@@ -453,13 +372,12 @@ class Card():
     Attack_Two_Effect = ''
     Attack_Two_Cost = ''
     
-    RetreatCost = 0
+    Retreat_Cost = 0
     Pokemon_Type = ''
 
     Weakness = ''
     Resistance = ''
     PreEvolution = ''
-    Pokemon = []
     Stage = 0
     Effect = ''
     Owner = ''

@@ -13,8 +13,10 @@
 
 import SetListTest
 import GameManager
-#import gamedisplay
+import gameboard as display
 from setlists import SUM
+from PyQt5 import QtCore, QtGui, QtWidgets
+import sys
 
 def GameLoop():
         # Game loop should keep track of whose turn it is
@@ -33,7 +35,10 @@ def GameLoop():
         turn = ''
         
         ## Initialize the gameboard
+        #ui = display.Ui_MainWindow()
         gameboard = GameManager.Gameboard()
+        gui = display.Ui_MainWindow()
+        
 
         ## Populate player deck
         print("Starting player deck Population...")
@@ -191,11 +196,19 @@ def GameLoop():
 
         print("Player deck created")
 
-        
+        def attackT():
+                gui.attack(gameboard)
 
         gameboard.setup()
-        gameboard.retreat(0, "p")
-
+        #gameboard.playEnergy()
+        app = QtWidgets.QApplication(sys.argv)
+        MainWindow = QtWidgets.QMainWindow()
+        #ui = Ui_MainWindow()
+        gui.setupUi(MainWindow)
+        gui.setActive()
+        gui.atkButton.clicked.connect(attackT)
+        MainWindow.show()
+        sys.exit(app.exec_())
 card1 = {'Name' : 'Solgaleo',
         'Card_Type' : 'Pokemon',
         'Stage' : 2,
@@ -209,8 +222,7 @@ card1 = {'Name' : 'Solgaleo',
         'Attack2Cost' : 'MMC',
         'RetreatCost' : 3,
         'Weakness' : 'R',
-        'Resistance' : 'P',
-        'PreEvolution' : 'Cosmoem'}
+        'Resistance' : 'P'}
 
 
 
@@ -227,8 +239,7 @@ card2 = {'Name' : 'Cosmoem',
         'Attack2Cost' : 'None',
         'RetreatCost' : 3,
         'Weakness' : 'P',
-        'Resistance' : '',
-        'PreEvolution' : 'Cosmog'}
+        'Resistance' : ''}
 
 card3 = {'Name' : 'Cosmog',
         'Card_Type' : 'Pokemon',
@@ -236,7 +247,7 @@ card3 = {'Name' : 'Cosmog',
         'Hp' : 60,
         'Power' : False,
         'Attack1Damage' : 0,
-        'Attack1Effect' : 'duskGathering',
+        'Attack1Effect' : 'Draw a card',
         'Attack1Cost' : 'C',
         'Attack2Damage' : 0,
         'Attack2Effect' : 'None',
@@ -258,8 +269,7 @@ card4 = {'Name' : 'Metang',
         'Attack2Cost' : 'MMC',
         'RetreatCost' : 3,
         'Weakness' : 'R',
-        'Resistance' : 'P',
-        'PreEvolution' : 'Beldum'}
+        'Resistance' : 'P'}
 
 card5 = {'Name' : 'Beldum',
         'Card_Type' : 'Pokemon',
@@ -289,8 +299,7 @@ card6 = {'Name' : 'Slowbro',
         'Attack2Cost' : 'PCC',
         'RetreatCost' : 3,
         'Weakness' : 'P',
-        'Resistance' : '',
-        'PreEvolution' : 'Slowpoke'}
+        'Resistance' : ''}
 
 card7 = {'Name' : 'Slowpoke',
         'Card_Type' : 'Pokemon',
@@ -350,8 +359,7 @@ card10 = {'Name' : 'Bewear',
         'Attack2Cost' : 'None',
         'RetreatCost' : 2,
         'Weakness' : 'F',
-        'Resistance' : '',
-        'PreEvolution' : 'Stufful'}
+        'Resistance' : ''}
 
 card11 = {'Name' : 'Stufful',
         'Card_Type' : 'Pokemon',
@@ -381,8 +389,7 @@ card12 = {'Name' : 'Swellow',
         'Attack2Cost' : 'None',
         'RetreatCost' : 1,
         'Weakness' : 'L',
-        'Resistance' : 'F',
-        'PreEvolution' : 'Taillow'}
+        'Resistance' : 'F'}
 
 card13 = {'Name' : 'Taillow',
         'Card_Type' : 'Pokemon',
@@ -461,7 +468,7 @@ card25 = {'Name' : 'Psychic Energy',
 
 
 ## MAIN ##
-GameLoop()
+#GameLoop()
 
 
         

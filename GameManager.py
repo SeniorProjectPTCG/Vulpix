@@ -51,10 +51,12 @@ class Gameboard():
     playerParalyzed = False
     playerPoisoned = False
     playerAsleep = False
+    playerConfused = False
     oppBurned = False
     oppParalyzed = False
     oppPoisoned = False
     oppAsleep = False
+    oppConfused = False
     #Attack not available boolean used in attacks like amnesia
     playerAttackNotAvail = 0
     oppAttackNotAvail = 0
@@ -354,12 +356,12 @@ class Gameboard():
         else:    
             pass
 
-    def attackDamage(self, attacker, defender, choice):
+    # def attackDamage(self, attacker, defender, choice):
 
-        print(defender.Name + " HP: " + str(defender.Hp));
-        defender.Hp = defender.Hp - attacker.Attack_One_Damage;
-        print("Attack succesful");
-        print(defender.Name + " HP: " + str(defender.Hp));
+    #     print(defender.Name + " HP: " + str(defender.Hp));
+    #     defender.Hp = defender.Hp - attacker.Attack_One_Damage;
+    #     print("Attack succesful");
+    #     print(defender.Name + " HP: " + str(defender.Hp));
 
     def evolve(self, pokemonIndex, loc, benchIndex, turn):
         ## Evolves a pokemon on the bench with card in hand

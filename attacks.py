@@ -110,7 +110,6 @@ def weatherTeller(attacker, player):
 			if e.Card_Type == "Stadium":
 				oppHand.append(oppDeck.pop(i))
 
-
 def waterPulse(attacker, defender, damage, player):
 	if player == 'p':
 		oppAsleep = True
@@ -118,3 +117,82 @@ def waterPulse(attacker, defender, damage, player):
 		playerAsleep = True
 	damage = checkWeakness(attacker, defender, damage)
 	attackDamage(defender, damage)
+
+def blownKiss(attacker, defender, damage):
+	attackDamage(defender, damage)
+
+def psybeam(attacker, defender, damage, player):
+	if player == 'p':
+		oppConfused = True
+	else:
+		playerConfused = True
+	damage = checkWeakeness(attacker, defender, damage)
+	attackDamage(defender, damage)
+
+def flickeringFlames(attacker, defender, damage, player):
+	if player == 'p':
+		oppAsleep = True
+	else:
+		playerAsleep = True
+	damage = checkWeakeness(attacker, defender, damage)
+	attackDamage(defender, damage)
+
+def shatterShot(attacker, defender, damage):
+	energyCount = 0
+	for i in attacker.Energies:
+		if i.Name == 'Psychic Energy':
+			energyCount += 1
+	damage = damage * energyCount
+	damage = checkWeakeness(attacker, defender, damage)
+	attackDamage(defender, damage)
+
+def wingsOfTheMoon(attacker, defender, damage, player):
+	#####NEED TO MOVE ENERGIES#####
+	damage = checkWeakeness(attacker, defender, damage)
+	attackDamage(defender, damage)
+
+def supernaturalDance(attacker, defender, player):
+	damageCounter = 0
+	if player == 'p':
+		for i in oppDiscard:
+			if i.Card_Type == 'Pokemon':
+				damageCounter += 1
+	else:
+		for i in playerDiscard:
+			if i.Card_Type == 'Pokemon':
+				damageCounter += 1
+	damage = damageCounter * 10
+	attackDamage(defender, damage)
+
+def revelationDance(attacker, defender, damage):
+	if len(stadium) > 0:
+		damage = checkWeakeness(attacker, defender, damage)
+		attackDamage(defender, damage)
+
+def venoshock(attacker, defender, damage, player):
+	if player == 'p':
+		if oppPoisoned == True:
+			damage += 40
+	else:
+		if playerPoisoned == True:
+			damage += 40
+	damage = checkWeakeness(attacker, defender, damage)
+	attackDamage(defender, damage)
+
+def flamethrower(attacker, defender, damage, player):
+	if player == 'p':
+		playerDiscard.append(attacker.Energies.pop(0))
+	damage = checkWeakeness(attacker, defender, damage)
+	attackDamage(defender, damage)
+
+def filch(player):
+	if player == 'p':
+		playerDrawCard()
+		playerDrawCard()
+	else:
+		oppDrawCard()
+		oppDrawCard()
+
+def copycat(attacker, defender, damage, player):
+	####NOT SURE HOW TO DO THIS ONE####
+	pass

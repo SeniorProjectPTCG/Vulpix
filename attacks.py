@@ -6,6 +6,10 @@ def checkWeakness(attacker, defender, damage):
 		damage *= 2
 	return damage
 
+def basicAttack(attacker, defender, damage):
+	damage = checkWeakness(attacker, defender, damage)
+	attackDamage(defender, damage)
+	
 def whimsyTackle(attacker, defender, damage):
 	x = randint(0,1) #coin flip
 	damage = checkWeakness(attacker, defender, damage)

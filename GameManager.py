@@ -46,6 +46,26 @@ class Gameboard():
     stadiumPlayed = False
     energyPlayed = False
 
+    #Status effect bools
+    playerBurned = False
+    playerParalyzed = False
+    playerPoisoned = False
+    playerAsleep = False
+    oppBurned = False
+    oppParalyzed = False
+    oppPoisoned = False
+    oppAsleep = False
+    #Attack not available boolean used in attacks like amnesia
+    playerAttackNotAvail = 0
+    oppAttackNotAvail = 0
+
+    #Agility bool
+    playerAgility = False
+    oppAgility = False
+
+    #Pokemon cant retreat next turn bool
+    playerCantRetreat = False
+    oppCantRetreat = False
     ## All of the player/opp member functions could possibly be combined into one function each and have a flag based on turn or access.
     ## Just a thought to reduce redundant code. Currently, I am just trying to get code down, but if we choose to do this we can edit it in Phase 3.
     ## This will also depend on how we handle turns and stuff like that. We can discuss it during our next weekly team meeting.

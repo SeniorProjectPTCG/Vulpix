@@ -113,7 +113,7 @@ class Gameboard():
         if len(self.playerDeck) > 0:
             self.playerHand.append(self.playerDeck.pop(self.playerDeckIndex))
         else:
-            print("deck out")
+            print("player decked out - opponent wins")
             sys.exit()
         #self.playerDeckIndex += 1
 
@@ -217,7 +217,11 @@ class Gameboard():
 
 
     def oppDrawCard(self):
-        self.oppHand.append(self.oppDeck.pop(self.oppDeckIndex))
+        if len(self.oppDeck) > 0:
+            self.oppHand.append(self.oppDeck.pop(self.oppDeckIndex))
+        else:
+            print("opponent decked out - player wins")
+            sys.exit()
         #self.oppDeckIndex += 1
 
     def oppIsBasic(self, i):
@@ -357,14 +361,28 @@ class Gameboard():
         ## Must have proper amount and type of energy
         #global turn
         if turn == 'p':
-            print(self.oppActive[0].Hp)
+            print(self.oppActive[0].Name + " HP: " + str(self.oppActive[0].Hp))
+            print(self.playerActive[0].Name + " deals " + str(self.playerActive[0].Attack_One_Damage) + " damage")
             attacks.basicAttack(self.playerActive[0],self.oppActive[0],self.playerActive[0].Attack_One_Damage)
             print(self.oppActive[0].Hp)
+            if(self.oppActive[0].Hp <= 0):
+                print(self.oppActive[0].Name + " knocked out!")
+                if len(self.oppBench) > 0:
+                    self.oppDiscard.append(self.oppActive.pop(0))
+                    self.oppActive.append(self.oppBench.pop(0))
+                    print(self.oppActive[0].Name + " moved to opponents active slot")
+                else:
+                    print("opponent out of Pokemon - Player wins")
+                    sys.exit()
         elif turn == 'o':
             print(self.playerActive[0].Hp)
             attacks.basicAttack(self.oppActive[0],self.playerActive[0],self.oppActive[0].Attack_One_Damage)
             print(self.playerActive[0].Hp) 
-            
+            if(self.playerActive[0].Hp <= 0):
+                print(self.playerActive[0].Name + " knocked out!")
+                self.playerDiscard.append(self.playerActive.pop(0))
+                self.playerActive.append(self.playerBench.pop(0))
+                print(self.playerActive[0].Name + " moved to players active slot")
 
     # def attackDamage(self, attacker, defender, choice):
 
@@ -483,6 +501,10 @@ class Gameboard():
             print("Your hand contains:")
             for i in range(len(self.playerHand)):
                 print(self.playerHand[i].Name)
+        if turn == 'o':
+            print("Opponents hand contains:")
+            for i in range(len(self.oppHand)):
+                print(self.oppHand[i].Name)
 
     def turn(self, turn):
         # Check for wins
@@ -549,36 +571,72 @@ class Gameboard():
 
         # Opponent's Turn
         elif turn == 'o':
-            pass
+            if not self.drawForTurn:
+                self.oppDrawCard()
+                self.drawForTurn = True
+            if choice == 1: #Play Basic
+                for i in range(len(self.oppHand)):
+                    if self.oppIsBasic(i):
+                        print(i + " is valid")
+                        self.playBasic(i, turn)
+                        print("basic found")
+                    else:
+                        print("no valid basics")
+                self.turn(turn)
+            elif choice == 2:
+                self.playStadium(turn)
+                self.turn(turn)
+            elif choice == 3:
+                #self.energyPlayed = True
+                self.playEnergy(turn)
+                self.turn(turn)
+            elif choice == 4:
+                self.playTool(turn)
+                self.turn(turn)
+            elif choice == 5:
+                self.supporterPlayed = True
+                playSupporter(turn)
+                self.turn(turn)
+            elif choice == 6:
+                self.attack(turn)
+                self.drawForTurn = False
+                self.energyPlayed = False
+                self.supporterPlayed = False
+                self.stadiumPlayed = False
+                self.turn("p")
+                pass
+            elif choice == 7:
+                print("EXIT")
+                self.drawForTurn = False
+                self.energyPlayed = False
+                self.supporterPlayed = False
+                self.stadiumPlayed = False
+                self.turn("p")
 
 
 
     def winConditions(self):
 
         ## Opponent Win Conditions ##
-        if len(playerActive) == 0 and len(playerBench) == 0:
+        if len(playerActive) <= 0 and len(playerBench) <= 0:
             print("Opponent wins!")
-            return -1
-        if len(oppPrize) == 0:
+            sys.exit()
+        if len(oppPrize) <= 0:
             print("Opponent wins!")
-            return -1
-        if len(playerDeck) == 0:
+            sys.exit()
+        if len(playerDeck) <= 0:
             print("Opponent wins!")
-            return -1
+            sys.exit()
 
         ## Player Win Conditions ##
-        if len(oppActive) == 0 and len(oppBench) == 0:  # Empty bench and active
+        if len(oppActive) <= 0 and len(oppBench) <= 0:  # Empty bench and active
             print("Player wins!")
-            return 1
-        if len(playerPrize) == 0:  # No prizes left
+            sys.exit()
+        if len(playerPrize) <= 0:  # No prizes left
             print("Player wins!")
-            return 1
-        #Deckout may need to be re-evaluated since deckouts only occur when the player draws for turn. This shoould work but I didn't spend too much time on it
-        if len(oppDeck) == 0:  # Deckout
-            print("Player wins!")
-            return 1
-        # No one has won return 0
-        return 0 
+            sys.exit()
+
+
 
 
 
@@ -614,7 +672,7 @@ class Card():
             self.Stage = obj['Stage']
             self.Hp = obj['Hp']
             self.Power = obj['Power']
-            #self.Attack_One_Damage = obj['Attack1Damage']
+            self.Attack_One_Damage = obj['Attack1Damage']
             self.Attack_One_Effect = obj['Attack1Effect']
             self.Attack_One_Cost = obj['Attack1Cost']
             #self.Attack_Two_Damage = obj['Attack2Damage']

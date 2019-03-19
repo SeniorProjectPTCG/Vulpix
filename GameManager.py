@@ -15,6 +15,8 @@
 debug = False
 import random
 import attacks
+import ai
+import sys
 turn = 'p'
 #import gamedisplay
 ## This class will control the entire Gameboard
@@ -108,8 +110,11 @@ class Gameboard():
     ### PLAYER MEMBER FUCNTIONS  ###
 
     def playerDrawCard(self):
-        
-        self.playerHand.append(self.playerDeck.pop(self.playerDeckIndex))
+        if len(self.playerDeck) > 0:
+            self.playerHand.append(self.playerDeck.pop(self.playerDeckIndex))
+        else:
+            print("deck out")
+            sys.exit()
         #self.playerDeckIndex += 1
 
     def playerIsBasic(self, i):
@@ -493,7 +498,8 @@ class Gameboard():
         print("5. Play Supporter")
         print("6. Play Attack")
         print("7. End Turn")
-        choice = int(input("What would you like to do?"))
+        #choice = int(input("What would you like to do?"))
+        choice = ai.ai(self)
         print(choice)
         if turn == 'p':
             

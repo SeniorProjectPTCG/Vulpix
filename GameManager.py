@@ -195,6 +195,8 @@ class Gameboard():
                 for i in temp2:
                     print("I : ", i)
                     print("Temp2: ", temp2)
+                    print("i = ", i)
+                    print(self.playerHand[i])
                     self.playerHand.pop(i)  
                     
 
@@ -371,18 +373,31 @@ class Gameboard():
                     self.oppDiscard.append(self.oppActive.pop(0))
                     self.oppActive.append(self.oppBench.pop(0))
                     print(self.oppActive[0].Name + " moved to opponents active slot")
+                    self.playerHand.append(self.playerPrize[0])
+                    print("player has " + str(len(self.playerPrize)) + " left")
+                    if len(self.playerPrize) <= 0:
+                        print("Player has taken all prizes - Player wins")
                 else:
                     print("opponent out of Pokemon - Player wins")
                     sys.exit()
         elif turn == 'o':
-            print(self.playerActive[0].Hp)
+            print(self.playerActive[0].Name + " HP: " + str(self.playerActive[0].Hp))
+            print(self.oppActive[0].Name + " deals " + str(self.oppActive[0].Attack_One_Damage) + " damage")
             attacks.basicAttack(self.oppActive[0],self.playerActive[0],self.oppActive[0].Attack_One_Damage)
             print(self.playerActive[0].Hp) 
             if(self.playerActive[0].Hp <= 0):
                 print(self.playerActive[0].Name + " knocked out!")
                 self.playerDiscard.append(self.playerActive.pop(0))
-                self.playerActive.append(self.playerBench.pop(0))
-                print(self.playerActive[0].Name + " moved to players active slot")
+                if len(self.playerBench) > 0:
+                    self.playerActive.append(self.playerBench.pop(0))
+                    print(self.playerActive[0].Name + " moved to players active slot")
+                    self.oppHand.append(self.oppPrize[0])
+                    print("opponent has " + str(len(self.oppPrize)) + " left")
+                    if len(self.oppPrize) <= 0:
+                        print("Opponent has taken all prizes - Opponent wins")
+                else:
+                    print("player out of Pokemon - opponent wins")
+                    sys.exit()
 
     # def attackDamage(self, attacker, defender, choice):
 
@@ -495,6 +510,9 @@ class Gameboard():
         if turn == 'p':
             if len(self.playerBench) <= 5:
                 self.playerBench.append(self.playerHand.pop(handIndex))
+        elif turn == 'o':
+            if len(self.oppBench) <= 5:
+                self.oppBench.append(self.oppHand.pop(handIndex))
     
     def printHand(self, turn):
         if turn == 'p':

@@ -532,18 +532,16 @@ class Gameboard():
         self.printHand(turn)
         print("Menu")
         print("1. Play Basic")
-        print("2. Play Staidum")
+        print("2. Play Stadium")
         print("3. Play Energy")
         print("4. Play Tool")
         print("5. Play Supporter")
         print("6. Play Attack")
         print("7. End Turn")
         #choice = int(input("What would you like to do?"))
-        choice = ai.ai(self)
-        print(choice)
         if turn == 'p':
-            
-            
+            choice = ai.playerAI(self)
+            print("Player AI chose ", choice)
             ## SHOULD CHECK FOR THINGS BEFORE CALLING FUNCTIONS OR THAT SHOULD BE WHAT WE DO I THINK
             if not self.drawForTurn:
                 self.playerDrawCard()
@@ -589,6 +587,8 @@ class Gameboard():
 
         # Opponent's Turn
         elif turn == 'o':
+            choice = ai.oppAI(self)
+            print("Opponent AI chose ", choice)
             if not self.drawForTurn:
                 self.oppDrawCard()
                 self.drawForTurn = True

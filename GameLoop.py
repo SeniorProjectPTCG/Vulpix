@@ -204,33 +204,24 @@ def GameLoop():
 
         gameboard.setup()
         #gameboard.playEnergy()
-        app = QtWidgets.QApplication(sys.argv)
-        MainWindow = QtWidgets.QMainWindow()
+        #app = QtWidgets.QApplication(sys.argv)
+        #MainWindow = QtWidgets.QMainWindow()
         #ui = Ui_MainWindow()
-        gui.setupUi(MainWindow)
-        gui.setActive()
-        gui.setBench()
-        gui.setPrize()
-        gui.setDiscard()
-        gui.setDeck()
-        gui.atkButton.clicked.connect(attackT)  #Doesn't allow the passing of arguements
-        gui.retreatButton.clicked.connect(retreatT)
-        gameboard.turn('p')
-        MainWindow.show()
-        sys.exit(app.exec_())
-##        while winner == False:
-##                turn = 'p'
-##                print("Menu")
-##                print("1. Play Basic")
-##                print("2. Play Staidum")
-##                print("3. Play Energy")
-##                print("4. Play Tool")
-##                print("5. Play Supporter")
-##                print("6. Play Attack")
-##                print("7. End Turn")
-##                
-##                gameboard.turn(turn)
-        
+        #gui.setupUi(MainWindow)
+        #gui.setActive()
+        #gui.setBench()
+        #gui.setPrize()
+        #gui.setDiscard()
+        #gui.setDeck()
+        #gui.atkButton.clicked.connect(attackT)  #Doesn't allow the passing of arguements
+        #gui.retreatButton.clicked.connect(retreatT)
+        #gameboard.turn('p')
+        ##MainWindow.show()
+        ##sys.exit(app.exec_())
+        while winner == False:
+                turn = 'p'
+                gameboard.turn(turn)
+      
 
         
 card1 = {'Name' : 'Solgaleo',

@@ -14,6 +14,7 @@
 ## and performing actions on them
 debug = False
 import random
+import attacks
 turn = 'p'
 #import gamedisplay
 ## This class will control the entire Gameboard
@@ -57,6 +58,7 @@ class Gameboard():
     oppPoisoned = False
     oppAsleep = False
     oppConfused = False
+    drawForTurn = False
     #Attack not available boolean used in attacks like amnesia
     playerAttackNotAvail = 0
     oppAttackNotAvail = 0
@@ -72,6 +74,7 @@ class Gameboard():
     #Last attack used var is used for copycat attack
     playerLastAttack = ""
     oppLastAttack = ""
+
 
     ## All of the player/opp member functions could possibly be combined into one function each and have a flag based on turn or access.
     ## Just a thought to reduce redundant code. Currently, I am just trying to get code down, but if we choose to do this we can edit it in Phase 3.
@@ -343,23 +346,20 @@ class Gameboard():
                 self.playerDrawCard()
                 print("Player drew a mulligan!")
 
-
-
-
-
-
-
-
-
     ##  THINGS THAT CAN BE DONE DURING TURNS
     def attack(self, turn):
         ## Use one of the card's attack. This ends the turn
         ## Must have proper amount and type of energy
         #global turn
         if turn == 'p':
-            self.oppActive[0].Hp -= 10
-        else:    
-            pass
+            print(self.oppActive[0].Hp)
+            attacks.basicAttack(self.playerActive[0],self.oppActive[0],self.playerActive[0].Attack_One_Damage)
+            print(self.oppActive[0].Hp)
+        elif turn == 'o':
+            print(self.playerActive[0].Hp)
+            attacks.basicAttack(self.oppActive[0],self.playerActive[0],self.oppActive[0].Attack_One_Damage)
+            print(self.playerActive[0].Hp) 
+            
 
     # def attackDamage(self, attacker, defender, choice):
 
@@ -390,7 +390,7 @@ class Gameboard():
                 # do the same for bench
 
     
-    def playEnergy(self):
+    def playEnergy(self, turn):
         ## ONCE PER TURN (Typically)
         ## Plays an energy from hand to a pokemon
         temp = []
@@ -401,8 +401,10 @@ class Gameboard():
             temp.sort(reverse = True)
             for i in temp:
                 if self.energyPlayed == False:
+                    #print(self.playerHand[i].Name)
                     self.playerActive[0].Energies.append(self.playerHand.pop(i))
-                    energyPlayed = True
+                    self.energyPlayed = True
+                    print("Energy played")
         
     def playItem(self, turn):
         ## Plays an item from hand and does the effect
@@ -469,41 +471,75 @@ class Gameboard():
         ## Plays a basic from hand to bench, space permitting)
         if turn == 'p':
             if len(self.playerBench) <= 5:
-                self.playerBench.append(self.playerHand.pop[handIndex])
+                self.playerBench.append(self.playerHand.pop(handIndex))
     
-    
+    def printHand(self, turn):
+        if turn == 'p':
+            print("Your hand contains:")
+            for i in range(len(self.playerHand)):
+                print(self.playerHand[i].Name)
+
     def turn(self, turn):
         # Check for wins
         # Check for statuses(Mainly ones that happen between turns)
         # Player's Turn
-        
-        choice = input("What would you like to do?")
+        #self.winConditions()
+        self.printHand(turn)
+        print("Menu")
+        print("1. Play Basic")
+        print("2. Play Staidum")
+        print("3. Play Energy")
+        print("4. Play Tool")
+        print("5. Play Supporter")
+        print("6. Play Attack")
+        print("7. End Turn")
+        choice = int(input("What would you like to do?"))
+        print(choice)
         if turn == 'p':
             
-            self.energyPlayed = False
-            self.supporterPlayed = False
-            self.stadiumPlayed = False
+            
             ## SHOULD CHECK FOR THINGS BEFORE CALLING FUNCTIONS OR THAT SHOULD BE WHAT WE DO I THINK
-            self.playerDrawCard()
+            if not self.drawForTurn:
+                self.playerDrawCard()
+                self.drawForTurn = True
             if choice == 1: #Play Basic
                 for i in range(len(self.playerHand)):
                     if self.playerIsBasic(i):
-                        self.playBasic(i)
+                        print(i + " is valid")
+                        self.playBasic(i, turn)
+                        print("basic found")
+                    else:
+                        print("no valid basics")
+                self.turn(turn)
             elif choice == 2:
-                playStadium(turn)
+                self.playStadium(turn)
+                self.turn(turn)
             elif choice == 3:
-                energyPlayer = True
-                playEnergy(turn)
+                #self.energyPlayed = True
+                self.playEnergy(turn)
+                self.turn(turn)
             elif choice == 4:
-                playTool(turn)
+                self.playTool(turn)
+                self.turn(turn)
             elif choice == 5:
-                supporterPlayed = True
+                self.supporterPlayed = True
                 playSupporter(turn)
+                self.turn(turn)
             elif choice == 6:
-                attack(turn)
+                self.attack(turn)
+                self.drawForTurn = False
+                self.energyPlayed = False
+                self.supporterPlayed = False
+                self.stadiumPlayed = False
+                self.turn("o")
                 pass
             elif choice == 7:
-                exit
+                print("EXIT")
+                self.drawForTurn = False
+                self.energyPlayed = False
+                self.supporterPlayed = False
+                self.stadiumPlayed = False
+                self.turn("o")
 
         # Opponent's Turn
         elif turn == 'o':
@@ -516,19 +552,27 @@ class Gameboard():
         ## Opponent Win Conditions ##
         if len(playerActive) == 0 and len(playerBench) == 0:
             print("Opponent wins!")
+            return -1
         if len(oppPrize) == 0:
             print("Opponent wins!")
+            return -1
         if len(playerDeck) == 0:
             print("Opponent wins!")
+            return -1
 
         ## Player Win Conditions ##
         if len(oppActive) == 0 and len(oppBench) == 0:  # Empty bench and active
-            print("Opponent wins!")
+            print("Player wins!")
+            return 1
         if len(playerPrize) == 0:  # No prizes left
-            print("Opponent wins!")
+            print("Player wins!")
+            return 1
         #Deckout may need to be re-evaluated since deckouts only occur when the player draws for turn. This shoould work but I didn't spend too much time on it
         if len(oppDeck) == 0:  # Deckout
-            print("Opponent wins!")
+            print("Player wins!")
+            return 1
+        # No one has won return 0
+        return 0 
 
 
 

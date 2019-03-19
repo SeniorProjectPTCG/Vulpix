@@ -260,3 +260,93 @@ def copycat(attack, attacker, defender, damage, player, choice, pokemonIndex, lo
 		pass
 	else:
 		basicAttack(defender, damage)
+
+# card1 = {'Name' : 'Solgaleo',
+#         'Card_Type' : 'Pokemon',
+#         'Stage' : 2,
+#         'Hp' : 160,
+#         'Power' : False,
+#         'Attack1Damage' : 0,
+#         'Attack1Effect' : '',
+#         'Attack1Cost' : 'MC',
+#         'Attack2Damage' : 170,
+#         'Attack2Effect' : '',
+#         'Attack2Cost' : 'MMC',
+#         'RetreatCost' : 3,
+#         'Weakness' : 'R',
+#         'Resistance' : 'P',
+#         'Pokemon_Type' : 'P'}
+
+# card2 = {'Name' : 'Cosmoem',
+#         'Card_Type' : 'Pokemon',
+#         'Stage' : 1,
+#         'Hp' : 90,
+#         'Power' : False,
+#         'Attack1Damage' : 0,
+#         'Attack1Effect' : 'Switch this Pokémon with 1 of your Benched Pokémon',
+#         'Attack1Cost' : 'C',
+#         'Attack2Damage' : 0,
+#         'Attack2Effect' : 'None',
+#         'Attack2Cost' : 'None',
+#         'RetreatCost' : 3,
+#         'Weakness' : 'P',
+#         'Resistance' : '',
+#         'Pokemon_Type' : 'P'}
+
+# class Card():
+#     Name = ''
+#     Card_Type = ''
+#     #Basic = False
+#     Hp = 0
+#     Attack_One_Damage = 0
+#     Attack_One_Effect = ''
+#     Attack_One_Cost = ''
+#     Attack_Two_Damage = 0
+#     Attack_Two_Effect = ''
+#     Attack_Two_Cost = ''
+    
+#     RetreatCost = 0
+#     Pokemon_Type = ''
+
+#     Weakness = ''
+#     Resistance = ''
+#     PreEvolution = ''
+#     Pokemon = []
+#     Stage = 0
+#     Effect = ''
+#     Owner = ''
+#     Energies = []
+#     Tools = []
+
+#     def __init__(self, obj):
+#         self.Name = obj['Name']
+#         self.Card_Type = obj['Card_Type']
+#         if self.Card_Type == 'Pokemon':
+#             self.Stage = obj['Stage']
+#             self.Hp = obj['Hp']
+#             self.Power = obj['Power']
+#             self.Attack_One_Damage = obj['Attack1Damage']
+#             self.Attack_One_Effect = obj['Attack1Effect']
+#             self.Attack_One_Cost = obj['Attack1Cost']
+#             self.Attack_Two_Damage = obj['Attack2Damage']
+#             self.Attack_Two_Effect = obj['Attack2Effect']
+#             self.Attack_Two_Cost = obj['Attack2Cost']
+#             self.Retreat_Cost = obj['RetreatCost']
+#             self.Weakness = obj['Weakness']
+#             self.Resistance = obj['Resistance']
+#             self.Pokemon_Type = obj['Pokemon_Type']
+#         if self.Card_Type == 'Item' or self.Card_Type == 'Supporter' or self.Card_Type == 'Stadium' or self.Card_Type == 'Tool':
+#             self.Effect = obj['Effect']
+#     def isBasic(self):
+#         if self.Card_Type == 'Pokemon':
+#             return self.Stage == 0
+#         else:
+#             return False
+#     def setOwner(self, owner):
+#         self.Owner = owner
+
+# atk = Card(card1)
+# dfd = Card(card2)
+# print(dfd.Hp)
+# basicAttack(atk, dfd,50)
+# print(dfd.Hp)

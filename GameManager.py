@@ -366,7 +366,7 @@ class Gameboard():
             print(self.oppActive[0].Name + " HP: " + str(self.oppActive[0].Hp))
             print(self.playerActive[0].Name + " deals " + str(self.playerActive[0].Attack_One_Damage) + " damage")
             attacks.basicAttack(self.playerActive[0],self.oppActive[0],self.playerActive[0].Attack_One_Damage)
-            print(self.oppActive[0].Hp)
+            print(self.oppActive[0].Name + "HP: " + str(self.oppActive[0].Hp))
             if(self.oppActive[0].Hp <= 0):
                 print(self.oppActive[0].Name + " knocked out!")
                 if len(self.oppBench) > 0:
@@ -384,7 +384,7 @@ class Gameboard():
             print(self.playerActive[0].Name + " HP: " + str(self.playerActive[0].Hp))
             print(self.oppActive[0].Name + " deals " + str(self.oppActive[0].Attack_One_Damage) + " damage")
             attacks.basicAttack(self.oppActive[0],self.playerActive[0],self.oppActive[0].Attack_One_Damage)
-            print(self.playerActive[0].Hp) 
+            print(self.playerActive[0].Name + " HP: " + str(self.playerActive[0].Hp))
             if(self.playerActive[0].Hp <= 0):
                 print(self.playerActive[0].Name + " knocked out!")
                 self.playerDiscard.append(self.playerActive.pop(0))

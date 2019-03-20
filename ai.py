@@ -1,7 +1,7 @@
 from random import randint
 def playerAI(gameboard):
 	for i in range(len(gameboard.playerHand)):
-		if (gameboard.playerIsBasic(i)):
+		if (gameboard.playerIsBasic(i)) and (len(gameboard.oppBench) < 5):
 			print("ai player is playing basic")
 			return 1
 		elif gameboard.playerHand[i].Card_Type == "Energy":

@@ -13,6 +13,7 @@
 
 import SetListTest
 import GameManager
+
 import gameboard as display
 from setlists import SUM
 from PyQt5 import QtCore, QtGui, QtWidgets
@@ -38,7 +39,9 @@ def GameLoop():
         ## Initialize the gameboard
         #ui = display.Ui_MainWindow()
         gameboard = GameManager.Gameboard()
+
         gui = display.Ui_MainWindow()
+
         
 
         ## Populate player deck
@@ -197,10 +200,12 @@ def GameLoop():
 
         print("Player deck created")
 
+
         def attackT():  #used to pass arguements
                 gui.attack(gameboard)
         def retreatT():
                 gui.retreat(gameboard, 0)
+
 
         gameboard.setup()
         #gameboard.playEnergy()
@@ -483,7 +488,9 @@ card25 = {'Name' : 'Psychic Energy',
 
 
 ## MAIN ##
+
 #GameLoop()
+
 
 
         

@@ -13,7 +13,9 @@ def oppAI(gameboard):
 		if (gameboard.oppIsBasic(i)) and (len(gameboard.oppBench) < 5):
 			print("ai opponent is playing basic")
 			return 1
+
 		elif gameboard.oppHand[i].Card_Type == "Energy":
+
 			if gameboard.energyPlayed == False:
 				return 3
 	return 6

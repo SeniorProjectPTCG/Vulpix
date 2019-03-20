@@ -508,10 +508,12 @@ class Gameboard():
     def playBasic(self, handIndex, turn):
         ## Plays a basic from hand to bench, space permitting)
         if turn == 'p':
-            if len(self.playerBench) <= 5:
+
+            if len(self.playerBench) < 5:
                 self.playerBench.append(self.playerHand.pop(handIndex))
         elif turn == 'o':
-            if len(self.oppBench) <= 5:
+            if len(self.oppBench) < 5:
+
                 self.oppBench.append(self.oppHand.pop(handIndex))
     
     def printHand(self, turn):
@@ -547,18 +549,26 @@ class Gameboard():
                 self.playerDrawCard()
                 self.drawForTurn = True
             if choice == 1: #Play Basic
-                for i in range(len(self.playerHand)):
-                    if self.playerIsBasic(i):
-                        print(str(i) + " is valid")
+
+                i = 0
+                while i < len(self.playerHand):
+                    
+               
+                    if self.playerHand[i].isBasic():
+                        
                         self.playBasic(i, turn)
                         print("basic found")
+                        
                     else:
                         print("no valid basics")
+                        i += 1
+
                 self.turn(turn)
             elif choice == 2:
                 self.playStadium(turn)
                 self.turn(turn)
             elif choice == 3:
+
                 self.playEnergy(turn)
                 self.energyPlayed = True
                 self.turn(turn)
@@ -593,18 +603,26 @@ class Gameboard():
                 self.oppDrawCard()
                 self.drawForTurn = True
             if choice == 1: #Play Basic
-                for i in range(len(self.oppHand)):
-                    if self.oppIsBasic(i):
-                        print(str(i) + " is valid")
+
+                i = 0
+                while i < len(self.oppHand):
+                    if self.oppHand[i].isBasic():
+                        
+
                         self.playBasic(i, turn)
                         print("basic found")
                     else:
                         print("no valid basics")
+
+                        
+                        i += 1
+
                 self.turn(turn)
             elif choice == 2:
                 self.playStadium(turn)
                 self.turn(turn)
             elif choice == 3:
+
                 self.playEnergy(turn)
                 self.energyPlayed = True
                 self.turn(turn)

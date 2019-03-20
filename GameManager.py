@@ -366,7 +366,7 @@ class Gameboard():
             print(self.oppActive[0].Name + " HP: " + str(self.oppActive[0].Hp))
             print(self.playerActive[0].Name + " deals " + str(self.playerActive[0].Attack_One_Damage) + " damage")
             attacks.basicAttack(self.playerActive[0],self.oppActive[0],self.playerActive[0].Attack_One_Damage)
-            print(self.oppActive[0].Name + "HP: " + str(self.oppActive[0].Hp))
+            print(self.oppActive[0].Hp)
             if(self.oppActive[0].Hp <= 0):
                 print(self.oppActive[0].Name + " knocked out!")
                 if len(self.oppBench) > 0:
@@ -384,7 +384,7 @@ class Gameboard():
             print(self.playerActive[0].Name + " HP: " + str(self.playerActive[0].Hp))
             print(self.oppActive[0].Name + " deals " + str(self.oppActive[0].Attack_One_Damage) + " damage")
             attacks.basicAttack(self.oppActive[0],self.playerActive[0],self.oppActive[0].Attack_One_Damage)
-            print(self.playerActive[0].Name + " HP: " + str(self.playerActive[0].Hp))
+            print(self.playerActive[0].Hp) 
             if(self.playerActive[0].Hp <= 0):
                 print(self.playerActive[0].Name + " knocked out!")
                 self.playerDiscard.append(self.playerActive.pop(0))
@@ -508,12 +508,10 @@ class Gameboard():
     def playBasic(self, handIndex, turn):
         ## Plays a basic from hand to bench, space permitting)
         if turn == 'p':
-
             if len(self.playerBench) < 5:
                 self.playerBench.append(self.playerHand.pop(handIndex))
         elif turn == 'o':
             if len(self.oppBench) < 5:
-
                 self.oppBench.append(self.oppHand.pop(handIndex))
     
     def printHand(self, turn):
@@ -549,7 +547,6 @@ class Gameboard():
                 self.playerDrawCard()
                 self.drawForTurn = True
             if choice == 1: #Play Basic
-
                 i = 0
                 while i < len(self.playerHand):
                     
@@ -558,17 +555,16 @@ class Gameboard():
                         
                         self.playBasic(i, turn)
                         print("basic found")
-                        
+                        break
                     else:
                         print("no valid basics")
                         i += 1
-
                 self.turn(turn)
             elif choice == 2:
                 self.playStadium(turn)
                 self.turn(turn)
             elif choice == 3:
-
+                
                 self.playEnergy(turn)
                 self.energyPlayed = True
                 self.turn(turn)
@@ -603,26 +599,23 @@ class Gameboard():
                 self.oppDrawCard()
                 self.drawForTurn = True
             if choice == 1: #Play Basic
-
                 i = 0
                 while i < len(self.oppHand):
                     if self.oppHand[i].isBasic():
                         
-
                         self.playBasic(i, turn)
                         print("basic found")
+                        break
                     else:
                         print("no valid basics")
-
                         
                         i += 1
-
                 self.turn(turn)
             elif choice == 2:
                 self.playStadium(turn)
                 self.turn(turn)
             elif choice == 3:
-
+                
                 self.playEnergy(turn)
                 self.energyPlayed = True
                 self.turn(turn)

@@ -549,7 +549,7 @@ class Gameboard():
             if choice == 1: #Play Basic
                 for i in range(len(self.playerHand)):
                     if self.playerIsBasic(i):
-                        print(i + " is valid")
+                        print(str(i) + " is valid")
                         self.playBasic(i, turn)
                         print("basic found")
                     else:

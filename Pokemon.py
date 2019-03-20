@@ -1,25 +1,21 @@
+##Senior Project 2
+##Project Vulpix
+
+
 pokemon = []
 pkmnCount = []
 pkmnSetNum = []
-class Pokemon:
-    name = ''
-    setAbbr = ''
-    setNum = ''
-    def __init__(self, name, setAbbr, setNum):
-        self.name = name
-        self.setAbbr = setAbbr
-        self.setNum = setNum
 
-    
-def createObjects():
-    global pokemon
-    global pkmnCount
-    global pkmnSetNum
+trainers = []
+trainerCount = []
+trainerSetNum = []
 
-    #for i in range(len(pokemon)):
-        #pokemon[i] = Pokemon(pokemon[i], 
+energy = []
+energyCount = []
+energySetNum = []
     
-def wordSplit(line, test, i):
+    
+def pkmnWordSplit(line, test, i):
     global pokemon
     global pkmnCount
     global pkmnSetNum
@@ -57,6 +53,84 @@ def wordSplit(line, test, i):
         #print("Line is: " + line)
         #print("Word is: " + word)
     pokemon.append(test)
+
+def trainerWordSplit(line, test, i):
+    global trainer
+    global trainerCount
+    global trainerSetNum
+    j = 0
+
+    for word in line.split(): #splits the words from the line
+        
+        if '*' in word:
+            continue  #ignores the *
+        elif word.isdigit():
+            if j == 0:
+                trainerCount.append(int(word))
+                j = 1
+            elif j == 1:
+                trainerSetNum.append(int(word))
+                j = 0
+                
+        elif word.isspace():
+            continue  #ignores spaces
+        else:
+            i += 1  #one at least one word was found
+            if i >= 1:  #if one word was found then we need to combine it with other words on line
+                test += word  #adds word to a temp string
+                test += " "
+                #print(i)
+                #print("Test is: "+ test)
+            if i > 1:  #All pokemon have a name and a set, so i would be greater than 1(ie name and set)
+                #pokemon.append(test) #adds the string to pokemon array
+                #### ****NEEDS DONE****  ####
+                #here we would want to split the set from the pokemon name(might be better to do it before this point, but we could have a setlist array and look for the set list and pull it out or something)
+                #and then create a pokemon object and add it's set number
+                #we may also want to call the lookup funtion to lookup the card
+                #in database and input all the other information
+                pass
+        #print("Line is: " + line)
+        #print("Word is: " + word)
+    trainers.append(test)
+
+def energyWordSplit(line, test, i):
+    global energy
+    global energyCount
+    global energySetNum
+    j = 0
+
+    for word in line.split(): #splits the words from the line
+        
+        if '*' in word:
+            continue  #ignores the *
+        elif word.isdigit():
+            if j == 0:
+                energyCount.append(int(word))
+                j = 1
+            elif j == 1:
+                energySetNum.append(int(word))
+                j = 0
+                
+        elif word.isspace():
+            continue  #ignores spaces
+        else:
+            i += 1  #one at least one word was found
+            if i >= 1:  #if one word was found then we need to combine it with other words on line
+                test += word  #adds word to a temp string
+                test += " "
+                #print(i)
+                #print("Test is: "+ test)
+            if i > 1:  #All pokemon have a name and a set, so i would be greater than 1(ie name and set)
+                #pokemon.append(test) #adds the string to pokemon array
+                #### ****NEEDS DONE****  ####
+                #here we would want to split the set from the pokemon name(might be better to do it before this point, but we could have a setlist array and look for the set list and pull it out or something)
+                #and then create a pokemon object and add it's set number
+                #we may also want to call the lookup funtion to lookup the card
+                #in database and input all the other information
+                pass
+        #print("Line is: " + line)
+        #print("Word is: " + word)
+    energy.append(test)    
 def deckList(filename):
     global pokemon
     flag = ''
@@ -78,38 +152,24 @@ def deckList(filename):
             print("Energies start here!")
 
         if flag == 'p' and '*' in line:  #checks for the flag and the * since that is how PCTGO does thier items in thier decklists
-##            #This should probably be split into a function since we will need to call it for each flag type
-##            for word in line.split(): #splits the words from the line
-##                if '*' in word:
-##                    continue  #ignores the *
-##                elif word.isdigit():
-##                    continue  #ignores the numbers
-##                elif word.isspace():
-##                    continue  #ignores spaces
-##                else:
-##                    i += 1  #one at least one word was found
-##                    if i >= 1:  #if one word was found then we need to combine it with other words on line
-##                        test += word  #adds word to a temp string
-##                        #print(i)
-##                        #print("Test is: "+ test)
-##                    if i > 1:  #All pokemon have a name and a set, so i would be greater than 1(ie name and set)
-##                        pokemon.append(test) #adds the string to pokemon array
-##                        #### ****NEEDS DONE****  ####
-##                        #here we would want to split the set from the pokemon name(might be better to do it before this point, but we could have a setlist array and look for the set list and pull it out or something)
-##                        #and then create a pokemon object and add it's set number
-##                        #we may also want to call the lookup funtion to lookup the card
-##                        #in database and input all the other information
-##                #print("Line is: " + line)
-##                #print("Word is: " + word)
-            wordSplit(line, test, i)
+
+            pkmnWordSplit(line, test, i)
+        elif flag == 't' and '*' in line:
+            trainerWordSplit(line, test, i)
+
+        elif flag == 'e' and '*' in line:
+            energyWordSplit(line, test, i)
     print(pokemon)
     print(" Length is: " + str(len(pokemon)))
     print(pkmnCount)
     print(" Length is: " + str(len(pkmnCount)))
     print(pkmnSetNum)
     print(" Length is: " + str(len(pkmnSetNum)))
+    print(trainers)
+    print(energy)
     file.close()
 
 
 filename = input("Enter a file name: ")
 deckList(filename)
+

@@ -78,6 +78,10 @@ def main():
 			break
 		print("Turn: " + str(turn))
 		player = ((turn + 1) % 2) + 1
+		if player = 1:
+			playerNum = 1
+		else:
+			playerNum = -1
 		displayBoard()
 		print("Player " + str(player) + " where do you want to move?")
 		flag = True
@@ -95,6 +99,21 @@ def main():
 		print("Player " + str(winner) + " wins")
 	else :
 		print("It's a tie")
+
+class Node(object):
+	def __init__(self, iDepth, iPlayerNum, iMovesLeft, iValue = 0):
+		self.iDepth = iDepth
+		self.iPlayerNum = iPlayerNum
+		self.iMovesLeft = iMovesLeft
+		self.iValue = iValue
+		self.children = []
+		self.createChildren()
+
+	def createChildren(self):
+		if self.iDepth >= 0:
+			for i in range (0,3):
+				for j in range(0,3):
+					
 
 if __name__ == "__main__":
 	main()

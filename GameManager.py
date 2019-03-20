@@ -559,8 +559,8 @@ class Gameboard():
                 self.playStadium(turn)
                 self.turn(turn)
             elif choice == 3:
-                #self.energyPlayed = True
                 self.playEnergy(turn)
+                self.energyPlayed = True
                 self.turn(turn)
             elif choice == 4:
                 self.playTool(turn)
@@ -595,7 +595,7 @@ class Gameboard():
             if choice == 1: #Play Basic
                 for i in range(len(self.oppHand)):
                     if self.oppIsBasic(i):
-                        print(i + " is valid")
+                        print(str(i) + " is valid")
                         self.playBasic(i, turn)
                         print("basic found")
                     else:
@@ -605,8 +605,8 @@ class Gameboard():
                 self.playStadium(turn)
                 self.turn(turn)
             elif choice == 3:
-                #self.energyPlayed = True
                 self.playEnergy(turn)
+                self.energyPlayed = True
                 self.turn(turn)
             elif choice == 4:
                 self.playTool(turn)

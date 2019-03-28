@@ -358,14 +358,23 @@ class Gameboard():
                 print("Player drew a mulligan!")
 
     ##  THINGS THAT CAN BE DONE DURING TURNS
-    def attack(self, turn):
+    def attack(self, turn, attackName, damage):
         ## Use one of the card's attack. This ends the turn
         ## Must have proper amount and type of energy
         #global turn
         if turn == 'p':
             print(self.oppActive[0].Name + " HP: " + str(self.oppActive[0].Hp))
             print(self.playerActive[0].Name + " deals " + str(self.playerActive[0].Attack_One_Damage) + " damage")
-            attacks.basicAttack(self.playerActive[0],self.oppActive[0],self.playerActive[0].Attack_One_Damage)
+            if attackName == "Dangerous Blow":
+                attacks.dangerousBlow(self.playerActive[0], self.oppActive[0], damage)
+            elif attackName == "Whimsy Tackle":
+                attacks.whimsyTackle(self.playerActive[0], self.oppActive[0], damage)
+            elif attackName == "Amnesia":
+                attacks.amnesia(self.playerActive[0], self.oppActive[0], damamge, 'o', randint(1,2)) #Currently does random choice
+            elif attackName == "Facade":
+                attacks.facade(self.playerActive[0], self.oppActive[0], damage, turn)
+            else:
+                attacks.basicAttack(self.playerActive[0],self.oppActive[0],self.playerActive[0].Attack_One_Damage)
             print(self.oppActive[0].Hp)
             if(self.oppActive[0].Hp <= 0):
                 print(self.oppActive[0].Name + " knocked out!")
@@ -383,7 +392,10 @@ class Gameboard():
         elif turn == 'o':
             print(self.playerActive[0].Name + " HP: " + str(self.playerActive[0].Hp))
             print(self.oppActive[0].Name + " deals " + str(self.oppActive[0].Attack_One_Damage) + " damage")
-            attacks.basicAttack(self.oppActive[0],self.playerActive[0],self.oppActive[0].Attack_One_Damage)
+            if :
+                pass
+            else:
+                attacks.basicAttack(self.oppActive[0],self.playerActive[0],self.oppActive[0].Attack_One_Damage)
             print(self.playerActive[0].Hp) 
             if(self.playerActive[0].Hp <= 0):
                 print(self.playerActive[0].Name + " knocked out!")

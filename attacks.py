@@ -11,6 +11,7 @@ def basicAttack(attacker, defender, damage):
 	attackDamage(defender, damage)
 
 def whimsyTackle(attacker, defender, damage):
+        ## Flip a coin. If tails, this attack does nothing. 
 	x = randint(0,1) #coin flip
 	damage = checkWeakness(attacker, defender, damage)
 	if x == 1:
@@ -19,6 +20,8 @@ def whimsyTackle(attacker, defender, damage):
 		print("tails, attack does no damage")
 
 def amnesia(attacker, defender, damage, player, choice):
+        ## Choose 1 of your opponent's Active Pokémon's attacks.
+        ## That Pokémon can't use that attack during your opponent's next turn.
 	damage = checkWeakness(attacker, defender, damage)
 	if player == 'p':
 		oppAttackNotAvail = choice
@@ -27,6 +30,7 @@ def amnesia(attacker, defender, damage, player, choice):
 	attackDamage(defender, damage)
 
 def facade(attacker, defender, damage, player):
+        ## If this Pokémon is Burned or Poisoned, this attack does 80 more damage. 
 	if player == 'p':
 		if playerBurned == True or playerPoisoned == True:
 			damage += 80
@@ -34,11 +38,15 @@ def facade(attacker, defender, damage, player):
 	attackDamage(attacker, defender, damage)
 
 def recklessCharge(attacker, defender, damage):
+        ## This Pokémon does 10 damage to itself.
 	damage = checkWeakness(attacker, defender, damage)
 	attackDamage(defender, damage)
 	attackDamage(attacker, 10)
 
 def agility(attacker, defender, damage, player):
+        ## Flip a coin. If heads, prevent all effects of attacks,
+        ## including damage, done to this Pokémon during your opponent's
+        ## next turn
 	if player == 'p':
 		playerAgility = True
 	else:
@@ -47,6 +55,8 @@ def agility(attacker, defender, damage, player):
 	attackDamage(attacker, damage)
 
 def swallowDive(attacker, defender, damage, player):
+        ## If this Pokémon used Agility during your last turn,
+        ## this attack does 80 more damage. 
 	if player == 'p':
 		if playerAgility == True:
 			damage += 80
@@ -58,6 +68,7 @@ def swallowDive(attacker, defender, damage, player):
 	attackDamage(defender, damage)
 
 def coreBeam(attacker, defender, damage, player):
+        ## Discard an M energy from this card
 	damage = checkWeakness(attacker, defender, damage)
 	for i in attacker.Energies:
 		if i.Name == "Metal Energy":
@@ -69,20 +80,25 @@ def coreBeam(attacker, defender, damage, player):
 	attackDamage(defender, damage)
 
 def dustGathering(player):
+        ## Draw a card.
 	if player == 'p':
 		playerDrawCard()
 	else:
 		oppDrawCard()
 
 def teleport(pokemonIndex, player):
+        ## Switch this Pokémon with 1 of your Benched Pokémon
 	switch(pokemonIndex, player)
 
 def shiningArrow(attacker, defender, location):
+        ## This attack does 50 damage to 1 of your opponent's Pokémon.
+        ## (Don't apply Weakness and Resistance for Benched Pokémon)
 	if location == 'active':
 		damage = checkWeakness(attacker, defender, damage)
 	attackDamage(defender, damage)
 
 def fangsOfTheSunne(attacker, defender, damage, player):
+        ## This Pokémon can't use Fangs of the Sunne during your next turn.
 	if player == 'p':
 		playerAttackNotAvail = 2
 	else:
@@ -91,12 +107,15 @@ def fangsOfTheSunne(attacker, defender, damage, player):
 	attackDamage(defender, damage)
 
 def dangerousBlow(attacker, defender, damage):
+        ## If your opponent's Active Pokémon is a Basic Pokémon,
+        ## this attack does 60 more damage. 
 	if defender.Stage == 0:
 		damage += 60
 	damage = checkWeakness(attacker, defender, damage)
 	attackDamage(defender, damage)
 
 def anchorShot(attacker, defender, damage, player):
+        ## The Defending Pokémon can't retreat during your opponent's next turn. 
 	if player == 'p':
 		oppCantRetreat = True
 	else:
@@ -105,6 +124,9 @@ def anchorShot(attacker, defender, damage, player):
 	attackDamage(defender, damage)
 
 def weatherTeller(attacker, player):
+        ## Search your deck for up to 2 Stadium cards, reveal them,
+        ## and put them into your hand.
+        ## Then, shuffle your deck. 
 	if player == 'p':
 		for i, e in reversed(list(enumerate(playerDeck))):
 			if e.Card_Type == "Stadium":
@@ -115,6 +137,7 @@ def weatherTeller(attacker, player):
 				oppHand.append(oppDeck.pop(i))
 
 def waterPulse(attacker, defender, damage, player):
+        ## You opponent's Active Pokémon is now Asleep.
 	if player == 'p':
 		oppAsleep = True
 	else:

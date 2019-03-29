@@ -14,9 +14,9 @@
 import SetListTest
 import GameManager
 
-import gameboard as display
+#import gameboard as display
 from setlists import SUM
-from PyQt5 import QtCore, QtGui, QtWidgets
+#from PyQt5 import QtCore, QtGui, QtWidgets
 import sys
 
 def GameLoop():
@@ -40,7 +40,7 @@ def GameLoop():
         #ui = display.Ui_MainWindow()
         gameboard = GameManager.Gameboard()
 
-        gui = display.Ui_MainWindow()
+        #gui = display.Ui_MainWindow()
 
         
 
@@ -201,11 +201,11 @@ def GameLoop():
         print("Player deck created")
 
 
-        def attackT():  #used to pass arguements
-                gui.attack(gameboard)
-        def retreatT():
-                gui.retreat(gameboard, 0)
-
+##        def attackT():  #used to pass arguements
+##                gui.attack(gameboard)
+##        def retreatT():
+##                gui.retreat(gameboard, 0)
+##
 
         gameboard.setup()
         #gameboard.playEnergy()
@@ -282,7 +282,7 @@ card4 = {'Name' : 'Metang',
         'Hp' : 90,
         'Power' : False,
         'Attack1Damage' : 20,
-        'Attack1Name' : 'Ram',
+        'Attack1Name' : '',
         'Attack1Cost' : 'C',
         'Attack2Damage' : 80,
         'Attack2Name' : 'Core Beam',
@@ -327,7 +327,7 @@ card7 = {'Name' : 'Slowpoke',
         'Hp' : 70,
         'Power' : False,
         'Attack1Damage' : 10,
-        'Attack1Name' : 'Headbutt',
+        'Attack1Name' : '',
         'Attack1Cost' : 'C',
         'Attack2Damage' : 60,
         'Attack2Name' : 'Whimsy Tackle',
@@ -357,7 +357,7 @@ card9 = {'Name' : 'Oricorio',
         'Hp' : 90,
         'Power' : True,
         'Attack1Damage' : 30,
-        'Attack1Name' : 'Casual Slap',
+        'Attack1Name' : '',
         'Attack1Cost' : 'PC',
         'Attack2Damage' : 0,
         'Attack2Name' : 'None',
@@ -387,10 +387,10 @@ card11 = {'Name' : 'Stufful',
         'Hp' : 70,
         'Power' : False,
         'Attack1Damage' : 10,
-        'Attack1Name' : 'Tackle',
+        'Attack1Name' : '',
         'Attack1Cost' : 'C',
         'Attack2Damage' : 60,
-        'Attack2Name' : 'Hammer In',
+        'Attack2Name' : '',
         'Attack2Cost' : 'CCC',
         'RetreatCost' : 2,
         'Weakness' : 'F',
@@ -443,53 +443,53 @@ card14 = {'Name' : 'Castform',
 
 card15 = {'Name' : 'Altar of the Sunne',
         'Card_Type' : 'Stadium',
-        'Name' : ''}
+        'Effect' : ''}
 
 card16 = {'Name' : 'Big Malasada',
         'Card_Type' : 'Item',
-        'Name' : ''}
+        'Effect' : ''}
 
 card17 = {'Name' : 'Energy Retrieval',
         'Card_Type' : 'Item',
-        'Name' : ''}
+        'Effect' : ''}
 
 card18 = {'Name' : 'Hau',
         'Card_Type' : 'Supporter',
-        'Name' : ''}
+        'Effect' : ''}
 
 card19 = {'Name' : 'Nest Ball',
         'Card_Type' : 'Item',
-        'Name' : ''}
+        'Effect' : ''}
 
 card20 = {'Name' : 'Professor Kukui',
         'Card_Type' : 'Supporter',
-        'Name' : ''}
+        'Effect' : ''}
 
 card21 = {'Name' : 'Rescue Stretcher',
         'Card_Type' : 'Item',
-        'Name' : ''}
+        'Effect' : ''}
 
 card22 = {'Name' : 'Switch',
         'Card_Type' : 'Item',
-        'Name' : ''}
+        'Effect' : ''}
 
 card23 = {'Name' : 'Timer Ball',
         'Card_Type' : 'Item',
-        'Name' : ''}
+        'Effect' : ''}
 
 card24 = {'Name' : 'Metal Energy',
         'Card_Type' : 'Energy',
-        'Name' : ''}
+        'Effect' : ''}
 
 card25 = {'Name' : 'Psychic Energy',
         'Card_Type' : 'Energy',
-        'Name' : ''}
+        'Effect' : ''}
 
 
 
 ## MAIN ##
 
-#GameLoop()
+GameLoop()
 
 
 

@@ -364,7 +364,7 @@ class Gameboard():
         #global turn
         if turn == 'p':
             print(self.oppActive[0].Name + " HP: " + str(self.oppActive[0].Hp))
-            print(self.playerActive[0].Name + " deals " + str(self.playerActive[0].Attack_One_Damage) + " damage")
+            print(self.playerActive[0].Name + " uses " + attackName + " deals " + str(self.playerActive[0].Attack_One_Damage) + " damage")
             if attackName == "Dangerous Blow":
                 attacks.dangerousBlow(self.playerActive[0], self.oppActive[0], damage)
             elif attackName == "Whimsy Tackle":
@@ -374,15 +374,15 @@ class Gameboard():
             elif attackName == "Facade":
                 attacks.facade(self.playerActive[0], self.oppActive[0], damage, turn)
             elif attackName == "Reckless Charge":
-                attacks.rechlessCharge(self.playerActive[0], self.oppActive[0], damage)
+                attacks.recklessCharge(self.playerActive[0], self.oppActive[0], damage)
             elif attackName == "Agility":
                 attacks.agility(self.playerActive[0], self.oppActive[0], damage, turn)
             elif attackName == "Swallow Dive":
                 attacks.swallowDive(self.playerActive[0], self.oppActive[0], damage, turn)
-            elif attackName == "Core Beam":
-                attacks.coreBeam(self.playerActive[0], self.oppActive[0], damage, turn)
+            #elif attackName == "Core Beam":
+            #    attacks.coreBeam(self, self.playerActive[0], self.oppActive[0], damage, turn)
             elif attackName == "Dust Gathering":
-                attacks.dustGathering(turn)
+                attacks.dustGathering(self,turn)
             elif attackName == "Teleport":
                 attacks.teleport(0, turn)  ### ONLY SWITCHES WITH FIRST BENCH SPOT CURRENTLY NEEDS CHNAGED
             elif attackName == "Shining Arrow":
@@ -392,7 +392,7 @@ class Gameboard():
             elif attackName == "Anchor Shot":
                 attacks.anchorShot(self.playerActive[0], self.oppActive[0], damage, turn)
             elif attackName == "Weather Teller":
-                attacks.weatherTeller(self.playerActive[0], turn)
+                attacks.weatherTeller(self, self.playerActive[0], turn)
             elif attackName == "Water Pulse":
                 attacks.waterPulse(self.playerActive[0], self.oppActive[0], damage, turn)
             else:
@@ -404,16 +404,17 @@ class Gameboard():
                     self.oppDiscard.append(self.oppActive.pop(0))
                     self.oppActive.append(self.oppBench.pop(0))
                     print(self.oppActive[0].Name + " moved to opponents active slot")
-                    self.playerHand.append(self.playerPrize[0])
+                    self.playerHand.append(self.playerPrize.pop(0))
                     print("player has " + str(len(self.playerPrize)) + " left")
                     if len(self.playerPrize) <= 0:
                         print("Player has taken all prizes - Player wins")
+                        sys.exit()
                 else:
                     print("opponent out of Pokemon - Player wins")
                     sys.exit()
         elif turn == 'o':
             print(self.playerActive[0].Name + " HP: " + str(self.playerActive[0].Hp))
-            print(self.oppActive[0].Name + " deals " + str(self.oppActive[0].Attack_One_Damage) + " damage")
+            print(self.oppActive[0].Name + " uses " + attackName + " deals "  + str(self.oppActive[0].Attack_One_Damage) + " damage")
             if attackName == "Dangerous Blow":
                 attacks.dangerousBlow(self.oppActive[0],self.playerActive[0] , damage)
             elif attackName == "Whimsy Tackle":
@@ -423,15 +424,15 @@ class Gameboard():
             elif attackName == "Facade":
                 attacks.facade(self.oppActive[0], self.playerActive[0], damage, turn)
             elif attackName == "Reckless Charge":
-                attacks.rechlessCharge(self.oppActive[0], self.playerActive[0], damage)
+                attacks.recklessCharge(self.oppActive[0], self.playerActive[0], damage)
             elif attackName == "Agility":
                 attacks.agility(self.oppActive[0], self.playerActive[0], damage, turn)
             elif attackName == "Swallow Dive":
                 attacks.swallowDive(self.oppActive[0], self.playerActive[0], damage, turn)
-            elif attackName == "Core Beam":
-                attacks.coreBeam(self.oppActive[0], self.playerActive[0], damage, turn)
+            #elif attackName == "Core Beam":
+            #    attacks.coreBeam(self, self.oppActive[0], self.playerActive[0], damage, turn)
             elif attackName == "Dust Gathering":
-                attacks.dustGathering(turn)
+                attacks.dustGathering(self, turn)
             elif attackName == "Teleport":
                 attacks.teleport(0, turn)  ### ONLY SWITCHES WITH FIRST BENCH SPOT CURRENTLY NEEDS CHNAGED
             elif attackName == "Shining Arrow":
@@ -441,7 +442,7 @@ class Gameboard():
             elif attackName == "Anchor Shot":
                 attacks.anchorShot(self.oppActive[0], self.playerActive[0], damage, turn)
             elif attackName == "Weather Teller":
-                attacks.weatherTeller(self.oppActive[0], turn)
+                attacks.weatherTeller(self, self.oppActive[0], turn)
             elif attackName == "Water Pulse":
                 attacks.waterPulse(self.oppActive[0], self.playerActive[0], damage, turn)
             else:
@@ -453,10 +454,11 @@ class Gameboard():
                 if len(self.playerBench) > 0:
                     self.playerActive.append(self.playerBench.pop(0))
                     print(self.playerActive[0].Name + " moved to players active slot")
-                    self.oppHand.append(self.oppPrize[0])
+                    self.oppHand.append(self.oppPrize.pop(0))
                     print("opponent has " + str(len(self.oppPrize)) + " left")
                     if len(self.oppPrize) <= 0:
                         print("Opponent has taken all prizes - Opponent wins")
+                        sys.exit()
                 else:
                     print("player out of Pokemon - opponent wins")
                     sys.exit()
@@ -494,17 +496,31 @@ class Gameboard():
         ## ONCE PER TURN (Typically)
         ## Plays an energy from hand to a pokemon
         temp = []
-        for i in range(len(self.playerHand)):
-            if self.playerHand[i].Card_Type == 'Energy':
-               temp.append(i)
-        if len(temp) > 0:
-            temp.sort(reverse = True)
-            for i in temp:
-                if self.energyPlayed == False:
-                    #print(self.playerHand[i].Name)
-                    self.playerActive[0].Energies.append(self.playerHand.pop(i))
-                    self.energyPlayed = True
-                    print("Energy played")
+        if turn == 'p':
+            for i in range(len(self.playerHand)):
+                if self.playerHand[i].Card_Type == 'Energy':
+                   temp.append(i)
+            if len(temp) > 0:
+                temp.sort(reverse = True)
+                for i in temp:
+                    if self.energyPlayed == False:
+                        #print(self.playerHand[i].Name)
+                        name = self.playerHand[i].Name
+                        self.playerActive[0].Energies.append(self.playerHand.pop(i))
+                        self.energyPlayed = True
+                        print(name + " played")
+        if turn == 'o':
+            for i in range(len(self.oppHand)):
+                if self.oppHand[i].Card_Type == 'Energy':
+                   temp.append(i)
+            if len(temp) > 0:
+                temp.sort(reverse = True)
+                for i in temp:
+                    if self.energyPlayed == False:
+                        name = self.oppHand[i].Name
+                        self.oppActive[0].Energies.append(self.oppHand.pop(i))
+                        self.energyPlayed = True
+                        print(name + " played")
         
     def playItem(self, turn):
         ## Plays an item from hand and does the effect
@@ -592,14 +608,14 @@ class Gameboard():
         # Player's Turn
         #self.winConditions()
         self.printHand(turn)
-        print("Menu")
-        print("1. Play Basic")
-        print("2. Play Stadium")
-        print("3. Play Energy")
-        print("4. Play Tool")
-        print("5. Play Supporter")
-        print("6. Play Attack")
-        print("7. End Turn")
+##        print("Menu")
+##        print("1. Play Basic")
+##        print("2. Play Stadium")
+##        print("3. Play Energy")
+##        print("4. Play Tool")
+##        print("5. Play Supporter")
+##        print("6. Play Attack")
+##        print("7. End Turn")
         #choice = int(input("What would you like to do?"))
         if turn == 'p':
             choice = ai.playerAI(self)
@@ -638,7 +654,7 @@ class Gameboard():
                 playSupporter(turn)
                 self.turn(turn)
             elif choice == 6:
-                atkNum = randint(1,2)
+                atkNum = random.randint(1,2)
                 if atkNum == 1:
                     self.attack(turn, self.playerActive[0].Attack_One_Name, self.playerActive[0].Attack_One_Damage)
                 elif atkNum == 2:
@@ -697,7 +713,16 @@ class Gameboard():
                 playSupporter(turn)
                 self.turn(turn)
             elif choice == 6:
-                self.attack(turn)
+                atkNum = random.randint(1,2)
+                if atkNum == 1:
+                    self.attack(turn, self.oppActive[0].Attack_One_Name, self.oppActive[0].Attack_One_Damage)
+                elif atkNum == 2:
+                    if self.oppActive[0].Attack_Two_Name == "None":
+                        self.attack(turn, self.oppActive[0].Attack_One_Name, self.oppActive[0].Attack_One_Damage)
+                    else:
+                        self.attack(turn, self.oppActive[0].Attack_Two_Name, self.oppActive[0].Attack_Two_Damage)
+                #self.attack(turn)
+ 
                 self.drawForTurn = False
                 self.energyPlayed = False
                 self.supporterPlayed = False

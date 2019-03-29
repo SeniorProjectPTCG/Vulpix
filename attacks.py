@@ -1,3 +1,4 @@
+import random
 def attackDamage(defender, damage):
 	defender.Hp -= damage
 
@@ -12,7 +13,7 @@ def basicAttack(attacker, defender, damage):
 
 def whimsyTackle(attacker, defender, damage):
         ## Flip a coin. If tails, this attack does nothing. 
-	x = randint(0,1) #coin flip
+	x = random.randint(0,1) #coin flip
 	damage = checkWeakness(attacker, defender, damage)
 	if x == 1:
 		attackDamage(defender, damage)
@@ -67,24 +68,27 @@ def swallowDive(attacker, defender, damage, player):
 	damage = checkWeakness(attacker, defender, damage)
 	attackDamage(defender, damage)
 
-def coreBeam(attacker, defender, damage, player):
+def coreBeam(self, attacker, defender, damage, player):
         ## Discard an M energy from this card
 	damage = checkWeakness(attacker, defender, damage)
+	j = 0
 	for i in attacker.Energies:
-		if i.Name == "Metal Energy":
-			x = i
+                if i.Name == "Metal Energy":
+                        x = j
+                j += 1
+                
 	if player == 'p':
-		playerDiscard.append(attacker.Energies.pop(x))
+		self.playerDiscard.append(attacker.Energies.pop(x))
 	else:
-		oppDiscard.append(attacker.Energies.pop(x))
+		self.oppDiscard.append(attacker.Energies.pop(x))
 	attackDamage(defender, damage)
 
-def dustGathering(player):
+def dustGathering(self, player):
         ## Draw a card.
 	if player == 'p':
-		playerDrawCard()
+		self.playerDrawCard()
 	else:
-		oppDrawCard()
+		self.oppDrawCard()
 
 def teleport(pokemonIndex, player):
         ## Switch this Pokémon with 1 of your Benched Pokémon
@@ -123,18 +127,18 @@ def anchorShot(attacker, defender, damage, player):
 	damage = checkWeakness(attacker, defender, damage)
 	attackDamage(defender, damage)
 
-def weatherTeller(attacker, player):
+def weatherTeller(self,attacker, player):
         ## Search your deck for up to 2 Stadium cards, reveal them,
         ## and put them into your hand.
         ## Then, shuffle your deck. 
 	if player == 'p':
-		for i, e in reversed(list(enumerate(playerDeck))):
+		for i, e in reversed(list(enumerate(self.playerDeck))):
 			if e.Card_Type == "Stadium":
-				playerHand.append(playerDeck.pop(i))
+				self.playerHand.append(self.playerDeck.pop(i))
 	else:
-		for i, e in reversed(list(enumerate(oppDeck))):
+		for i, e in reversed(list(enumerate(self.oppDeck))):
 			if e.Card_Type == "Stadium":
-				oppHand.append(oppDeck.pop(i))
+				self.oppHand.append(self.oppDeck.pop(i))
 
 def waterPulse(attacker, defender, damage, player):
         ## You opponent's Active Pokémon is now Asleep.

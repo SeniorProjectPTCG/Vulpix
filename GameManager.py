@@ -455,7 +455,7 @@ class Gameboard():
                     self.playerActive.append(self.playerBench.pop(0))
                     print(self.playerActive[0].Name + " moved to players active slot")
                     self.oppHand.append(self.oppPrize.pop(0))
-                    print("opponent has " + str(len(self.oppPrize)) + " left")
+                    print("opponent has " + str(len(self.oppPrize)) + "prizes left")
                     if len(self.oppPrize) <= 0:
                         print("Opponent has taken all prizes - Opponent wins")
                         sys.exit()

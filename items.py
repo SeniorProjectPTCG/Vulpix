@@ -1,119 +1,136 @@
-def nestBall(turn):
-	if turn == 'p':
-		for i in len(playerDeck):
-			choiceList = []
-			if playerDeck[i].isBasic:
-				choiceList.append(i)
-		counter = 1
-		for i in choiceList:
-			print(str(counter) + " " + str(playerDeck[i].Name))
-			counter += 1
-		input(choice)
-		playerBench.append(playerDeck.pop(choiceList[choice]))
-	elif turn == 'o':
-		for i in len(oppDeck):
-			choiceList = []
-			if oppDeck[i].isBasic:
-				choiceList.append(i)
-		counter = 1
-		for i in choiceList:
-			print(str(counter) + " " + str(oppDeck[i].Name))
-			counter += 1
-		input(choice)
-		oppBench.append(oppDeck.pop(choiceList[choice]))
+import random
 
-def timerBall(turn):
+def nestBall(self, turn):
+	if turn == 'p':
+		for i in len(self.playerDeck):
+			choiceList = []
+			if self.playerDeck[i].isBasic:
+				choiceList.append(i)
+		counter = 1
+		for i in choiceList:
+			print(str(counter) + " " + str(self.playerDeck[i].Name))
+			counter += 1
+		input(choice)
+		self.playerBench.append(self.playerDeck.pop(choiceList[choice]))
+	elif turn == 'o':
+		for i in len(self.oppDeck):
+			choiceList = []
+			if self.oppDeck[i].isBasic:
+				choiceList.append(i)
+		counter = 1
+		for i in choiceList:
+			print(str(counter) + " " + str(self.oppDeck[i].Name))
+			counter += 1
+		input(choice)
+		self.oppBench.append(self.oppDeck.pop(choiceList[choice]))
+
+def timerBall(self, turn):
 	counter = 0
 	for i in range(2):
-		x = randint(0,1)
+		x = random.randint(0,1)
 		if x == 1:
 			counter += 1
 	for i in range(counter):
 		choiceList = []
 		if turn == 'p':
-			for i in len(playerDeck):
-				if playerDeck[i].Card_Type == "Pokemon":
+			for i in len(self.playerDeck):
+				if self.playerDeck[i].Card_Type == "Pokemon":
 					choiceList.append(i)
 			for i in choiceList:
-				print(str(counter) + " " + str(playerDeck[i].Name))
+				print(str(counter) + " " + str(self.playerDeck[i].Name))
 				counter += 1
 			input(choice)
-			playerHand.append(playerDeck.pop[choiceList[choice]])
+			self.playerHand.append(self.playerDeck.pop[choiceList[choice]])
 		if turn == 'o':
-			for i in len(oppDeck):
-				if oppDeck[i].Card_Type == "Pokemon":
+			for i in len(self.oppDeck):
+				if self.oppDeck[i].Card_Type == "Pokemon":
 					choiceList.append(i)
 			for i in choiceList:
-				print(str(counter) + " " + str(oppDeck[i].Name))
+				print(str(counter) + " " + str(self.oppDeck[i].Name))
 				counter += 1
 			input(choice)
-			oppHand.append(oppDeck.pop[choiceList[choice]])
+			self.oppHand.append(self.oppDeck.pop[choiceList[choice]])
 
-def bigMalasada(turn):
+def bigMalasada(self, turn):
 	if turn == 'p':
-		playerActive[0].Hp += 20
-		playerBurned = False
-		playerParalyzed = False
-		playerPoisoned = False
-		playerAsleep = False
-		playerConfused = False
+		self.playerActive[0].Hp += 20
+		self.playerBurned = False
+		self.playerParalyzed = False
+		self.playerPoisoned = False
+		self.playerAsleep = False
+		self.playerConfused = False
 	elif turn == 'o':
-		oppActive[0].Hp += 20
-		oppBurned = False
-		oppParalyzed = False
-		oppPoisoned = False
-		oppAsleep = False
-		oppConfused = False
+		self.oppActive[0].Hp += 20
+		self.oppBurned = False
+		self.oppParalyzed = False
+		self.oppPoisoned = False
+		self.oppAsleep = False
+		self.oppConfused = False
 
-def energyRetreival(turn):
-	pass
+def energyRetreival(self, turn):
+	energyList = []
+	count = 0
+	if turn == 'p':
+		for i in len(self.playerDiscard):
+			if self.playerDiscard[i].Card_Type == "Energy":
+				energyList.append(i)
+		while (count < 2) and (len(energyList) > 0):
+			self.playerHand.append(self.playerDiscard.pop(energyList[0]))
+			count += 1
+	elif turn == 'o':
+		for i in len(self.oppDiscard):
+			if self.oppDiscard[i].Card_Type == "Energy":
+				energyList.append(i)
+		while (count < 2) and (len(energyList) > 0):
+			self.oppHand.append(self.oppDiscard.pop(energyList[0]))
+			count += 1
 
-def hau(turn):
+def hau(self, turn):
 	if turn == 'p':
 		for i in range(3):
-			playerDrawCard()
+			self.playerDrawCard()
 	elif turn == 'o':
 		for i in range(3):
-			oppDrawCard()
+			self.oppDrawCard()
 
 def professorKukui(turn):
 	if turn == 'p':
-		for i in range(2):
-			playerDrawCard()
+		for i in range(2): 
+			self.playerDrawCard()
 	if turn == 'o':
 		for i in range(2):
-			oppDrawCard()
+			self.oppDrawCard()
 	bonusDamage += 20
 
 # NEED TO CHECK IF POKEMON IN DISCARD BEFORE CALLING !!!
-def rescueStretcher(turn):
-	choice = randint(1,2)
+def rescueStretcher(self, turn):
+	choice = random.randint(1,2)
 	pokemonList = []
 	if turn == 'p':
-		for i in len(playerDiscard):
-			if playerDiscard[i].Card_Type == "Pokemon":
+		for i in len(self.playerDiscard):
+			if self.playerDiscard[i].Card_Type == "Pokemon":
 				pokemonList.append(i)
 		if choice == 1:
-			choice == randint(0,len(pokemonList))
-			playerHand.append(playerDiscard.pop(pokemonList[choice]))
+			choice == random.randint(0,len(pokemonList))
+			self.playerHand.append(self.playerDiscard.pop(pokemonList[choice]))
 		elif choice == 2:
 			count = 0
-			while (count < 4) or (len(pokemonList) > 0):
-				playerDeck.append(playerDiscard.pop(pokemonList[0]))
+			while (count < 4) and (len(pokemonList) > 0):
+				self.playerDeck.append(self.playerDiscard.pop(pokemonList[0]))
 				trash = pokemonList.pop(0)
 				count += 1
-			playerDeck.shuffle()
+			random.shuffle(self.playerdeck)
 	elif turn == 'o':
-		for i in len(oppDiscard):
-			if oppDiscard[i].Card_Type == "Pokemon":
+		for i in len(self.oppDiscard):
+			if self.oppDiscard[i].Card_Type == "Pokemon":
 				pokemonList.append(i)
 		if choice == 1:
-			choice == randint(0,len(pokemonList))
-			oppHand.append(oppDiscard.pop(pokemonList[choice]))
+			choice == random.randint(0,len(pokemonList))
+			self.oppHand.append(self.oppDiscard.pop(pokemonList[choice]))
 		elif choice == 2:
 			count = 0
 			while (count < 4) or (len(pokemonList) > 0):
-				oppDeck.append(oppDiscard.pop(pokemonList[0]))
+				self.oppDeck.append(self.oppDiscard.pop(pokemonList[0]))
 				trash = pokemonList.pop(0)
 				count += 1
-			oppDeck.shuffle()
+			random.shuffle(self.oppDeck) 

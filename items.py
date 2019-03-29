@@ -133,4 +133,28 @@ def rescueStretcher(self, turn):
 				self.oppDeck.append(self.oppDiscard.pop(pokemonList[0]))
 				trash = pokemonList.pop(0)
 				count += 1
-			random.shuffle(self.oppDeck) 
+			random.shuffle(self.oppDeck)
+
+def potion(self, turn):
+	if turn == 'p':
+		playerActive[0].Hp += 20
+	elif turn == 'o':
+		oppActive[0].Hp += 20
+
+def energyLoto(self, turn):
+	flag = False
+	count = 0
+	if turn == 'p':
+		while flag == false and count < 7:
+			if playerDeck[i].Card_Type == 'Energy':
+				playerHand.append(playerDeck.pop[i])
+				flag = True
+			count += 1
+		random.shuffle(playerDeck)
+	elif turn == 'o':
+		while flag == false and count < 7:
+			if oppDeck[i].Card_Type == 'Energy':
+				oppHand.append(oppDeck.pop[i])
+				flag = True
+			count += 1
+		random.shuffle(oppDeck)

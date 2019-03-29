@@ -112,6 +112,7 @@ class Gameboard():
     def playerDrawCard(self):
         if len(self.playerDeck) > 0:
             self.playerHand.append(self.playerDeck.pop(self.playerDeckIndex))
+            print("Player drew a Card!")
         else:
             print("player decked out - opponent wins")
             sys.exit()
@@ -221,6 +222,7 @@ class Gameboard():
     def oppDrawCard(self):
         if len(self.oppDeck) > 0:
             self.oppHand.append(self.oppDeck.pop(self.oppDeckIndex))
+            print("Opponent drew a Card!")
         else:
             print("opponent decked out - player wins")
             sys.exit()
@@ -346,6 +348,8 @@ class Gameboard():
             
             self.playerDrawCard()
             self.oppDrawCard()
+        for i in range(len(self.playerHand)):
+            print(self.playerHand[i].Name)
         self.playerSetUp()
         self.oppSetUp()
         if self.playerMulligan - self.oppMulligan > 0:
@@ -370,7 +374,7 @@ class Gameboard():
             elif attackName == "Whimsy Tackle":
                 attacks.whimsyTackle(self.playerActive[0], self.oppActive[0], damage)
             elif attackName == "Amnesia":
-                attacks.amnesia(self.playerActive[0], self.oppActive[0], damamge, 'o', randint(1,2)) #Currently does random choice
+                attacks.amnesia(self.playerActive[0], self.oppActive[0], damage, 'o', randint(1,2)) #Currently does random choice
             elif attackName == "Facade":
                 attacks.facade(self.playerActive[0], self.oppActive[0], damage, turn)
             elif attackName == "Reckless Charge":
@@ -455,7 +459,7 @@ class Gameboard():
                     self.playerActive.append(self.playerBench.pop(0))
                     print(self.playerActive[0].Name + " moved to players active slot")
                     self.oppHand.append(self.oppPrize.pop(0))
-                    print("opponent has " + str(len(self.oppPrize)) + "prizes left")
+                    print("opponent has " + str(len(self.oppPrize)) + " left")
                     if len(self.oppPrize) <= 0:
                         print("Opponent has taken all prizes - Opponent wins")
                         sys.exit()
@@ -475,21 +479,22 @@ class Gameboard():
         if turn == 'p':
             if loc == 'active':
                 if self.playerActive[0].Name == self.playerHand[pokemonIndex].PreEvolution: #Pokemon evolves into pokemon in active
-                    for i in range(len(self.playerActive.Energies),-1,-1):
-                        self.playerHand[pokemonIndex].Energies.append(self.playerActive.Energies.pop(i))
+                    for i in range(len(self.playerActive[0].Energies)-1,-1,-1):
+                        self.playerHand[pokemonIndex].Energies.append(self.playerActive[0].Energies.pop(i))
                     if len(self.playerActive[0].Tools) > 0:
                         self.playerHand[pokemonIndex].Tools.append(self.playerActive[0].Tools.pop(0))
                     self.playerHand[pokemonIndex].Pokemon.append(self.playerActive.pop(0))
-                    self.playerActive[0].append(self.playerHand[pokemonIndex])
-            elif loc == 'bench':
-                if self.playerBench[benchIndex].Name == self.playerHand[pokemonIndex].PreEvolution: #Pokemon evolves into pokemon in active
-                    for i in range(len(self.playerBench.Energies),-1,-1):
-                        self.playerHand[pokemonIndex].Energies.append(self.playerBench.Energies.pop(i))
-                    if len(self.playerBench[benchIndex].Tools) > 0:
-                        self.playerHand[pokemonIndex].Tools.append(self.playerBench[benchIndex].Tools.pop(0))
-                    self.playerHand[pokemonIndex].Pokemon.append(self.playerBench.pop(benchIndex))
-                    self.playerBench[benchIndex].append(self.playerHand[pokemonIndex])
-                # do the same for bench
+                    self.playerActive.append(self.playerHand[pokemonIndex])
+                    #self.playerHand.pop(pokemonIndex)
+##            elif loc == 'bench':
+##                if self.playerBench[benchIndex].Name == self.playerHand[pokemonIndex].PreEvolution: #Pokemon evolves into pokemon in bench
+##                    for i in range(len(self.playerBench[benchIndex].Energies)-1,-1,-1):
+##                        self.playerHand[pokemonIndex].Energies.append(self.playerBench[benchIndex].Energies.pop(i))
+##                    if len(self.playerBench[benchIndex].Tools) > 0:
+##                        self.playerHand[pokemonIndex].Tools.append(self.playerBench[benchIndex].Tools.pop(0))
+##                    self.playerHand[pokemonIndex].Pokemon.append(self.playerBench.pop(benchIndex))
+##                    self.playerBench[benchIndex].append(self.playerHand[pokemonIndex])
+##                # do the same for bench
 
     
     def playEnergy(self, turn):
@@ -607,7 +612,8 @@ class Gameboard():
         # Check for statuses(Mainly ones that happen between turns)
         # Player's Turn
         #self.winConditions()
-        self.printHand(turn)
+        print("New Turn STARTED!!!")
+        
 ##        print("Menu")
 ##        print("1. Play Basic")
 ##        print("2. Play Stadium")
@@ -618,12 +624,14 @@ class Gameboard():
 ##        print("7. End Turn")
         #choice = int(input("What would you like to do?"))
         if turn == 'p':
-            choice = ai.playerAI(self)
-            print("Player AI chose ", choice)
-            ## SHOULD CHECK FOR THINGS BEFORE CALLING FUNCTIONS OR THAT SHOULD BE WHAT WE DO I THINK
             if not self.drawForTurn:
                 self.playerDrawCard()
                 self.drawForTurn = True
+            self.printHand(turn)
+            choice = ai.playerAI(self)
+            print("Player AI chose ", choice)
+            ## SHOULD CHECK FOR THINGS BEFORE CALLING FUNCTIONS OR THAT SHOULD BE WHAT WE DO I THINK
+
             if choice == 1: #Play Basic
                 i = 0
                 while i < len(self.playerHand):
@@ -677,13 +685,31 @@ class Gameboard():
                 self.stadiumPlayed = False
                 self.turn("o")
 
+            elif choice == 8:
+                #Evolve
+                for i in range(len(self.playerHand)):
+                    if self.playerHand[i].Card_Type == "Pokemon" and self.playerHand[i].Stage > 0:
+                        if self.playerHand[i].PreEvolution == self.playerActive[0].Name:
+                            self.evolve(i, "active", 0, turn)
+                            index = i
+                        else:
+                            for j in range(len(self.playerBench)):
+                                if self.playerBench[j].Name == self.playerHand[i].PreEvolution:
+                                    self.evolve(i, "bench", j, turn)
+                self.playerHand.pop(index)
+                self.turn(turn)
+                            
+                        
+                
+
         # Opponent's Turn
         elif turn == 'o':
-            choice = ai.oppAI(self)
-            print("Opponent AI chose ", choice)
             if not self.drawForTurn:
                 self.oppDrawCard()
                 self.drawForTurn = True
+            choice = ai.oppAI(self)
+            print("Opponent AI chose ", choice)
+            
             if choice == 1: #Play Basic
                 i = 0
                 while i < len(self.oppHand):
@@ -744,6 +770,7 @@ class Gameboard():
         ## Opponent Win Conditions ##
         if len(playerActive) <= 0 and len(playerBench) <= 0:
             print("Opponent wins!")
+
             sys.exit()
         if len(oppPrize) <= 0:
             print("Opponent wins!")
@@ -794,6 +821,8 @@ class Card():
         self.Card_Type = obj['Card_Type']
         if self.Card_Type == 'Pokemon':
             self.Stage = obj['Stage']
+            if self.Stage > 0:
+                self.PreEvolution = obj['PreEvolution']
             self.Hp = obj['Hp']
             self.Power = obj['Power']
             self.Attack_One_Damage = obj['Attack1Damage']

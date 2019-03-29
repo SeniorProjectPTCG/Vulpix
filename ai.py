@@ -7,6 +7,9 @@ def playerAI(gameboard):
 		elif gameboard.playerHand[i].Card_Type == "Energy":
 			if gameboard.energyPlayed == False:
 				return 3
+		elif gameboard.playerHand[i].Card_Type == "Pokemon" and gameboard.playerHand[i].Stage > 0:
+                        if gameboard.playerHand[i].PreEvolution == gameboard.playerActive[0].Name:
+                                return 8
 	return 6
 def oppAI(gameboard):
 	for i in range(len(gameboard.oppHand)):

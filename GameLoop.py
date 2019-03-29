@@ -244,7 +244,7 @@ card1 = {'Name' : 'Solgaleo',
         'RetreatCost' : 3,
         'Weakness' : 'R',
         'Resistance' : 'P',
-        'Pokemon_Type' : ''}
+        'Pokemon_Type' : 'M'}
 
 
 
@@ -263,7 +263,7 @@ card2 = {'Name' : 'Cosmoem',
         'RetreatCost' : 3,
         'Weakness' : 'P',
         'Resistance' : '',
-        'Pokemon_Type' : ''}
+        'Pokemon_Type' : 'P'}
 
 card3 = {'Name' : 'Cosmog',
         'Card_Type' : 'Pokemon',
@@ -279,7 +279,7 @@ card3 = {'Name' : 'Cosmog',
         'RetreatCost' : 1,
         'Weakness' : 'P',
         'Resistance' : '',
-        'Pokemon_Type' : ''}
+        'Pokemon_Type' : 'P'}
 
 card4 = {'Name' : 'Metang',
         'Card_Type' : 'Pokemon',
@@ -296,7 +296,7 @@ card4 = {'Name' : 'Metang',
         'RetreatCost' : 3,
         'Weakness' : 'R',
         'Resistance' : 'P',
-        'Pokemon_Type' : ''}
+        'Pokemon_Type' : 'M'}
 
 card5 = {'Name' : 'Beldum',
         'Card_Type' : 'Pokemon',
@@ -312,7 +312,7 @@ card5 = {'Name' : 'Beldum',
         'RetreatCost' : 1,
         'Weakness' : 'R',
         'Resistance' : 'P',
-        'Pokemon_Type' : ''}
+        'Pokemon_Type' : 'M'}
 
 card6 = {'Name' : 'Slowbro',
         'Card_Type' : 'Pokemon',
@@ -329,7 +329,7 @@ card6 = {'Name' : 'Slowbro',
         'RetreatCost' : 3,
         'Weakness' : 'P',
         'Resistance' : '',
-        'Pokemon_Type' : ''}
+        'Pokemon_Type' : 'P'}
 
 card7 = {'Name' : 'Slowpoke',
         'Card_Type' : 'Pokemon',
@@ -345,7 +345,7 @@ card7 = {'Name' : 'Slowpoke',
         'RetreatCost' : 3,
         'Weakness' : 'P',
         'Resistance' : '',
-        'Pokemon_Type' : ''}
+        'Pokemon_Type' : 'P'}
 
 card8 = {'Name' : 'Dhelmise',
         'Card_Type' : 'Pokemon',
@@ -361,7 +361,7 @@ card8 = {'Name' : 'Dhelmise',
         'RetreatCost' : 2,
         'Weakness' : 'D',
         'Resistance' : 'F',
-        'Pokemon_Type' : ''}
+        'Pokemon_Type' : 'P'}
 
 card9 = {'Name' : 'Oricorio',
         'Card_Type' : 'Pokemon',
@@ -377,7 +377,7 @@ card9 = {'Name' : 'Oricorio',
         'RetreatCost' : 1,
         'Weakness' : 'P',
         'Resistance' : '',
-        'Pokemon_Type' : ''}
+        'Pokemon_Type' : 'P'}
 
 card10 = {'Name' : 'Bewear',
         'Card_Type' : 'Pokemon',
@@ -394,7 +394,7 @@ card10 = {'Name' : 'Bewear',
         'RetreatCost' : 2,
         'Weakness' : 'F',
         'Resistance' : '',
-        'Pokemon_Type' : ''}
+        'Pokemon_Type' : 'C'}
 
 card11 = {'Name' : 'Stufful',
         'Card_Type' : 'Pokemon',
@@ -410,7 +410,7 @@ card11 = {'Name' : 'Stufful',
         'RetreatCost' : 2,
         'Weakness' : 'F',
         'Resistance' : '',
-        'Pokemon_Type' : ''}
+        'Pokemon_Type' : 'C'}
 
 card12 = {'Name' : 'Swellow',
         'Card_Type' : 'Pokemon',
@@ -427,7 +427,7 @@ card12 = {'Name' : 'Swellow',
         'RetreatCost' : 1,
         'Weakness' : 'L',
         'Resistance' : 'F',
-        'Pokemon_Type' : ''}
+        'Pokemon_Type' : 'C'}
 
 card13 = {'Name' : 'Taillow',
         'Card_Type' : 'Pokemon',
@@ -443,7 +443,7 @@ card13 = {'Name' : 'Taillow',
         'RetreatCost' : 1,
         'Weakness' : 'L',
         'Resistance' : 'F',
-        'Pokemon_Type' : ''}
+        'Pokemon_Type' : 'C'}
 
 card14 = {'Name' : 'Castform',
         'Card_Type' : 'Pokemon',
@@ -459,7 +459,7 @@ card14 = {'Name' : 'Castform',
         'RetreatCost' : 1,
         'Weakness' : 'F',
         'Resistance' : '',
-        'Pokemon_Type' : ''}
+        'Pokemon_Type' : 'C'}
 
 card15 = {'Name' : 'Altar of the Sunne',
         'Card_Type' : 'Stadium',

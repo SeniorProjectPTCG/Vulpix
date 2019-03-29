@@ -373,6 +373,28 @@ class Gameboard():
                 attacks.amnesia(self.playerActive[0], self.oppActive[0], damamge, 'o', randint(1,2)) #Currently does random choice
             elif attackName == "Facade":
                 attacks.facade(self.playerActive[0], self.oppActive[0], damage, turn)
+            elif attackName == "Reckless Charge":
+                attacks.rechlessCharge(self.playerActive[0], self.oppActive[0], damage)
+            elif attackName == "Agility":
+                attacks.agility(self.playerActive[0], self.oppActive[0], damage, turn)
+            elif attackName == "Swallow Dive":
+                attacks.swallowDive(self.playerActive[0], self.oppActive[0], damage, turn)
+            elif attackName == "Core Beam":
+                attacks.coreBeam(self.playerActive[0], self.oppActive[0], damage, turn)
+            elif attackName == "Dust Gathering":
+                attacks.dustGathering(turn)
+            elif attackName == "Teleport":
+                attacks.teleport(0, turn)  ### ONLY SWITCHES WITH FIRST BENCH SPOT CURRENTLY NEEDS CHNAGED
+            elif attackName == "Shining Arrow":
+                attacks.shiningArrow(self.playerActive[0], self.oppActive[0], "active") #NEEDS SUPPORT FOR BENCH
+            elif attackName == "Fangs of the Sunne":
+                attacks.fangsOfTheSunne(self.playerActive[0], self.oppActive[0], damage, turn)
+            elif attackName == "Anchor Shot":
+                attacks.anchorShot(self.playerActive[0], self.oppActive[0], damage, turn)
+            elif attackName == "Weather Teller":
+                attacks.weatherTeller(self.playerActive[0], turn)
+            elif attackName == "Water Pulse":
+                attacks.waterPulse(self.playerActive[0], self.oppActive[0], damage, turn)
             else:
                 attacks.basicAttack(self.playerActive[0],self.oppActive[0],self.playerActive[0].Attack_One_Damage)
             print(self.oppActive[0].Hp)
@@ -392,8 +414,36 @@ class Gameboard():
         elif turn == 'o':
             print(self.playerActive[0].Name + " HP: " + str(self.playerActive[0].Hp))
             print(self.oppActive[0].Name + " deals " + str(self.oppActive[0].Attack_One_Damage) + " damage")
-            if :
-                pass
+            if attackName == "Dangerous Blow":
+                attacks.dangerousBlow(self.oppActive[0],self.playerActive[0] , damage)
+            elif attackName == "Whimsy Tackle":
+                attacks.whimsyTackle(self.oppActive[0], self.playerActive[0], damage)
+            elif attackName == "Amnesia":
+                attacks.amnesia(self.oppActive[0], self.playerActive[0], damamge, turn, randint(1,2)) #Currently does random choice
+            elif attackName == "Facade":
+                attacks.facade(self.oppActive[0], self.playerActive[0], damage, turn)
+            elif attackName == "Reckless Charge":
+                attacks.rechlessCharge(self.oppActive[0], self.playerActive[0], damage)
+            elif attackName == "Agility":
+                attacks.agility(self.oppActive[0], self.playerActive[0], damage, turn)
+            elif attackName == "Swallow Dive":
+                attacks.swallowDive(self.oppActive[0], self.playerActive[0], damage, turn)
+            elif attackName == "Core Beam":
+                attacks.coreBeam(self.oppActive[0], self.playerActive[0], damage, turn)
+            elif attackName == "Dust Gathering":
+                attacks.dustGathering(turn)
+            elif attackName == "Teleport":
+                attacks.teleport(0, turn)  ### ONLY SWITCHES WITH FIRST BENCH SPOT CURRENTLY NEEDS CHNAGED
+            elif attackName == "Shining Arrow":
+                attacks.shiningArrow(self.oppActive[0], self.playerActive[0], "active") #NEEDS SUPPORT FOR BENCH
+            elif attackName == "Fangs of the Sunne":
+                attacks.fangsOfTheSunne(self.oppActive[0], self.playerActive[0], damage, turn)
+            elif attackName == "Anchor Shot":
+                attacks.anchorShot(self.oppActive[0], self.playerActive[0], damage, turn)
+            elif attackName == "Weather Teller":
+                attacks.weatherTeller(self.oppActive[0], turn)
+            elif attackName == "Water Pulse":
+                attacks.waterPulse(self.oppActive[0], self.playerActive[0], damage, turn)
             else:
                 attacks.basicAttack(self.oppActive[0],self.playerActive[0],self.oppActive[0].Attack_One_Damage)
             print(self.playerActive[0].Hp) 
@@ -588,7 +638,15 @@ class Gameboard():
                 playSupporter(turn)
                 self.turn(turn)
             elif choice == 6:
-                self.attack(turn)
+                atkNum = randint(1,2)
+                if atkNum == 1:
+                    self.attack(turn, self.playerActive[0].Attack_One_Name, self.playerActive[0].Attack_One_Damage)
+                elif atkNum == 2:
+                    if self.playerActive[0].Attack_Two_Name == "None":
+                        self.attack(turn, self.playerActive[0].Attack_One_Name, self.playerActive[0].Attack_One_Damage)
+                    else:
+                        self.attack(turn, self.playerActive[0].Attack_Two_Name, self.playerActive[0].Attack_Two_Damage)
+                #self.attack(turn)
                 self.drawForTurn = False
                 self.energyPlayed = False
                 self.supporterPlayed = False
@@ -687,10 +745,10 @@ class Card():
     #Basic = False
     Hp = 0
     Attack_One_Damage = 0
-    Attack_One_Effect = ''
+    Attack_One_Nme = ''
     Attack_One_Cost = ''
     Attack_Two_Damage = 0
-    Attack_Two_Effect = ''
+    Attack_Two_Name = ''
     Attack_Two_Cost = ''
     
     RetreatCost = 0
@@ -714,10 +772,10 @@ class Card():
             self.Hp = obj['Hp']
             self.Power = obj['Power']
             self.Attack_One_Damage = obj['Attack1Damage']
-            self.Attack_One_Effect = obj['Attack1Effect']
+            self.Attack_One_Name = obj['Attack1Name']
             self.Attack_One_Cost = obj['Attack1Cost']
-            #self.Attack_Two_Damage = obj['Attack2Damage']
-            self.Attack_Two_Effect = obj['Attack2Effect']
+            self.Attack_Two_Damage = obj['Attack2Damage']
+            self.Attack_Two_Name = obj['Attack2Name']
             self.Attack_Two_Cost = obj['Attack2Cost']
             self.Retreat_Cost = obj['RetreatCost']
             self.Weakness = obj['Weakness']

@@ -520,24 +520,24 @@ class Gameboard():
             if supporterPlayed == False:
                 for i in range(len(oppHand)):
                     if oppHand[i].Card_Type == "Supporter":
-                        legalMoves.append(self.playSupporter(turn, i))
+                        legalMoves.append((self.playSupporter,turn, i))
             if energyPlayed == False:
                 for i in range(len(oppHand)):
                     if oppHand[i].Card_Type == "Energy":
-                        legalMoves.append(self.playEnergy(turn))
+                        legalMoves.append((self.playEnergy,turn))
             for i in range(len(oppHand)):
                 if oppHand[i].Card_Type == "Pokemon":
                     if oppHand[i].Stage == 0 and len(oppBench) < 5:
-                        legalMoves.append(self.playBasic(turn, i))
+                        legalMoves.append((self.playBasic,turn, i))
                     elif self.oppHand[i].Card_Type == "Pokemon" and self.oppHand[i].Stage > 0:
                         if self.oppHand[i].PreEvolution == self.oppActive[0].Name:
-                            legalMoves.append(self.evolve(i, "active", 0, turn))
+                            legalMoves.append((self.evolve,i, "active", 0, turn))
                         else:
                             for j in range(len(self.oppBench)):
                                 if self.oppBench[j].Name == self.oppHand[i].PreEvolution:
-                                    legalMoves.append(self.evolve(i, "bench", j, turn))
+                                    legalMoves.append((self.evolve,i, "bench", j, turn))
                 elif oppHand[i].Card_Type == "Item":
-                    legalMoves.append(self.playItem(turn, i))
+                    legalMoves.append((self.playItem,turn, i))
         return legalMoves
     #stadiumPlayed = False
     

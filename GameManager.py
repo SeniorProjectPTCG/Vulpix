@@ -376,14 +376,13 @@ class Gameboard():
                 if len(test) != 0:
                     test.pop(0)
                     count += 1
-        print("Energy count is: " + str(count))
+        
         if count == len(cost):
             print("Has enough energy to attack")
             return True
         else:
             print("Does not have enough energy to attack")
-            for i in range(len(attached)):
-                print(attached[i].Name)
+            
             return False
 
     ##  THINGS THAT CAN BE DONE DURING TURNS
@@ -430,6 +429,8 @@ class Gameboard():
                 print(self.oppActive[0].Hp)
                 if(self.oppActive[0].Hp <= 0):
                     print(self.oppActive[0].Name + " knocked out!")
+                    for i in reversed(range(len(self.oppActive[0].Energies))):
+                        self.oppDiscard.append(self.oppActive[0].Energies.pop(i))
                     if len(self.oppBench) > 0:
                         self.oppDiscard.append(self.oppActive.pop(0))
                         self.oppActive.append(self.oppBench.pop(0))
@@ -481,6 +482,8 @@ class Gameboard():
                 print(self.playerActive[0].Hp) 
                 if(self.playerActive[0].Hp <= 0):
                     print(self.playerActive[0].Name + " knocked out!")
+                    for i in reversed(range(len(self.playerActive[0].Energies))):
+                        self.playerDiscard.append(self.playerActive[0].Energies.pop(i))
                     self.playerDiscard.append(self.playerActive.pop(0))
                     if len(self.playerBench) > 0:
                         self.playerActive.append(self.playerBench.pop(0))
@@ -588,16 +591,18 @@ class Gameboard():
             if self.playerHand[index].Card_Type == "Energy":
                 print("Player attached " + self.playerHand[index].Name)
                 self.playerActive[0].Energies.append(self.playerHand.pop(index))
-            for i in range(len(self.playerActive[0].Energies)):
-                print(self.playerActive[0].Energies[i].Name)
-            print(len(self.playerActive[0].Energies))
+            if debug:
+                for i in range(len(self.playerActive[0].Energies)):
+                    print(self.playerActive[0].Energies[i].Name)
+                print("Player's Energy count is " + str(len(self.playerActive[0].Energies)))
         if turn == 'o':
             if self.oppHand[index].Card_Type == "Energy":
                 print("Opponent attached " + self.oppHand[index].Name)
                 self.oppActive[0].Energies.append(self.oppHand.pop(index))
-            for i in range(len(self.oppActive[0].Energies)):
-                print(self.oppActive[0].Energies[i].Name)
-            print(len(self.oppActive[0].Energies))
+            if debug:
+                for i in range(len(self.oppActive[0].Energies)):
+                    print(self.oppActive[0].Energies[i].Name)
+                print("Opponent's Energy count is " + str(len(self.oppActive[0].Energies)))
 ##        temp = []
 ##        if turn == 'p':
 ##            for i in range(len(self.playerHand)):
@@ -710,7 +715,7 @@ class Gameboard():
         # Check for statuses(Mainly ones that happen between turns)
         # Player's Turn
         #self.winConditions()
-        print("New Turn STARTED!!!")
+        print("\n\nNew Turn STARTED!!!")
         
 ##        print("Menu")
 ##        print("1. Play Basic")
@@ -725,7 +730,8 @@ class Gameboard():
             if not self.drawForTurn:
                 self.playerDrawCard()
                 self.drawForTurn = True
-            self.printHand(turn)
+            if debug:
+                self.printHand(turn)
             print("Getting moves")
             #print(self.getMoves(turn))
             choice = ai.playerAI(self)
@@ -753,7 +759,10 @@ class Gameboard():
                 i = 0
                 while self.playerHand[i].Card_Type != "Energy":
                     i += 1
-                self.playEnergy(turn, i)
+                if self.energyPlayed == False:
+                    self.playEnergy(turn, i)
+                else:
+                    print("Energy already played!")
                 self.energyPlayed = True
                 self.turn(turn)
             elif choice == 4:

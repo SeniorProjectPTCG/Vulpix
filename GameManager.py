@@ -359,111 +359,141 @@ class Gameboard():
                 self.playerDrawCard()
                 print("Player drew a mulligan!")
 
+    def checkEnergyCost(self, cost, attached):
+        print("Checking energy costs...")
+        test = attached.copy()
+        count = 0
+        for i in cost:
+            if i == "M":
+                if "Metal Energy" in test:
+                    test.remove("Metal Energy")
+                    count += 1
+            elif i == "P":
+                if "Psychic Energy" in test:
+                    test.remove("Psychic Energy")
+                    count += 1
+            else:
+                if len(test) != 0:
+                    test.pop(0)
+                    count += 1
+        print("Energy count is: " + str(count))
+        if count == len(cost):
+            print("Has enough energy to attack")
+            return True
+        else:
+            print("Does not have enough energy to attack")
+            for i in range(len(attached)):
+                print(attached[i].Name)
+            return False
+
     ##  THINGS THAT CAN BE DONE DURING TURNS
-    def attack(self, turn, attackName, damage):
+    def attack(self, turn, attackName, damage, cost):
         ## Use one of the card's attack. This ends the turn
         ## Must have proper amount and type of energy
         #global turn
         if turn == 'p':
-            print(self.oppActive[0].Name + " HP: " + str(self.oppActive[0].Hp))
-            print(self.playerActive[0].Name + " uses " + attackName + " deals " + str(self.playerActive[0].Attack_One_Damage) + " damage")
-            if attackName == "Dangerous Blow":
-                attacks.dangerousBlow(self.playerActive[0], self.oppActive[0], damage)
-            elif attackName == "Whimsy Tackle":
-                attacks.whimsyTackle(self.playerActive[0], self.oppActive[0], damage)
-            elif attackName == "Amnesia":
-                attacks.amnesia(self.playerActive[0], self.oppActive[0], damage, 'o', randint(1,2)) #Currently does random choice
-            elif attackName == "Facade":
-                attacks.facade(self.playerActive[0], self.oppActive[0], damage, turn)
-            elif attackName == "Reckless Charge":
-                attacks.recklessCharge(self.playerActive[0], self.oppActive[0], damage)
-            elif attackName == "Agility":
-                attacks.agility(self.playerActive[0], self.oppActive[0], damage, turn)
-            elif attackName == "Swallow Dive":
-                attacks.swallowDive(self.playerActive[0], self.oppActive[0], damage, turn)
-            #elif attackName == "Core Beam":
-            #    attacks.coreBeam(self, self.playerActive[0], self.oppActive[0], damage, turn)
-            elif attackName == "Dust Gathering":
-                attacks.dustGathering(self,turn)
-            elif attackName == "Teleport":
-                attacks.teleport(0, turn)  ### ONLY SWITCHES WITH FIRST BENCH SPOT CURRENTLY NEEDS CHNAGED
-            elif attackName == "Shining Arrow":
-                attacks.shiningArrow(self.playerActive[0], self.oppActive[0], "active") #NEEDS SUPPORT FOR BENCH
-            elif attackName == "Fangs of the Sunne":
-                attacks.fangsOfTheSunne(self.playerActive[0], self.oppActive[0], damage, turn)
-            elif attackName == "Anchor Shot":
-                attacks.anchorShot(self.playerActive[0], self.oppActive[0], damage, turn)
-            elif attackName == "Weather Teller":
-                attacks.weatherTeller(self, self.playerActive[0], turn)
-            elif attackName == "Water Pulse":
-                attacks.waterPulse(self.playerActive[0], self.oppActive[0], damage, turn)
-            else:
-                attacks.basicAttack(self.playerActive[0],self.oppActive[0],self.playerActive[0].Attack_One_Damage)
-            print(self.oppActive[0].Hp)
-            if(self.oppActive[0].Hp <= 0):
-                print(self.oppActive[0].Name + " knocked out!")
-                if len(self.oppBench) > 0:
-                    self.oppDiscard.append(self.oppActive.pop(0))
-                    self.oppActive.append(self.oppBench.pop(0))
-                    print(self.oppActive[0].Name + " moved to opponents active slot")
-                    self.playerHand.append(self.playerPrize.pop(0))
-                    print("player has " + str(len(self.playerPrize)) + " left")
-                    if len(self.playerPrize) <= 0:
-                        print("Player has taken all prizes - Player wins")
-                        sys.exit()
+            if self.checkEnergyCost(cost, self.playerActive[0].Energies):
+                print(self.oppActive[0].Name + " HP: " + str(self.oppActive[0].Hp))
+                print(self.playerActive[0].Name + " uses " + attackName + " deals " + str(self.playerActive[0].Attack_One_Damage) + " damage")
+                if attackName == "Dangerous Blow":
+                    attacks.dangerousBlow(self.playerActive[0], self.oppActive[0], damage)
+                elif attackName == "Whimsy Tackle":
+                    attacks.whimsyTackle(self.playerActive[0], self.oppActive[0], damage)
+                elif attackName == "Amnesia":
+                    attacks.amnesia(self.playerActive[0], self.oppActive[0], damage, 'o', random.randint(1,2)) #Currently does random choice
+                elif attackName == "Facade":
+                    attacks.facade(self.playerActive[0], self.oppActive[0], damage, turn)
+                elif attackName == "Reckless Charge":
+                    attacks.recklessCharge(self.playerActive[0], self.oppActive[0], damage)
+                elif attackName == "Agility":
+                    attacks.agility(self.playerActive[0], self.oppActive[0], damage, turn)
+                elif attackName == "Swallow Dive":
+                    attacks.swallowDive(self.playerActive[0], self.oppActive[0], damage, turn)
+                #elif attackName == "Core Beam":
+                #    attacks.coreBeam(self, self.playerActive[0], self.oppActive[0], damage, turn)
+                elif attackName == "Dust Gathering":
+                    attacks.dustGathering(self,turn)
+                elif attackName == "Teleport":
+                    attacks.teleport(0, turn)  ### ONLY SWITCHES WITH FIRST BENCH SPOT CURRENTLY NEEDS CHNAGED
+                elif attackName == "Shining Arrow":
+                    attacks.shiningArrow(self.playerActive[0], self.oppActive[0], "active") #NEEDS SUPPORT FOR BENCH
+                elif attackName == "Fangs of the Sunne":
+                    attacks.fangsOfTheSunne(self.playerActive[0], self.oppActive[0], damage, turn)
+                elif attackName == "Anchor Shot":
+                    attacks.anchorShot(self.playerActive[0], self.oppActive[0], damage, turn)
+                elif attackName == "Weather Teller":
+                    attacks.weatherTeller(self, self.playerActive[0], turn)
+                elif attackName == "Water Pulse":
+                    attacks.waterPulse(self.playerActive[0], self.oppActive[0], damage, turn)
                 else:
-                    print("opponent out of Pokemon - Player wins")
-                    sys.exit()
+                    attacks.basicAttack(self.playerActive[0],self.oppActive[0],self.playerActive[0].Attack_One_Damage)
+                print(self.oppActive[0].Hp)
+                if(self.oppActive[0].Hp <= 0):
+                    print(self.oppActive[0].Name + " knocked out!")
+                    if len(self.oppBench) > 0:
+                        self.oppDiscard.append(self.oppActive.pop(0))
+                        self.oppActive.append(self.oppBench.pop(0))
+                        print(self.oppActive[0].Name + " moved to opponents active slot")
+                        self.playerHand.append(self.playerPrize.pop(0))
+                        print("player has " + str(len(self.playerPrize)) + " left")
+                        if len(self.playerPrize) <= 0:
+                            print("Player has taken all prizes - Player wins")
+                            sys.exit()
+                    else:
+                        print("opponent out of Pokemon - Player wins")
+                        sys.exit()
         elif turn == 'o':
-            print(self.playerActive[0].Name + " HP: " + str(self.playerActive[0].Hp))
-            print(self.oppActive[0].Name + " uses " + attackName + " deals "  + str(self.oppActive[0].Attack_One_Damage) + " damage")
-            if attackName == "Dangerous Blow":
-                attacks.dangerousBlow(self.oppActive[0],self.playerActive[0] , damage)
-            elif attackName == "Whimsy Tackle":
-                attacks.whimsyTackle(self.oppActive[0], self.playerActive[0], damage)
-            elif attackName == "Amnesia":
-                attacks.amnesia(self.oppActive[0], self.playerActive[0], damamge, turn, randint(1,2)) #Currently does random choice
-            elif attackName == "Facade":
-                attacks.facade(self.oppActive[0], self.playerActive[0], damage, turn)
-            elif attackName == "Reckless Charge":
-                attacks.recklessCharge(self.oppActive[0], self.playerActive[0], damage)
-            elif attackName == "Agility":
-                attacks.agility(self.oppActive[0], self.playerActive[0], damage, turn)
-            elif attackName == "Swallow Dive":
-                attacks.swallowDive(self.oppActive[0], self.playerActive[0], damage, turn)
-            #elif attackName == "Core Beam":
-            #    attacks.coreBeam(self, self.oppActive[0], self.playerActive[0], damage, turn)
-            elif attackName == "Dust Gathering":
-                attacks.dustGathering(self, turn)
-            elif attackName == "Teleport":
-                attacks.teleport(0, turn)  ### ONLY SWITCHES WITH FIRST BENCH SPOT CURRENTLY NEEDS CHNAGED
-            elif attackName == "Shining Arrow":
-                attacks.shiningArrow(self.oppActive[0], self.playerActive[0], "active") #NEEDS SUPPORT FOR BENCH
-            elif attackName == "Fangs of the Sunne":
-                attacks.fangsOfTheSunne(self.oppActive[0], self.playerActive[0], damage, turn)
-            elif attackName == "Anchor Shot":
-                attacks.anchorShot(self.oppActive[0], self.playerActive[0], damage, turn)
-            elif attackName == "Weather Teller":
-                attacks.weatherTeller(self, self.oppActive[0], turn)
-            elif attackName == "Water Pulse":
-                attacks.waterPulse(self.oppActive[0], self.playerActive[0], damage, turn)
-            else:
-                attacks.basicAttack(self.oppActive[0],self.playerActive[0],self.oppActive[0].Attack_One_Damage)
-            print(self.playerActive[0].Hp) 
-            if(self.playerActive[0].Hp <= 0):
-                print(self.playerActive[0].Name + " knocked out!")
-                self.playerDiscard.append(self.playerActive.pop(0))
-                if len(self.playerBench) > 0:
-                    self.playerActive.append(self.playerBench.pop(0))
-                    print(self.playerActive[0].Name + " moved to players active slot")
-                    self.oppHand.append(self.oppPrize.pop(0))
-                    print("opponent has " + str(len(self.oppPrize)) + " left")
-                    if len(self.oppPrize) <= 0:
-                        print("Opponent has taken all prizes - Opponent wins")
-                        sys.exit()
+            if self.checkEnergyCost(cost, self.oppActive[0].Energies):
+                print(self.playerActive[0].Name + " HP: " + str(self.playerActive[0].Hp))
+                print(self.oppActive[0].Name + " uses " + attackName + " deals "  + str(self.oppActive[0].Attack_One_Damage) + " damage")
+                if attackName == "Dangerous Blow":
+                    attacks.dangerousBlow(self.oppActive[0],self.playerActive[0] , damage)
+                elif attackName == "Whimsy Tackle":
+                    attacks.whimsyTackle(self.oppActive[0], self.playerActive[0], damage)
+                elif attackName == "Amnesia":
+                    attacks.amnesia(self.oppActive[0], self.playerActive[0], damamge, turn, randint(1,2)) #Currently does random choice
+                elif attackName == "Facade":
+                    attacks.facade(self.oppActive[0], self.playerActive[0], damage, turn)
+                elif attackName == "Reckless Charge":
+                    attacks.recklessCharge(self.oppActive[0], self.playerActive[0], damage)
+                elif attackName == "Agility":
+                    attacks.agility(self.oppActive[0], self.playerActive[0], damage, turn)
+                elif attackName == "Swallow Dive":
+                    attacks.swallowDive(self.oppActive[0], self.playerActive[0], damage, turn)
+                #elif attackName == "Core Beam":
+                #    attacks.coreBeam(self, self.oppActive[0], self.playerActive[0], damage, turn)
+                elif attackName == "Dust Gathering":
+                    attacks.dustGathering(self, turn)
+                elif attackName == "Teleport":
+                    attacks.teleport(0, turn)  ### ONLY SWITCHES WITH FIRST BENCH SPOT CURRENTLY NEEDS CHNAGED
+                elif attackName == "Shining Arrow":
+                    attacks.shiningArrow(self.oppActive[0], self.playerActive[0], "active") #NEEDS SUPPORT FOR BENCH
+                elif attackName == "Fangs of the Sunne":
+                    attacks.fangsOfTheSunne(self.oppActive[0], self.playerActive[0], damage, turn)
+                elif attackName == "Anchor Shot":
+                    attacks.anchorShot(self.oppActive[0], self.playerActive[0], damage, turn)
+                elif attackName == "Weather Teller":
+                    attacks.weatherTeller(self, self.oppActive[0], turn)
+                elif attackName == "Water Pulse":
+                    attacks.waterPulse(self.oppActive[0], self.playerActive[0], damage, turn)
                 else:
-                    print("player out of Pokemon - opponent wins")
-                    sys.exit()
+                    attacks.basicAttack(self.oppActive[0],self.playerActive[0],self.oppActive[0].Attack_One_Damage)
+                print(self.playerActive[0].Hp) 
+                if(self.playerActive[0].Hp <= 0):
+                    print(self.playerActive[0].Name + " knocked out!")
+                    self.playerDiscard.append(self.playerActive.pop(0))
+                    if len(self.playerBench) > 0:
+                        self.playerActive.append(self.playerBench.pop(0))
+                        print(self.playerActive[0].Name + " moved to players active slot")
+                        self.oppHand.append(self.oppPrize.pop(0))
+                        print("opponent has " + str(len(self.oppPrize)) + " left")
+                        if len(self.oppPrize) <= 0:
+                            print("Opponent has taken all prizes - Opponent wins")
+                            sys.exit()
+                    else:
+                        print("player out of Pokemon - opponent wins")
+                        sys.exit()
+
 
     # def attackDamage(self, attacker, defender, choice):
 
@@ -518,8 +548,8 @@ class Gameboard():
                                     legalMoves.append((self.evolve,i, "bench", j, turn))
                 elif self.playerHand[i].Card_Type == "Item":
                     legalMoves.append((self.playItem,turn, i))
-            if retreated == False:
-                for i in range(len(playerBench)):
+            if self.retreated == False:
+                for i in range(len(self.playerBench)):
                     legalMoves.append((self.retreat,i,turn))
 
         elif turn == 'o':
@@ -551,35 +581,49 @@ class Gameboard():
     #stadiumPlayed = False
     
     
-    def playEnergy(self, turn):
+    def playEnergy(self, turn, index):
         ## ONCE PER TURN (Typically)
         ## Plays an energy from hand to a pokemon
-        temp = []
         if turn == 'p':
-            for i in range(len(self.playerHand)):
-                if self.playerHand[i].Card_Type == 'Energy':
-                   temp.append(i)
-            if len(temp) > 0:
-                temp.sort(reverse = True)
-                for i in temp:
-                    if self.energyPlayed == False:
-                        #print(self.playerHand[i].Name)
-                        name = self.playerHand[i].Name
-                        self.playerActive[0].Energies.append(self.playerHand.pop(i))
-                        self.energyPlayed = True
-                        print(name + " played")
+            if self.playerHand[index].Card_Type == "Energy":
+                print("Player attached " + self.playerHand[index].Name)
+                self.playerActive[0].Energies.append(self.playerHand.pop(index))
+            for i in range(len(self.playerActive[0].Energies)):
+                print(self.playerActive[0].Energies[i].Name)
+            print(len(self.playerActive[0].Energies))
         if turn == 'o':
-            for i in range(len(self.oppHand)):
-                if self.oppHand[i].Card_Type == 'Energy':
-                   temp.append(i)
-            if len(temp) > 0:
-                temp.sort(reverse = True)
-                for i in temp:
-                    if self.energyPlayed == False:
-                        name = self.oppHand[i].Name
-                        self.oppActive[0].Energies.append(self.oppHand.pop(i))
-                        self.energyPlayed = True
-                        print(name + " played")
+            if self.oppHand[index].Card_Type == "Energy":
+                print("Opponent attached " + self.oppHand[index].Name)
+                self.oppActive[0].Energies.append(self.oppHand.pop(index))
+            for i in range(len(self.oppActive[0].Energies)):
+                print(self.oppActive[0].Energies[i].Name)
+            print(len(self.oppActive[0].Energies))
+##        temp = []
+##        if turn == 'p':
+##            for i in range(len(self.playerHand)):
+##                if self.playerHand[i].Card_Type == 'Energy':
+##                   temp.append(i)
+##            if len(temp) > 0:
+##                temp.sort(reverse = True)
+##                for i in temp:
+##                    if self.energyPlayed == False:
+##                        #print(self.playerHand[i].Name)
+##                        name = self.playerHand[i].Name
+##                        self.playerActive[0].Energies.append(self.playerHand.pop(i))
+##                        self.energyPlayed = True
+##                        print(name + " played")
+##        if turn == 'o':
+##            for i in range(len(self.oppHand)):
+##                if self.oppHand[i].Card_Type == 'Energy':
+##                   temp.append(i)
+##            if len(temp) > 0:
+##                temp.sort(reverse = True)
+##                for i in temp:
+##                    if self.energyPlayed == False:
+##                        name = self.oppHand[i].Name
+##                        self.oppActive[0].Energies.append(self.oppHand.pop(i))
+##                        self.energyPlayed = True
+##                        print(name + " played")
         
     def playItem(self, turn):
         ## Plays an item from hand and does the effect
@@ -683,7 +727,7 @@ class Gameboard():
                 self.drawForTurn = True
             self.printHand(turn)
             print("Getting moves")
-            print(self.getMoves(turn))
+            #print(self.getMoves(turn))
             choice = ai.playerAI(self)
             print("Player AI chose ", choice)
             ## SHOULD CHECK FOR THINGS BEFORE CALLING FUNCTIONS OR THAT SHOULD BE WHAT WE DO I THINK
@@ -706,8 +750,10 @@ class Gameboard():
                 self.playStadium(turn)
                 self.turn(turn)
             elif choice == 3:
-                
-                self.playEnergy(turn)
+                i = 0
+                while self.playerHand[i].Card_Type != "Energy":
+                    i += 1
+                self.playEnergy(turn, i)
                 self.energyPlayed = True
                 self.turn(turn)
             elif choice == 4:
@@ -720,12 +766,12 @@ class Gameboard():
             elif choice == 6:
                 atkNum = random.randint(1,2)
                 if atkNum == 1:
-                    self.attack(turn, self.playerActive[0].Attack_One_Name, self.playerActive[0].Attack_One_Damage)
+                    self.attack(turn, self.playerActive[0].Attack_One_Name, self.playerActive[0].Attack_One_Damage, self.playerActive[0].Attack_One_Cost)
                 elif atkNum == 2:
                     if self.playerActive[0].Attack_Two_Name == "None":
-                        self.attack(turn, self.playerActive[0].Attack_One_Name, self.playerActive[0].Attack_One_Damage)
+                        self.attack(turn, self.playerActive[0].Attack_One_Name, self.playerActive[0].Attack_One_Damage, self.playerActive[0].Attack_One_Cost)
                     else:
-                        self.attack(turn, self.playerActive[0].Attack_Two_Name, self.playerActive[0].Attack_Two_Damage)
+                        self.attack(turn, self.playerActive[0].Attack_Two_Name, self.playerActive[0].Attack_Two_Damage, self.playerActive[0].Attack_Two_Cost)
                 #self.attack(turn)
                 self.drawForTurn = False
                 self.energyPlayed = False
@@ -783,8 +829,10 @@ class Gameboard():
                 self.playStadium(turn)
                 self.turn(turn)
             elif choice == 3:
-                
-                self.playEnergy(turn)
+                i = 0
+                while self.oppHand[i].Card_Type != "Energy":
+                    i += 1
+                self.playEnergy(turn, i)
                 self.energyPlayed = True
                 self.turn(turn)
             elif choice == 4:
@@ -797,12 +845,12 @@ class Gameboard():
             elif choice == 6:
                 atkNum = random.randint(1,2)
                 if atkNum == 1:
-                    self.attack(turn, self.oppActive[0].Attack_One_Name, self.oppActive[0].Attack_One_Damage)
+                    self.attack(turn, self.oppActive[0].Attack_One_Name, self.oppActive[0].Attack_One_Damage, self.oppActive[0].Attack_One_Cost)
                 elif atkNum == 2:
                     if self.oppActive[0].Attack_Two_Name == "None":
-                        self.attack(turn, self.oppActive[0].Attack_One_Name, self.oppActive[0].Attack_One_Damage)
+                        self.attack(turn, self.oppActive[0].Attack_One_Name, self.oppActive[0].Attack_One_Damage, self.oppActive[0].Attack_One_Cost)
                     else:
-                        self.attack(turn, self.oppActive[0].Attack_Two_Name, self.oppActive[0].Attack_Two_Damage)
+                        self.attack(turn, self.oppActive[0].Attack_Two_Name, self.oppActive[0].Attack_Two_Damage, self.oppActive[0].Attack_Two_Cost)
                 #self.attack(turn)
  
                 self.drawForTurn = False

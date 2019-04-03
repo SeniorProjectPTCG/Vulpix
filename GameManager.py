@@ -77,6 +77,8 @@ class Gameboard():
     playerLastAttack = ""
     oppLastAttack = ""
 
+    #Can only retreat once per turn
+    retreated = False
 
     ## All of the player/opp member functions could possibly be combined into one function each and have a flag based on turn or access.
     ## Just a thought to reduce redundant code. Currently, I am just trying to get code down, but if we choose to do this we can edit it in Phase 3.
@@ -516,6 +518,10 @@ class Gameboard():
                                     legalMoves.append((self.evolve,i, "bench", j, turn))
                 elif self.playerHand[i].Card_Type == "Item":
                     legalMoves.append((self.playItem,turn, i))
+            if retreated == False:
+                for i in range(len(playerBench)):
+                    legalMoves.append((self.retreat,i,turn))
+
         elif turn == 'o':
             if supporterPlayed == False:
                 for i in range(len(oppHand)):
@@ -538,6 +544,9 @@ class Gameboard():
                                     legalMoves.append((self.evolve,i, "bench", j, turn))
                 elif oppHand[i].Card_Type == "Item":
                     legalMoves.append((self.playItem,turn, i))
+            if retreated == False:
+                for i in range(len(oppBench)):
+                    legalMoves.append((self.retreat,i,turn))
         return legalMoves
     #stadiumPlayed = False
     

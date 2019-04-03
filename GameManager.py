@@ -554,7 +554,11 @@ class Gameboard():
             if self.retreated == False:
                 for i in range(len(self.playerBench)):
                     legalMoves.append((self.retreat,i,turn))
-
+            if self.checkEnergyCost(self.playerActive[0].Attack_One_Cost, self.playerActive[0].Energies):
+                legalMoves.append((self.attack, turn, self.playerActive[0].Attack_One_Name, self.playerActive[0].Attack_One_Damage, self.playerActive[0].Attack_One_Cost))
+            if self.playerActive[0].Attack_Two_Name != "None":
+                if self.checkEnergyCost(self.playerActive[0].Attack_Two_Cost, self.playerActive[0].Energies):
+                    legalMoves.append((self.attack, turn, self.playerActive[0].Attack_Two_Name, self.playerActive[0].Attack_Two_Damage, self.playerActive[0].Attack_Two_Cost))
         elif turn == 'o':
             if supporterPlayed == False:
                 for i in range(len(oppHand)):
@@ -577,9 +581,14 @@ class Gameboard():
                                     legalMoves.append((self.evolve,i, "bench", j, turn))
                 elif oppHand[i].Card_Type == "Item":
                     legalMoves.append((self.playItem,turn, i))
-            if retreated == False:
+            if self.retreated == False:
                 for i in range(len(oppBench)):
                     legalMoves.append((self.retreat,i,turn))
+            if self.checkEnergyCost(self.oppActive[0].Attack_One_Cost, self.oppActive[0].Energies):
+                legalMoves.append((self.attack, turn, self.oppActive[0].Attack_One_Name, self.oppActive[0].Attack_One_Damage, self.oppActive[0].Attack_One_Cost))
+            if self.oppActive[0].Attack_Two_Name != "None":
+                if self.checkEnergyCost(self.oppActive[0].Attack_Two_Cost, self.oppActive[0].Energies):
+                    legalMoves.append((self.attack, turn, self.oppActive[0].Attack_Two_Name, self.oppActive[0].Attack_Two_Damage, self.oppActive.Attack_Two_Cost))
         return legalMoves
     #stadiumPlayed = False
     
@@ -727,13 +736,14 @@ class Gameboard():
 ##        print("7. End Turn")
         #choice = int(input("What would you like to do?"))
         if turn == 'p':
+
             if not self.drawForTurn:
                 self.playerDrawCard()
                 self.drawForTurn = True
             if debug:
                 self.printHand(turn)
             print("Getting moves")
-            #print(self.getMoves(turn))
+            print(self.getMoves(turn))
             choice = ai.playerAI(self)
             print("Player AI chose ", choice)
             ## SHOULD CHECK FOR THINGS BEFORE CALLING FUNCTIONS OR THAT SHOULD BE WHAT WE DO I THINK

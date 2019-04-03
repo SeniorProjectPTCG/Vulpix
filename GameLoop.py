@@ -14,9 +14,9 @@
 import SetListTest
 import GameManager
 
-import gameboard as display
+#import gameboard as display
 from setlists import SUM
-from PyQt5 import QtCore, QtGui, QtWidgets
+#from PyQt5 import QtCore, QtGui, QtWidgets
 import sys
 
 def GameLoop():
@@ -40,7 +40,7 @@ def GameLoop():
         #ui = display.Ui_MainWindow()
         gameboard = GameManager.Gameboard()
 
-        gui = display.Ui_MainWindow()
+        #gui = display.Ui_MainWindow()
 
         
 
@@ -201,11 +201,11 @@ def GameLoop():
         print("Player deck created")
 
 
-        def attackT():  #used to pass arguements
-                gui.attack(gameboard)
-        def retreatT():
-                gui.retreat(gameboard, 0)
-
+##        def attackT():  #used to pass arguements
+##                gui.attack(gameboard)
+##        def retreatT():
+##                gui.retreat(gameboard, 0)
+##
 
         gameboard.setup()
         #gameboard.playEnergy()
@@ -232,34 +232,38 @@ def GameLoop():
 card1 = {'Name' : 'Solgaleo',
         'Card_Type' : 'Pokemon',
         'Stage' : 2,
+        'PreEvolution' : 'Cosmoem',
         'Hp' : 160,
         'Power' : False,
         'Attack1Damage' : 0,
-        'Attack1Effect' : '',
+        'Attack1Name' : 'Shining Arrow',
         'Attack1Cost' : 'MC',
         'Attack2Damage' : 170,
-        'Attack2Effect' : '',
+        'Attack2Name' : 'Fangs of the Sunne',
         'Attack2Cost' : 'MMC',
         'RetreatCost' : 3,
         'Weakness' : 'R',
-        'Resistance' : 'P'}
+        'Resistance' : 'P',
+        'Pokemon_Type' : 'M'}
 
 
 
 card2 = {'Name' : 'Cosmoem',
         'Card_Type' : 'Pokemon',
         'Stage' : 1,
+        'PreEvolution' : 'Cosmog',
         'Hp' : 90,
         'Power' : False,
         'Attack1Damage' : 0,
-        'Attack1Effect' : 'Switch this Pokémon with 1 of your Benched Pokémon',
+        'Attack1Name' : 'Teleport',
         'Attack1Cost' : 'C',
         'Attack2Damage' : 0,
-        'Attack2Effect' : 'None',
+        'Attack2Name' : 'None',
         'Attack2Cost' : 'None',
         'RetreatCost' : 3,
         'Weakness' : 'P',
-        'Resistance' : ''}
+        'Resistance' : '',
+        'Pokemon_Type' : 'P'}
 
 card3 = {'Name' : 'Cosmog',
         'Card_Type' : 'Pokemon',
@@ -267,29 +271,32 @@ card3 = {'Name' : 'Cosmog',
         'Hp' : 60,
         'Power' : False,
         'Attack1Damage' : 0,
-        'Attack1Effect' : 'Draw a card',
+        'Attack1Name' : 'Dust Gathering',
         'Attack1Cost' : 'C',
         'Attack2Damage' : 0,
-        'Attack2Effect' : 'None',
+        'Attack2Name' : 'None',
         'Attack2Cost' : 'None',
         'RetreatCost' : 1,
         'Weakness' : 'P',
-        'Resistance' : ''}
+        'Resistance' : '',
+        'Pokemon_Type' : 'P'}
 
 card4 = {'Name' : 'Metang',
         'Card_Type' : 'Pokemon',
         'Stage' : 1,
+        'PreEvolution' : 'Beldum',
         'Hp' : 90,
         'Power' : False,
         'Attack1Damage' : 20,
-        'Attack1Effect' : 'None',
+        'Attack1Name' : '',
         'Attack1Cost' : 'C',
         'Attack2Damage' : 80,
-        'Attack2Effect' : 'None',
+        'Attack2Name' : 'Core Beam',
         'Attack2Cost' : 'MMC',
         'RetreatCost' : 3,
         'Weakness' : 'R',
-        'Resistance' : 'P'}
+        'Resistance' : 'P',
+        'Pokemon_Type' : 'M'}
 
 card5 = {'Name' : 'Beldum',
         'Card_Type' : 'Pokemon',
@@ -297,29 +304,32 @@ card5 = {'Name' : 'Beldum',
         'Hp' : 60,
         'Power' : False,
         'Attack1Damage' : 20,
-        'Attack1Effect' : '',
+        'Attack1Name' : 'Core Beam',
         'Attack1Cost' : 'M',
         'Attack2Damage' : 0,
-        'Attack2Effect' : 'None',
+        'Attack2Name' : 'None',
         'Attack2Cost' : 'None',
         'RetreatCost' : 1,
         'Weakness' : 'R',
-        'Resistance' : 'P'}
+        'Resistance' : 'P',
+        'Pokemon_Type' : 'M'}
 
 card6 = {'Name' : 'Slowbro',
         'Card_Type' : 'Pokemon',
         'Stage' : 1,
+        'PreEvolution' : 'Slowpoke',
         'Hp' : 110,
         'Power' : False,
         'Attack1Damage' : 20,
-        'Attack1Effect' : '',
+        'Attack1Name' : 'Amnesia',
         'Attack1Cost' : 'C',
         'Attack2Damage' : 50,
-        'Attack2Effect' : '',
+        'Attack2Name' : 'Facade',
         'Attack2Cost' : 'PCC',
         'RetreatCost' : 3,
         'Weakness' : 'P',
-        'Resistance' : ''}
+        'Resistance' : '',
+        'Pokemon_Type' : 'P'}
 
 card7 = {'Name' : 'Slowpoke',
         'Card_Type' : 'Pokemon',
@@ -327,14 +337,15 @@ card7 = {'Name' : 'Slowpoke',
         'Hp' : 70,
         'Power' : False,
         'Attack1Damage' : 10,
-        'Attack1Effect' : '',
+        'Attack1Name' : '',
         'Attack1Cost' : 'C',
         'Attack2Damage' : 60,
-        'Attack2Effect' : '',
+        'Attack2Name' : 'Whimsy Tackle',
         'Attack2Cost' : 'PCC',
         'RetreatCost' : 3,
         'Weakness' : 'P',
-        'Resistance' : ''}
+        'Resistance' : '',
+        'Pokemon_Type' : 'P'}
 
 card8 = {'Name' : 'Dhelmise',
         'Card_Type' : 'Pokemon',
@@ -342,14 +353,15 @@ card8 = {'Name' : 'Dhelmise',
         'Hp' : 120,
         'Power' : True,
         'Attack1Damage' : 70,
-        'Attack1Effect' : '',
+        'Attack1Name' : 'Anchor Shot',
         'Attack1Cost' : 'PCC',
         'Attack2Damage' : 0,
-        'Attack2Effect' : '',
+        'Attack2Name' : 'None',
         'Attack2Cost' : 'None',
         'RetreatCost' : 2,
         'Weakness' : 'D',
-        'Resistance' : 'F'}
+        'Resistance' : 'F',
+        'Pokemon_Type' : 'P'}
 
 card9 = {'Name' : 'Oricorio',
         'Card_Type' : 'Pokemon',
@@ -357,29 +369,32 @@ card9 = {'Name' : 'Oricorio',
         'Hp' : 90,
         'Power' : True,
         'Attack1Damage' : 30,
-        'Attack1Effect' : '',
+        'Attack1Name' : '',
         'Attack1Cost' : 'PC',
         'Attack2Damage' : 0,
-        'Attack2Effect' : '',
+        'Attack2Name' : 'None',
         'Attack2Cost' : 'None',
         'RetreatCost' : 1,
         'Weakness' : 'P',
-        'Resistance' : ''}
+        'Resistance' : '',
+        'Pokemon_Type' : 'P'}
 
 card10 = {'Name' : 'Bewear',
         'Card_Type' : 'Pokemon',
         'Stage' : 1,
+        'PreEvolution' : 'Stufful',
         'Hp' : 130,
         'Power' : False,
         'Attack1Damage' : 60,
-        'Attack1Effect' : '',
+        'Attack1Name' : 'Dangerous Blow',
         'Attack1Cost' : 'CCC',
         'Attack2Damage' : 0,
-        'Attack2Effect' : '',
+        'Attack2Name' : 'None',
         'Attack2Cost' : 'None',
         'RetreatCost' : 2,
         'Weakness' : 'F',
-        'Resistance' : ''}
+        'Resistance' : '',
+        'Pokemon_Type' : 'C'}
 
 card11 = {'Name' : 'Stufful',
         'Card_Type' : 'Pokemon',
@@ -387,29 +402,32 @@ card11 = {'Name' : 'Stufful',
         'Hp' : 70,
         'Power' : False,
         'Attack1Damage' : 10,
-        'Attack1Effect' : '',
+        'Attack1Name' : '',
         'Attack1Cost' : 'C',
         'Attack2Damage' : 60,
-        'Attack2Effect' : '',
-        'Attack2Cost' : 'None',
+        'Attack2Name' : '',
+        'Attack2Cost' : 'CCC',
         'RetreatCost' : 2,
         'Weakness' : 'F',
-        'Resistance' : ''}
+        'Resistance' : '',
+        'Pokemon_Type' : 'C'}
 
 card12 = {'Name' : 'Swellow',
         'Card_Type' : 'Pokemon',
         'Stage' : 1,
+        'PreEvolution' : 'Taillow',
         'Hp' : 90,
         'Power' : False,
         'Attack1Damage' : 20,
-        'Attack1Effect' : '',
+        'Attack1Name' : 'Agility',
         'Attack1Cost' : 'C',
         'Attack2Damage' : 40,
-        'Attack2Effect' : '',
-        'Attack2Cost' : 'None',
+        'Attack2Name' : 'Swallow Dive',
+        'Attack2Cost' : 'C',
         'RetreatCost' : 1,
         'Weakness' : 'L',
-        'Resistance' : 'F'}
+        'Resistance' : 'F',
+        'Pokemon_Type' : 'C'}
 
 card13 = {'Name' : 'Taillow',
         'Card_Type' : 'Pokemon',
@@ -417,14 +435,15 @@ card13 = {'Name' : 'Taillow',
         'Hp' : 60,
         'Power' : False,
         'Attack1Damage' : 20,
-        'Attack1Effect' : '',
+        'Attack1Name' : 'Reckless Charge',
         'Attack1Cost' : 'C',
         'Attack2Damage' : 0,
-        'Attack2Effect' : '',
+        'Attack2Name' : 'None',
         'Attack2Cost' : 'None',
         'RetreatCost' : 1,
         'Weakness' : 'L',
-        'Resistance' : 'F'}
+        'Resistance' : 'F',
+        'Pokemon_Type' : 'C'}
 
 card14 = {'Name' : 'Castform',
         'Card_Type' : 'Pokemon',
@@ -432,14 +451,15 @@ card14 = {'Name' : 'Castform',
         'Hp' : 70,
         'Power' : False,
         'Attack1Damage' : 0,
-        'Attack1Effect' : '',
+        'Attack1Name' : 'Weather Teller',
         'Attack1Cost' : 'C',
         'Attack2Damage' : 30,
-        'Attack2Effect' : '',
+        'Attack2Name' : 'Water Pulse',
         'Attack2Cost' : 'CC',
         'RetreatCost' : 1,
         'Weakness' : 'F',
-        'Resistance' : ''}
+        'Resistance' : '',
+        'Pokemon_Type' : 'C'}
 
 card15 = {'Name' : 'Altar of the Sunne',
         'Card_Type' : 'Stadium',
@@ -485,11 +505,141 @@ card25 = {'Name' : 'Psychic Energy',
         'Card_Type' : 'Energy',
         'Effect' : ''}
 
+card26 = {'Name' : 'Gothita',
+        'Card_Type' : 'Pokemon',
+        'Stage' : 0,
+        'Hp' : 60,
+        'Power' : False,
+        'Attack1Damage' : 0,
+        'Attack1Name' : 'Blown Kiss',
+        'Attack1Cost' : 'P',
+        'Attack2Damage' : 0,
+        'Attack2Name' : 'None',
+        'Attack2Cost' : 'None',
+        'RetreatCost' : 1,
+        'Weakness' : 'PP',
+        'Resistance' : '',
+        'Pokemon_Type' : 'P'}
 
+card27 = {'Name' : 'Gothorita',
+        'Card_Type' : 'Pokemon',
+        'Stage' : 1,
+        'PreEvolution' : 'Gothita',
+        'Hp' : 80,
+        'Power' : False,
+        'Attack1Damage' : 20,
+        'Attack1Name' : 'Slap',
+        'Attack1Cost' : 'P',
+        'Attack2Damage' : 30,
+        'Attack2Name' : 'Psybeam',
+        'Attack2Cost' : 'PC',
+        'RetreatCost' : 2,
+        'Weakness' : 'PP',
+        'Resistance' : '',
+        'Pokemon_Type' : 'C'}
+
+card28 = {'Name' : 'Litwick',
+        'Card_Type' : 'Pokemon',
+        'Stage' : 0,
+        'Hp' : 50,
+        'Power' : False,
+        'Attack1Damage' : 10,
+        'Attack1Name' : 'Flickering Flames',
+        'Attack1Cost' : 'F',
+        'Attack2Damage' : 0,
+        'Attack2Name' : 'None',
+        'Attack2Cost' : 'None',
+        'RetreatCost' : 1,
+        'Weakness' : 'WW',
+        'Resistance' : '',
+        'Pokemon_Type' : 'F'}
+
+card29 = {'Name' : 'Lampent',
+        'Card_Type' : 'Pokemon',
+        'Stage' : 1,
+        'PreEvolution' : 'Litwick',
+        'Hp' : 80,
+        'Power' : False,
+        'Attack1Damage' : 30,
+        'Attack1Name' : 'Will-O-Wisp',
+        'Attack1Cost' : 'F',
+        'Attack2Damage' : 0,
+        'Attack2Name' : 'None',
+        'Attack2Cost' : 'None',
+        'RetreatCost' : 1,
+        'Weakness' : 'WW',
+        'Resistance' : '',
+        'Pokemon_Type' : 'F'}
+
+card30 = {'Name' : 'Lunala',
+        'Card_Type' : 'Pokemon',
+        'Stage' : 2,
+        'PreEvolution' : 'Cosmoem',
+        'Hp' : 160,
+        'Power' : False,
+        'Attack1Damage' : 40,                            #x40
+        'Attack1Name' : 'Shatter Shot',
+        'Attack1Cost' : 'P',
+        'Attack2Damage' : 130,
+        'Attack2Name' : 'Wings of the Moone',
+        'Attack2Cost' : 'PPP',
+        'RetreatCost' : 2,
+        'Weakness' : '',                                 #Wasn't able to recognize it
+        'Resistance' : '',                               #Wasn't able to recognize it 
+        'Pokemon_Type' : 'P'}  
+
+card31 = {'Name' : 'Salandit',
+        'Card_Type' : 'Pokemon',
+        'Stage' : 0,
+        'Hp' : 70,
+        'Power' : False,
+        'Attack1Damage' : 10,                            
+        'Attack1Name' : 'Scratch',
+        'Attack1Cost' : 'F',
+        'Attack2Damage' : 20,                            #+20
+        'Attack2Name' : 'Venoshock',
+        'Attack2Cost' : 'CC',
+        'RetreatCost' : 1,
+        'Weakness' : 'WW',
+        'Resistance' : '',
+        'Pokemon_Type' : 'F'}
+
+card32 = {'Name' : 'Salazzle',
+        'Card_Type' : 'Pokemon',
+        'Stage' : 1,
+        'PreEvolution' : 'Salandit',
+        'Hp' : 110,
+        'Power' : False,
+        'Attack1Damage' : 90,
+        'Attack1Name' : 'Flamethrower',
+        'Attack1Cost' : 'FCC',
+        'Attack2Damage' : 0,
+        'Attack2Name' : 'None',
+        'Attack2Cost' : 'None',
+        'RetreatCost' : 1,
+        'Weakness' : 'WW',
+        'Resistance' : '',
+        'Pokemon_Type' : 'F'}
+
+card33 = {'Name' : 'Mimikyu',
+        'Card_Type' : 'Pokemon',
+        'Stage' : 0,
+        'Hp' : 70,
+        'Power' : False,
+        'Attack1Damage' : 0,            #Special attack
+        'Attack1Name' : 'Filch',
+        'Attack1Cost' : 'C',
+        'Attack2Damage' : 0,
+        'Attack2Name' : 'Copycat',
+        'Attack2Cost' : 'PC',
+        'RetreatCost' : 1,
+        'Weakness' : '',
+        'Resistance' : '',
+        'Pokemon_Type' : 'P'}
 
 ## MAIN ##
 
-#GameLoop()
+GameLoop()
 
 
 

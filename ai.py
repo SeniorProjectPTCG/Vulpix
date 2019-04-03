@@ -1,12 +1,15 @@
 from random import randint
 def playerAI(gameboard):
 	for i in range(len(gameboard.playerHand)):
-		if (gameboard.playerIsBasic(i)):
+		if (gameboard.playerIsBasic(i)) and (len(gameboard.oppBench) < 5):
 			print("ai player is playing basic")
 			return 1
 		elif gameboard.playerHand[i].Card_Type == "Energy":
 			if gameboard.energyPlayed == False:
 				return 3
+		elif gameboard.playerHand[i].Card_Type == "Pokemon" and gameboard.playerHand[i].Stage > 0:
+                        if gameboard.playerHand[i].PreEvolution == gameboard.playerActive[0].Name:
+                                return 8
 	return 6
 def oppAI(gameboard):
 	for i in range(len(gameboard.oppHand)):
@@ -18,4 +21,7 @@ def oppAI(gameboard):
 
 			if gameboard.energyPlayed == False:
 				return 3
+		elif gameboard.oppHand[i].Card_Type == "Pokemon" and gameboard.oppHand[i].Stage > 0:
+                        if gameboard.oppHand[i].PreEvolution == gameboard.oppActive[0].Name:
+                                return 8
 	return 6

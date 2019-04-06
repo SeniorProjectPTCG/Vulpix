@@ -1,5 +1,7 @@
 import random
 
+
+
 alterOfTheSunneInPlayAttacks = False
 
 def setAlterOfTheSunneInPlay(flag):

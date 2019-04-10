@@ -21,7 +21,4 @@ def oppAI(gameboard):
 
 			if gameboard.energyPlayed == False:
 				return 3
-		elif gameboard.oppHand[i].Card_Type == "Pokemon" and gameboard.oppHand[i].Stage > 0:
-                        if gameboard.oppHand[i].PreEvolution == gameboard.oppActive[0].Name:
-                                return 8
 	return 6

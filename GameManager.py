@@ -644,6 +644,7 @@ class Gameboard():
             if self.playerHand[index].Card_Type == "Energy":
                 print("Player attached " + self.playerHand[index].Name)
                 self.playerActive[0].Energies.append(self.playerHand.pop(index))
+                self.energyPlayed = True
             if debug:
                 for i in range(len(self.playerActive[0].Energies)):
                     print(self.playerActive[0].Energies[i].Name)
@@ -652,6 +653,7 @@ class Gameboard():
             if self.oppHand[index].Card_Type == "Energy":
                 print("Opponent attached " + self.oppHand[index].Name)
                 self.oppActive[0].Energies.append(self.oppHand.pop(index))
+                self.energyPlayed = True
             if debug:
                 for i in range(len(self.oppActive[0].Energies)):
                     print(self.oppActive[0].Energies[i].Name)

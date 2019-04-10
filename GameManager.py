@@ -765,12 +765,12 @@ class Gameboard():
 ##                        test.append("basic")
 ##                    else:
 ##                        test.append("not")
-##                i = 0
+                i = 0
                 ## ISSUE WITH BASICS ON LAST CARD IN HAND
                 self.printHand(turn)
-                for i in range(len(self.playerHand)-1, -1, -1):
-                    print(str(i) + str(len(self.playerHand)))
-                    if self.playerHand[i].isBasic():
+                for card in self.playerHand:
+                    
+                    if card.isBasic():
                         self.playBasic(i, turn)
                         print("Basic Found")
                         
@@ -790,6 +790,7 @@ class Gameboard():
 ##                        print("no valid basics")
 ##                        print(str(i) + str(len(self.playerHand)))
 ##                        i += 1
+                    i += 1
                 self.turn(turn)
             elif choice == 2:
                 self.playStadium(turn)

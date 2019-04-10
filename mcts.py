@@ -1,20 +1,22 @@
 from gameboard import *
+import copy
 
 class Node:
-	def __init__(self, move=None, parent=None, state=None):
-		self.move = move
-		self.parent = parent
-		self.childNodes = []
-		self.wins = 0
-		self.visits = 0
-		self.untriedMoves = getMoves()
+    def __init__(self, move=None, parent=None, state=None):
+        self.move = move
+        self.parent = parent
+        self.childNodes = []
+        self.wins = 0
+        self.visits = 0
+        print(state.turn)
+        self.untriedMoves = state.getMoves(state.turn)
 
-	def uct_select_child(self):
+    def uct_select_child(self):
         """ Use the UCB1 formula to select a child node. Often a constant UCTK is applied so we have
             lambda c: c.wins/c.visits + UCTK * sqrt(2*log(self.visits)/c.visits to vary the amount of
             exploration versus exploitation.
         """
-        s = sorted(self.child_nodes, key=lambda c: c.wins / c.visits + np.sqrt(2 * np.log(self.visits) / c.visits))[-1]
+        s = sorted(self.childNodes, key=lambda c: c.wins / c.visits + np.sqrt(2 * np.log(self.visits) / c.visits))[-1]
         return s
 
     def add_child(self, m, s):
@@ -22,8 +24,8 @@ class Node:
             Return the added child node
         """
         n = Node(move=m, parent=self, state=s)
-        self.untried_moves.remove(m)
-        self.child_nodes.append(n)
+        self.untriedMoves.remove(m)
+        self.childNodes.append(n)
         return n
 
     def update(self, result):
@@ -36,3 +38,11 @@ class Node:
     def __repr__(self):
         return "[M:" + str(self.move) + " W/V:" + str(self.wins) + "/" + str(self.visits) + " U:" + str(
             self.untried_moves) + "]"
+
+def uct(rootstate, itermax):
+    rootnode = Node(state=rootstate)
+
+    for i in range(itermax):
+        node = rootnode
+        state = copy.deepcopy(rootstate)
+        print(str(node.untriedMoves))

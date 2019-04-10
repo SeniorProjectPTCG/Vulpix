@@ -17,10 +17,12 @@ import random
 import attacks
 import ai
 import sys
-turn = 'p'
+import mcts
+
 #import gamedisplay
 ## This class will control the entire Gameboard
 class Gameboard():
+    turn = 'p'
     #Player Lists
     playerDeck = []
     playerHand = []
@@ -530,14 +532,17 @@ class Gameboard():
     def getMoves(self, turn):
         legalMoves = []
         if turn == 'p':
+            print("legal moves: "+ str(legalMoves))
             if self.supporterPlayed == False:
                 for i in range(len(self.playerHand)):
                     if self.playerHand[i].Card_Type == "Supporter":
                         legalMoves.append((self.playSupporter,turn, i))
             if self.energyPlayed == False:
+                print(legalMoves)
                 for i in range(len(self.playerHand)):
                     if self.playerHand[i].Card_Type == "Energy":
                         legalMoves.append((self.playEnergy,turn))
+                        print(legalMoves)
             for i in range(len(self.playerHand)):
                 if self.playerHand[i].Card_Type == "Pokemon":
                     if self.playerHand[i].Stage == 0 and len(self.playerBench) < 5:
@@ -719,7 +724,7 @@ class Gameboard():
             for i in range(len(self.oppHand)):
                 print(self.oppHand[i].Name)
 
-    def turn(self, turn):
+    def turns(self, turn):
         # Check for wins
         # Check for statuses(Mainly ones that happen between turns)
         # Player's Turn
@@ -743,8 +748,8 @@ class Gameboard():
             if debug:
                 self.printHand(turn)
             print("Getting moves")
-            print(self.getMoves(turn))
-            choice = ai.playerAI(self)
+            #print(self.getMoves(turn))
+            choice = mcts.uct(self, 5)
             print("Player AI chose ", choice)
             ## SHOULD CHECK FOR THINGS BEFORE CALLING FUNCTIONS OR THAT SHOULD BE WHAT WE DO I THINK
 
@@ -761,10 +766,10 @@ class Gameboard():
                     else:
                         print("no valid basics")
                         i += 1
-                self.turn(turn)
+                self.turns(turn)
             elif choice == 2:
                 self.playStadium(turn)
-                self.turn(turn)
+                self.turns(turn)
             elif choice == 3:
                 i = 0
                 while self.playerHand[i].Card_Type != "Energy":
@@ -774,14 +779,14 @@ class Gameboard():
                 else:
                     print("Energy already played!")
                 self.energyPlayed = True
-                self.turn(turn)
+                self.turns(turn)
             elif choice == 4:
                 self.playTool(turn)
-                self.turn(turn)
+                self.turns(turn)
             elif choice == 5:
                 self.supporterPlayed = True
                 playSupporter(turn)
-                self.turn(turn)
+                self.turns(turn)
             elif choice == 6:
                 atkNum = random.randint(1,2)
                 if atkNum == 1:
@@ -796,7 +801,7 @@ class Gameboard():
                 self.energyPlayed = False
                 self.supporterPlayed = False
                 self.stadiumPlayed = False
-                self.turn("o")
+                self.turns("o")
                 pass
             elif choice == 7:
                 print("EXIT")
@@ -804,7 +809,7 @@ class Gameboard():
                 self.energyPlayed = False
                 self.supporterPlayed = False
                 self.stadiumPlayed = False
-                self.turn("o")
+                self.turns("o")
 
             elif choice == 8:
                 #Evolve
@@ -818,7 +823,7 @@ class Gameboard():
                                 if self.playerBench[j].Name == self.playerHand[i].PreEvolution:
                                     self.evolve(i, "bench", j, turn)
                 self.playerHand.pop(index)
-                self.turn(turn)
+                self.turns(turn)
                             
                         
                 
@@ -843,24 +848,24 @@ class Gameboard():
                         print("no valid basics")
                         
                         i += 1
-                self.turn(turn)
+                self.turns(turn)
             elif choice == 2:
                 self.playStadium(turn)
-                self.turn(turn)
+                self.turns(turn)
             elif choice == 3:
                 i = 0
                 while self.oppHand[i].Card_Type != "Energy":
                     i += 1
                 self.playEnergy(turn, i)
                 self.energyPlayed = True
-                self.turn(turn)
+                self.turns(turn)
             elif choice == 4:
                 self.playTool(turn)
-                self.turn(turn)
+                self.turns(turn)
             elif choice == 5:
                 self.supporterPlayed = True
                 playSupporter(turn)
-                self.turn(turn)
+                self.turns(turn)
             elif choice == 6:
                 atkNum = random.randint(1,2)
                 if atkNum == 1:
@@ -876,7 +881,7 @@ class Gameboard():
                 self.energyPlayed = False
                 self.supporterPlayed = False
                 self.stadiumPlayed = False
-                self.turn("p")
+                self.turns("p")
                 pass
             elif choice == 7:
                 print("EXIT")
@@ -884,7 +889,7 @@ class Gameboard():
                 self.energyPlayed = False
                 self.supporterPlayed = False
                 self.stadiumPlayed = False
-                self.turn("p")
+                self.turns("p")
 
 
 

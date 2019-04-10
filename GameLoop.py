@@ -220,12 +220,12 @@ def GameLoop():
         #gui.setDeck()
         #gui.atkButton.clicked.connect(attackT)  #Doesn't allow the passing of arguements
         #gui.retreatButton.clicked.connect(retreatT)
-        #gameboard.turn('p')
+        #gameboard.turns('p')
         ##MainWindow.show()
         ##sys.exit(app.exec_())
         while winner == False:
                 turn = 'p'
-                gameboard.turn(turn)
+                gameboard.turns(turn)
       
 
         

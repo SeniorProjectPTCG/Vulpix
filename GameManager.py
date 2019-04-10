@@ -423,7 +423,7 @@ class Gameboard():
                 elif attackName == "Teleport":
                     attacks.teleport(0, turn)  ### ONLY SWITCHES WITH FIRST BENCH SPOT CURRENTLY NEEDS CHNAGED
                 elif attackName == "Shining Arrow":
-                    attacks.shiningArrow(self.playerActive[0], self.oppActive[0], "active") #NEEDS SUPPORT FOR BENCH
+                    attacks.shiningArrow(self.playerActive[0], self.oppActive[0], "active", damage) #NEEDS SUPPORT FOR BENCH
                 elif attackName == "Fangs of the Sunne":
                     attacks.fangsOfTheSunne(self.playerActive[0], self.oppActive[0], damage, turn)
                 elif attackName == "Anchor Shot":
@@ -460,7 +460,7 @@ class Gameboard():
                 elif attackName == "Whimsy Tackle":
                     attacks.whimsyTackle(self.oppActive[0], self.playerActive[0], damage)
                 elif attackName == "Amnesia":
-                    attacks.amnesia(self.oppActive[0], self.playerActive[0], damage, turn, randint(1,2)) #Currently does random choice
+                    attacks.amnesia(self.oppActive[0], self.playerActive[0], damage, turn, random.randint(1,2)) #Currently does random choice
                 elif attackName == "Facade":
                     attacks.facade(self.oppActive[0], self.playerActive[0], damage, turn)
                 elif attackName == "Reckless Charge":
@@ -476,7 +476,7 @@ class Gameboard():
                 elif attackName == "Teleport":
                     attacks.teleport(0, turn)  ### ONLY SWITCHES WITH FIRST BENCH SPOT CURRENTLY NEEDS CHNAGED
                 elif attackName == "Shining Arrow":
-                    attacks.shiningArrow(self.oppActive[0], self.playerActive[0], "active") #NEEDS SUPPORT FOR BENCH
+                    attacks.shiningArrow(self.oppActive[0], self.playerActive[0], "active", damage) #NEEDS SUPPORT FOR BENCH
                 elif attackName == "Fangs of the Sunne":
                     attacks.fangsOfTheSunne(self.oppActive[0], self.playerActive[0], damage, turn)
                 elif attackName == "Anchor Shot":
@@ -759,21 +759,37 @@ class Gameboard():
             ## SHOULD CHECK FOR THINGS BEFORE CALLING FUNCTIONS OR THAT SHOULD BE WHAT WE DO I THINK
 
             if choice == 1: #Play Basic
-                i = 0
+##                test = []
+##                for card in self.playerHand:
+##                    if card.isBasic():
+##                        test.append("basic")
+##                    else:
+##                        test.append("not")
+##                i = 0
                 ## ISSUE WITH BASICS ON LAST CARD IN HAND
-                while i < len(self.playerHand):
-                    
-               
+                self.printHand(turn)
+                for i in range(len(self.playerHand)-1, -1, -1):
+                    print(str(i) + str(len(self.playerHand)))
                     if self.playerHand[i].isBasic():
-                        
                         self.playBasic(i, turn)
-                        print("basic found")
-                        print(str(i) + str(len(self.playerHand)))
-                        continue
+                        print("Basic Found")
+                        
                     else:
-                        print("no valid basics")
-                        print(str(i) + str(len(self.playerHand)))
-                        i += 1
+                        print("No valid basic")
+                        
+##                while i < len(self.playerHand):
+##                    
+##               
+##                    if self.playerHand[i].isBasic():
+##                        
+##                        self.playBasic(i, turn)
+##                        print("basic found")
+##                        print(str(i) + str(len(self.playerHand)))
+##                        continue
+##                    else:
+##                        print("no valid basics")
+##                        print(str(i) + str(len(self.playerHand)))
+##                        i += 1
                 self.turn(turn)
             elif choice == 2:
                 self.playStadium(turn)
@@ -845,20 +861,15 @@ class Gameboard():
             print("Opponent AI chose ", choice)
             
             if choice == 1: #Play Basic
-                i = 0
-                while i < len(self.oppHand):
+                for i in range(len(self.oppHand)-1, -1, -1):
+                    print(str(i) + str(len(self.oppHand)))
                     if self.oppHand[i].isBasic():
-                        
                         self.playBasic(i, turn)
-                        print("basic found")
-                        print(str(i) + str(len(self.oppHand)))
+                        print("Basic Found")
                         
-                        continue
                     else:
-                        print("no valid basics")
-                        print(str(i) + str(len(self.oppHand)))
+                        print("No valid basic")
                         
-                        i += 1
                 self.turn(turn)
             elif choice == 2:
                 self.playStadium(turn)

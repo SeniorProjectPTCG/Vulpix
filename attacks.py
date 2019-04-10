@@ -112,7 +112,7 @@ def teleport(self, pokemonIndex, player):
         ## Switch this Pokémon with 1 of your Benched Pokémon
 	self.switch(pokemonIndex, player)
 
-def shiningArrow(attacker, defender, location): ## NEEDS BENCH ATTACK SUPPORT
+def shiningArrow(attacker, defender, location, damage): ## NEEDS BENCH ATTACK SUPPORT
         ## This attack does 50 damage to 1 of your opponent's Pokémon.
         ## (Don't apply Weakness and Resistance for Benched Pokémon)
 	if location == 'active':

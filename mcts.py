@@ -1,4 +1,5 @@
-from gameboard import *
+#from gameboard import *
+#import GameLoop
 import copy
 import random
 
@@ -10,6 +11,7 @@ class Node:
         self.wins = 0
         self.visits = 0
         #print(state.turn)
+
         self.untriedMoves = state.getMoves(state.turn)
 
     def uctSelectChild(self):
@@ -25,7 +27,13 @@ class Node:
             Return the added child node
         """
         n = Node(move=m, parent=self, state=s)
-        self.untriedMoves.remove(m)
+        self.untriedMoves = (s.getMoves(s.turn))
+        try:
+            self.untriedMoves.remove(m)
+        except Exception as e:
+            pass
+        
+        
         self.childNodes.append(n)
         return n
 
@@ -59,4 +67,16 @@ def uct(rootstate, itermax):
             if node.untriedMoves != [] and node.parent == None:
                 m = random.choice(node.untriedMoves)
                 state.makeMove(m)
+                print("adding child")
                 node = node.addChild(m, state)
+                print(node.untriedMoves)
+
+            #Rollout
+            #while not state.getMoves(state.turn) == []:
+            #    state.makeMove(random.choice(state.getMoves(state.turn)))
+
+            #Backpropegate
+            while node is not None:
+                node.update(.5)
+                node = node.parent
+        return sorted(rootnode.childNodes, key=lambda c: c.visits)[-1].move

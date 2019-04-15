@@ -217,22 +217,174 @@ def GameLoop():
                 # Get players board state from the user
                 getPlayerActive(gameboard)
                 
-                
                 # Get players benched pokemon
                 getPlayerBench(gameboard)
-                flag = True
-                more = True
-                i = 0
-                while more == True:
-                        while flag == True:
-                                print("What card is in the players hand?")
-                                temp = input()
-                                if temp == '':
-                                        flag = False
-                                        more = False
-                                if temp.upper() == gameboard.playerDeck[i].Name.upper():
-                                        gameboard.playerHand.append(playerDeck.pop(i))
-                print(str(gameboard.playerBench))
+
+                #Get player's hand
+                getPlayerHand(gameboard)
+
+                #Get player's discard
+                getPlayerDiscard(gameboard)
+
+                #Get stadium in play
+                getStadium(gameboard)
+
+                #get player's prizes
+                getPlayerPrize(gameboard)
+
+                # Get opponents active pokemon
+                getOppActive(gameboard)
+
+                #Get opponent's benched pokemon
+                getOppBench(gameboard)
+
+                #Get opponents discard
+                getOppDiscard(gameboard)
+
+                #Get opponent's hand
+                getOppHand(gameboard)
+
+                #Get opponents prizes
+                getOppPrize(gameboard)
+
+                
+
+def getStadium(gameboard):
+        entered = True
+        while entered == True:
+                print("What stadium is in play?")
+                temp = input()
+                if temp == '':
+                        entered = False
+                else:
+                        print("Who played the stadium?")
+                        temp2 = input()
+                        i = 0
+                        found = False
+                        end = False
+                        if temp2 == 'p':
+                                while found == False and end == False:
+                                        if i >= len(gameboard.playerDeck):
+                                                print("Not found")
+                                                end = True
+                                        elif temp.upper() == gameboard.playerDeck[i].Name.upper():
+                                                gameboard.stadium.append(gameboard.playerDeck.pop(i))
+                                                found = True
+                                                entered = False #Exit the loop
+                                        i += 1
+                        elif temp2 == 'o':
+                                while found == False and end == False:
+                                        if i >= len(gameboard.oppDeck):
+                                                print("Not found")
+                                                end = True
+                                        elif temp.upper() == gameboard.oppDeck[i].Name.upper():
+                                                gameboard.stadium.append(gameboard.oppDeck.pop(i))
+                                                found = True
+                                                #exit the loop
+                                                entered = False
+                                        i += 1
+
+def getPlayerPrize(gameboard):
+        print("How many prizes does the player have left")
+        temp = input()
+        if temp == '':
+                temp = 0
+        x = int(temp)
+        for i in range(x):
+                if len(gameboard.playerDeck) > 0:
+                        gameboard.playerPrize.append(gameboard.playerDeck.pop(0))
+
+def getOppPrize(gameboard):
+        print("How many prizes does the opponent have left?")
+        temp = input()
+        if temp == '':
+                temp = 0
+        x = int(temp)
+        for i in range(x):
+                if len(gameboard.oppDeck) > 0:
+                        gameboard.oppPrize.append(gameboard.oppDeck.pop(0))
+
+def getPlayerHand(gameboard):
+        entered = True
+        more = True
+        i = 0
+        while more == True:
+                while entered == True:
+                        print("What card is in the players hand?")
+                        temp = input()
+                        if temp == '':
+                                entered = False
+                                more = False
+                        else:
+                                i = 0
+                                found = False
+                                end = False
+                                while found == False and end == False:
+                                        if i >= len(gameboard.playerDeck):
+                                                print("Not found")
+                                                end = True
+                                        elif temp.upper() == gameboard.playerDeck[i].Name.upper():
+                                                gameboard.playerHand.append(gameboard.playerDeck.pop(i))
+                                                found = True
+                                        i += 1
+
+def getOppHand(gameboard):
+        print("How many cards are in the opponent's hand")
+        temp = input()
+        if temp == '':
+                temp = 0
+        x = int(temp)
+        for i in range(x):
+                if len(gameboard.oppDeck) > 0:
+                        gameboard.oppHand.append(gameboard.oppDeck.pop(0))
+
+def getPlayerDiscard(gameboard):
+        entered = True
+        more = True
+        i = 0
+        while more == True:
+                while entered == True:
+                        print("What card is in the players discard?")
+                        temp = input()
+                        if temp == '':
+                                entered = False
+                                more = False
+                        else:
+                                i = 0
+                                found = False
+                                end = False
+                                while found == False and end == False:
+                                        if i >= len(gameboard.playerDeck):
+                                                print("Not found")
+                                                end = True
+                                        elif temp.upper() == gameboard.playerDeck[i].Name.upper():
+                                                gameboard.playerDiscard.append(gameboard.playerDeck.pop(i))
+                                                found = True
+                                        i += 1
+
+def getOppDiscard(gameboard):
+        entered = True
+        more = True
+        i = 0
+        while more == True:
+                while entered == True:
+                        print("What card is in the opponent's discard?")
+                        temp = input()
+                        if temp == '':
+                                entered = False
+                                more = False
+                        else:
+                                i = 0
+                                found = False
+                                end = False
+                                while found == False and end == False:
+                                        if i >= len(gameboard.playerDeck):
+                                                print("Not found")
+                                                end = True
+                                        elif temp.upper() == gameboard.oppDeck[i].Name.upper():
+                                                gameboard.oppDiscard.append(gameboard.oppDeck.pop(i))
+                                                found = True
+                                        i += 1
 
 def getPlayerActive(gameboard):
         flag = True
@@ -254,13 +406,13 @@ def getPlayerActive(gameboard):
         i = 0
         while moreEnergy == True:
                 while flag == True:
-                        print("What energies are attached to the player's active pokemon?")
+                        print("What energy is attached to the player's active pokemon?")
                         temp = input()
                         if temp == "":
                                 flag = False
                                 moreEnergy = False
                         if temp.upper() == gameboard.playerDeck[i].Name.upper():
-                                gameboard.playerActive[0].energies.append(gameboard.playerDeck.pop(i))
+                                gameboard.playerActive[0].Energies.append(gameboard.playerDeck.pop(i))
                                 flag = False
                         i += 1
                 i = 0
@@ -271,49 +423,185 @@ def getPlayerActive(gameboard):
                 temp = 0
         gameboard.playerActive[0].Hp -= int(temp)
 
+def getOppActive(gameboard):
+        flag = True
+        i = 0
+        print("What is the opponent's active pokemon?")
+        temp = input()
+        while flag == True:
+                if i >= len(gameboard.oppDeck):
+                        print("Not found. What is the opponent's active pokemon?")
+                        i = -1
+                        temp = input()
+                if temp.upper() == gameboard.oppDeck[i].Name.upper():
+                        flag = False
+                        gameboard.oppActive.append(gameboard.oppDeck.pop(i))
+                i += 1
+        #Get energy for active
+        flag = True
+        moreEnergy = True
+        i = 0
+        while moreEnergy == True:
+                while flag == True:
+                        print("What energy is attached to the opponent's active pokemon?")
+                        temp = input()
+                        if temp == "":
+                                flag = False
+                                moreEnergy = False
+                        if temp.upper() == gameboard.oppDeck[i].Name.upper():
+                                gameboard.oppActive[0].Energies.append(gameboard.oppDeck.pop(i))
+                                flag = False
+                        i += 1
+                i = 0
+        #Get damage for active
+        print("How much damage is on the opponent's active pokemon?")
+        temp = input()
+        if temp == '':
+                temp = 0
+        gameboard.oppActive[0].Hp -= int(temp)
+
 def getPlayerBench(gameboard):
         morePokemon = True
-        benchCount = 0
-        while morePokemon == True and benchCount < 5:
-                flag = True
-                i = 0
+        benchIndex = 0
+        while morePokemon == True and benchIndex < 5:
                 print("What is the players benched pokemon?")
                 temp = input()
+                entered = True
                 if temp == '':
                         morePokemon = False
-                        flag = False
-                while flag == True:
-                        if i >= len(gameboard.playerDeck):
-                                print("Not found.")
-                                i = -1
-                                flag = False
-                        if temp.upper() == gameboard.playerDeck[i].Name.upper():
-                                benchCount += 1
-                                print("Bench count " + str(benchCount))
-                                gameboard.playerBench.append(gameboard.playerDeck.pop(i))
-                                flag = False
-                                i = 0
+                        entered = False
+                else:
+                        i = 0
+                        found = False
+                        end = False
+                        while found == False and end == False:
+                                if i >= len(gameboard.playerDeck):
+                                        print("Not found.")
+                                        end = True
+                                        i = -1
+                                elif temp.upper() == gameboard.playerDeck[i].Name.upper():
+                                        found = True
+                                        gameboard.playerBench.append(gameboard.playerDeck.pop(i))
+                                i += 1
+                        if entered == True and found == True:
                                 moreEnergy = True
                                 while moreEnergy == True:
-                                        while flag == True:
-                                                print("What energies are attached to the player's benched pokemon?")
-                                                temp = input()
-                                                if temp == "":
-                                                        flag = False
-                                                        moreEnergy = False
-                                                if temp.upper() == gameboard.playerDeck[i].Name.upper():
-                                                        gameboard.playerBench[benchCount - 1].energies.append(gameboard.playerDeck.pop(i))
-                                                i += 1
-                                        i = 0
-                                        i += 1
-                
-                print("How much damage is on the player's benched pokemon?")
+                                        print("What energy is attached to the benched Pokemon?")
+                                        temp = input()
+                                        if temp == '':
+                                                moreEnergy = False
+                                        else:
+                                                i = 0
+                                                found = False
+                                                end = False
+                                                while found == False and end == False:
+                                                        if i >= len(gameboard.playerDeck):
+                                                                print("Not found.")
+                                                                end = True
+                                                                i = -1
+                                                        elif temp.upper() == gameboard.playerDeck[i].Name.upper():
+                                                                found = True
+                                                                gameboard.playerBench[benchIndex].Energies.append(gameboard.playerDeck.pop(i))
+                                                        i += 1
+                                #Get damage for active
+                                print("How much damage is on the benched pokemon?")
+                                temp = input()
+                                if temp == '':
+                                        temp = 0
+                                gameboard.playerBench[benchIndex].Hp -= int(temp)
+                                benchIndex += 1
+
+def getOppBench(gameboard):
+        morePokemon = True
+        benchIndex = 0
+        while morePokemon == True and benchIndex < 5:
+                print("What is the opponent's benched pokemon?")
                 temp = input()
+                entered = True
                 if temp == '':
-                        temp = 0
-                print(gameboard.playerBench[benchCount - 1].Hp)
-                gameboard.playerBench[benchCount - 1].Hp -= int(temp)
-                print(gameboard.playerBench[benchCount -1].Hp)
+                        morePokemon = False
+                        entered = False
+                else:
+                        i = 0
+                        found = False
+                        end = False
+                        while found == False and end == False:
+                                if i >= len(gameboard.oppDeck):
+                                        print("Not found.")
+                                        end = True
+                                        i = -1
+                                elif temp.upper() == gameboard.oppDeck[i].Name.upper():
+                                        found = True
+                                        gameboard.oppBench.append(gameboard.oppDeck.pop(i))
+                                i += 1
+                        if entered == True and found == True:
+                                moreEnergy = True
+                                while moreEnergy == True:
+                                        print("What energy is attached to the benched Pokemon?")
+                                        temp = input()
+                                        if temp == '':
+                                                moreEnergy = False
+                                        else:
+                                                i = 0
+                                                found = False
+                                                end = False
+                                                while found == False and end == False:
+                                                        if i >= len(gameboard.oppDeck):
+                                                                print("Not found.")
+                                                                end = True
+                                                                i = -1
+                                                        elif temp.upper() == gameboard.oppDeck[i].Name.upper():
+                                                                found = True
+                                                                gameboard.oppBench[benchIndex].Energies.append(gameboard.oppDeck.pop(i))
+                                                        i += 1
+                                #Get damage for active
+                                print("How much damage is on the benched pokemon?")
+                                temp = input()
+                                if temp == '':
+                                        temp = 0
+                                gameboard.oppBench[benchIndex].Hp -= int(temp)
+                                benchIndex += 1
+
+
+        #         flag = True
+        #         i = 0
+        #         print("What is the players benched pokemon?")
+        #         temp = input()
+        #         if temp == '':
+        #                 morePokemon = False
+        #                 flag = False
+        #         while flag == True:
+        #                 if i >= len(gameboard.playerDeck):
+        #                         print("Not found.")
+        #                         i = -1
+        #                         flag = False
+        #                 if temp.upper() == gameboard.playerDeck[i].Name.upper():
+        #                         benchCount += 1
+        #                         print("Bench count " + str(benchCount))
+        #                         gameboard.playerBench.append(gameboard.playerDeck.pop(i))
+        #                         flag = False
+        #                         i = 0
+        #                         moreEnergy = True
+        #                         while moreEnergy == True:
+        #                                 while flag == True:
+        #                                         print("What energies are attached to the player's benched pokemon?")
+        #                                         temp = input()
+        #                                         if temp == "":
+        #                                                 flag = False
+        #                                                 moreEnergy = False
+        #                                         if temp.upper() == gameboard.playerDeck[i].Name.upper():
+        #                                                 gameboard.playerBench[benchCount - 1].energies.append(gameboard.playerDeck.pop(i))
+        #                                         i += 1
+        #                                 i = 0
+        #                 i += 1
+                
+        #         print("How much damage is on the player's benched pokemon?")
+        #         temp = input()
+        #         if temp == '':
+        #                 temp = 0
+        #         print(gameboard.playerBench[benchCount - 1].Hp)
+        #         gameboard.playerBench[benchCount - 1].Hp -= int(temp)
+        #         print(gameboard.playerBench[benchCount -1].Hp)
         #gameboard.playEnergy()
         #app = QtWidgets.QApplication(sys.argv)
         #MainWindow = QtWidgets.QMainWindow()

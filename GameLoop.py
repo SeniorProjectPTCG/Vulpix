@@ -15,7 +15,7 @@ import SetListTest
 import GameManager
 
 #import gameboard as display
-from setlists import SUM
+#from setlists import SUM
 #from PyQt5 import QtCore, QtGui, QtWidgets
 import sys
 
@@ -208,6 +208,112 @@ def GameLoop():
 ##
 
         gameboard.setup()
+
+        playerWins = 0
+        oppWins = 0
+        go = True
+
+        while go == True:
+                # Get players board state from the user
+                getPlayerActive(gameboard)
+                
+                
+                # Get players benched pokemon
+                getPlayerBench(gameboard)
+                flag = True
+                more = True
+                i = 0
+                while more == True:
+                        while flag == True:
+                                print("What card is in the players hand?")
+                                temp = input()
+                                if temp == '':
+                                        flag = False
+                                        more = False
+                                if temp.upper() == gameboard.playerDeck[i].Name.upper():
+                                        gameboard.playerHand.append(playerDeck.pop(i))
+                print(str(gameboard.playerBench))
+
+def getPlayerActive(gameboard):
+        flag = True
+        i = 0
+        print("What is the players active pokemon?")
+        temp = input()
+        while flag == True:
+                if i >= len(gameboard.playerDeck):
+                        print("Not found. What is the players active pokemon?")
+                        i = -1
+                        temp = input()
+                if temp.upper() == gameboard.playerDeck[i].Name.upper():
+                        flag = False
+                        gameboard.playerActive.append(gameboard.playerDeck.pop(i))
+                i += 1
+        #Get energy for active
+        flag = True
+        moreEnergy = True
+        i = 0
+        while moreEnergy == True:
+                while flag == True:
+                        print("What energies are attached to the player's active pokemon?")
+                        temp = input()
+                        if temp == "":
+                                flag = False
+                                moreEnergy = False
+                        if temp.upper() == gameboard.playerDeck[i].Name.upper():
+                                gameboard.playerActive[0].energies.append(gameboard.playerDeck.pop(i))
+                                flag = False
+                        i += 1
+                i = 0
+        #Get damage for active
+        print("How much damage is on the player's active pokemon?")
+        temp = input()
+        if temp == '':
+                temp = 0
+        gameboard.playerActive[0].Hp -= int(temp)
+
+def getPlayerBench(gameboard):
+        morePokemon = True
+        benchCount = 0
+        while morePokemon == True and benchCount < 5:
+                flag = True
+                i = 0
+                print("What is the players benched pokemon?")
+                temp = input()
+                if temp == '':
+                        morePokemon = False
+                        flag = False
+                while flag == True:
+                        if i >= len(gameboard.playerDeck):
+                                print("Not found.")
+                                i = -1
+                                flag = False
+                        if temp.upper() == gameboard.playerDeck[i].Name.upper():
+                                benchCount += 1
+                                print("Bench count " + str(benchCount))
+                                gameboard.playerBench.append(gameboard.playerDeck.pop(i))
+                                flag = False
+                                i = 0
+                                moreEnergy = True
+                                while moreEnergy == True:
+                                        while flag == True:
+                                                print("What energies are attached to the player's benched pokemon?")
+                                                temp = input()
+                                                if temp == "":
+                                                        flag = False
+                                                        moreEnergy = False
+                                                if temp.upper() == gameboard.playerDeck[i].Name.upper():
+                                                        gameboard.playerBench[benchCount - 1].energies.append(gameboard.playerDeck.pop(i))
+                                                i += 1
+                                        i = 0
+                                        i += 1
+                
+                print("How much damage is on the player's benched pokemon?")
+                temp = input()
+                if temp == '':
+                        temp = 0
+                print(gameboard.playerBench[benchCount - 1].Hp)
+                gameboard.playerBench[benchCount - 1].Hp -= int(temp)
+                print(gameboard.playerBench[benchCount -1].Hp)
         #gameboard.playEnergy()
         #app = QtWidgets.QApplication(sys.argv)
         #MainWindow = QtWidgets.QMainWindow()
@@ -223,12 +329,9 @@ def GameLoop():
         #gameboard.turns('p')
         ##MainWindow.show()
         ##sys.exit(app.exec_())
-        while winner == False:
-                turn = 'p'
-                gameboard.turns(turn)
-      
-
-        
+        # while winner == False:
+        #         turn = 'p'
+        #         gameboard.turns(turn)
 card1 = {'Name' : 'Solgaleo',
         'Card_Type' : 'Pokemon',
         'Stage' : 2,

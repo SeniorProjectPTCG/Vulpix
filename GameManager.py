@@ -344,22 +344,22 @@ class Gameboard():
             
         self.randomizeDecks()
         #Draw cards from player hand
-        for i in range(7): # should do this 7 times...need to test to be sure
+        # for i in range(7): # should do this 7 times...need to test to be sure
             
-            self.playerDrawCard()
-            self.oppDrawCard()
-        for i in range(len(self.playerHand)):
-            print(self.playerHand[i].Name)
-        self.playerSetUp()
-        self.oppSetUp()
-        if self.playerMulligan - self.oppMulligan > 0:
-            for i in range(self.playerMulligan - self.oppMulligan):
-                self.oppDrawCard()
-                print("Opponent drew a mulligan!")
-        if self.oppMulligan - self.playerMulligan > 0:
-            for i in range(self.oppMulligan - self.playerMulligan):
-                self.playerDrawCard()
-                print("Player drew a mulligan!")
+        #     self.playerDrawCard()
+        #     self.oppDrawCard()
+        # for i in range(len(self.playerHand)):
+        #     print(self.playerHand[i].Name)
+        # self.playerSetUp()
+        # self.oppSetUp()
+        # if self.playerMulligan - self.oppMulligan > 0:
+        #     for i in range(self.playerMulligan - self.oppMulligan):
+        #         self.oppDrawCard()
+        #         print("Opponent drew a mulligan!")
+        # if self.oppMulligan - self.playerMulligan > 0:
+        #     for i in range(self.oppMulligan - self.playerMulligan):
+        #         self.playerDrawCard()
+        #         print("Player drew a mulligan!")
 
     def checkEnergyCost(self, cost, attached):
         print("Checking energy costs...")
@@ -647,7 +647,20 @@ class Gameboard():
 ##                        self.oppActive[0].Energies.append(self.oppHand.pop(i))
 ##                        self.energyPlayed = True
 ##                        print(name + " played")
-        
+    def checkWinCon(self, turn):
+        if len(oppDeck) <= 0 or len(playerPrize) <= 0 or len(oppActive) <= 0:
+            if turn == 'p':
+                return 1
+            elif turn == 'o':
+                return 0
+        elif len(playerDeck) <= 0 or len(oppPrize) <= 0 or len(playerActive) <= 0:
+            if turn == 'p':
+                return 0
+            elif turn == 'o':
+                return 1
+        else:
+            return 0.5
+
     def playItem(self,index, turn):
         ## Plays an item from hand and does the effect
         pass

@@ -399,6 +399,31 @@ def getPlayerActive(gameboard):
                 if temp.upper() == gameboard.playerDeck[i].Name.upper():
                         flag = False
                         gameboard.playerActive.append(gameboard.playerDeck.pop(i))
+                        if gameboard.playerActive[0].Stage == 2:
+                                i = 0
+                                foundS1 = False
+                                while i < len(gameboard.playerDeck) and foundS1 == False:
+                                        if gameboard.playerActive[0].PreEvolution.upper() == gameboard.playerDeck[i].Name.upper():
+                                                gameboard.playerActive[0].Pokemon.append(gameboard.playerDeck.pop(i))
+                                                foundS1 = True
+                                        i += 1
+                                i = 0 
+                                foundS0 = False
+                                while i < len(gameboard.playerDeck) and foundS0 == False:
+                                        if gameboard.playerActive[0].Pokemon[0].PreEvolution.upper() == gameboard.playerDeck[i].Name.upper():
+                                                print(gameboard.playerActive[0].Pokemon[0].PreEvolution.upper())
+                                                print(gameboard.playerDeck[i].Name.upper())
+                                                gameboard.playerActive[0].Pokemon[0].Pokemon.append(gameboard.playerDeck.pop(i))
+                                                foundS0 = True
+                                        i += 1
+                        elif gameboard.playerActive[0].Stage == 1:
+                                i = 0
+                                foundS0 = False
+                                while i < len(gameboard.playerDeck) and foundS0 == False:
+                                        if gameboard.playerActive[0].PreEvolution.upper() == gameboard.playerDeck[i].Name.upper():
+                                                gameboard.playerActive[0].Pokemon.append(gameboard.playerDeck.pop(i))
+                                                foundS0 = True
+                                        i += 1
                 i += 1
         #Get energy for active
         flag = True
@@ -436,6 +461,29 @@ def getOppActive(gameboard):
                 if temp.upper() == gameboard.oppDeck[i].Name.upper():
                         flag = False
                         gameboard.oppActive.append(gameboard.oppDeck.pop(i))
+                        if gameboard.oppActive[0].Stage == 2:
+                                i = 0
+                                foundS1 = False
+                                while i < len(gameboard.oppDeck) and foundS1 == False:
+                                        if gameboard.oppActive[0].PreEvolution.upper() == gameboard.oppDeck[i].Name.upper():
+                                                gameboard.oppActive[0].Pokemon.append(gameboard.oppDeck.pop(i))
+                                                foundS1 = True
+                                        i += 1
+                                i = 0 
+                                foundS0 = False
+                                while i < len(gameboard.oppDeck) and foundS0 == False:
+                                        if gameboard.oppActive[0].Pokemon[0].PreEvolution.upper() == gameboard.oppDeck[i].Name.upper():
+                                                gameboard.oppActive[0].Pokemon[0].Pokemon.append(gameboard.oppDeck.pop(i))
+                                                foundS0 = True
+                                        i += 1
+                        elif gameboard.oppActive[0].Stage == 1:
+                                i = 0
+                                foundS0 = False
+                                while i < len(gameboard.oppDeck) and foundS0 == False:
+                                        if gameboard.oppActive[0].PreEvolution.upper() == gameboard.oppDeck[i].Name.upper():
+                                                gameboard.oppActive[0].Pokemon.append(gameboard.oppDeck.pop(i))
+                                                foundS0 = True
+                                        i += 1
                 i += 1
         #Get energy for active
         flag = True
@@ -482,6 +530,29 @@ def getPlayerBench(gameboard):
                                 elif temp.upper() == gameboard.playerDeck[i].Name.upper():
                                         found = True
                                         gameboard.playerBench.append(gameboard.playerDeck.pop(i))
+                                        if gameboard.playerBench[benchIndex].Stage == 2:
+                                                i = 0
+                                                foundS1 = False
+                                                while i < len(gameboard.playerDeck) and foundS1 == False:
+                                                        if gameboard.playerBench[benchIndex].PreEvolution.upper() == gameboard.playerDeck[i].Name.upper():
+                                                                gameboard.playerBench[benchIndex].Pokemon.append(gameboard.playerDeck.pop(i))
+                                                                foundS1 = True
+                                                        i += 1
+                                                i = 0 
+                                                foundS0 = False
+                                                while i < len(gameboard.playerDeck) and foundS0 == False:
+                                                        if gameboard.playerBench[benchIndex].Pokemon[0].PreEvolution.upper() == gameboard.playerDeck[i].Name.upper():
+                                                                gameboard.playerBench[benchIndex].Pokemon[0].Pokemon.append(gameboard.playerDeck.pop(i))
+                                                                foundS0 = True
+                                                        i += 1
+                                        elif gameboard.playerBench[benchIndex].Stage == 1:
+                                                i = 0
+                                                foundS0 = False
+                                                while i < len(gameboard.playerDeck) and foundS0 == False:
+                                                        if gameboard.playerBench[benchIndex].PreEvolution.upper() == gameboard.playerDeck[i].Name.upper():
+                                                                gameboard.playerBench[benchIndex].Pokemon.append(gameboard.playerDeck.pop(i))
+                                                                foundS0 = True
+                                                        i += 1
                                 i += 1
                         if entered == True and found == True:
                                 moreEnergy = True
@@ -533,6 +604,29 @@ def getOppBench(gameboard):
                                 elif temp.upper() == gameboard.oppDeck[i].Name.upper():
                                         found = True
                                         gameboard.oppBench.append(gameboard.oppDeck.pop(i))
+                                        if gameboard.oppBench[benchIndex].Stage == 2:
+                                                i = 0
+                                                foundS1 = False
+                                                while i < len(gameboard.oppDeck) and foundS1 == False:
+                                                        if gameboard.oppBench[benchIndex].PreEvolution.upper() == gameboard.oppDeck[i].Name.upper():
+                                                                gameboard.oppBench[benchIndex].Pokemon.append(gameboard.oppDeck.pop(i))
+                                                                foundS1 = True
+                                                        i += 1
+                                                i = 0 
+                                                foundS0 = False
+                                                while i < len(gameboard.oppDeck) and foundS0 == False:
+                                                        if gameboard.oppBench[benchIndex].Pokemon[0].PreEvolution.upper() == gameboard.oppDeck[i].Name.upper():
+                                                                gameboard.oppBench[benchIndex].Pokemon[0].Pokemon.append(gameboard.oppDeck.pop(i))
+                                                                foundS0 = True
+                                                        i += 1
+                                        elif gameboard.oppBench[benchIndex].Stage == 1:
+                                                i = 0
+                                                foundS0 = False
+                                                while i < len(gameboard.oppDeck) and foundS0 == False:
+                                                        if gameboard.oppBench[benchIndex].PreEvolution.upper() == gameboard.oppDeck[i].Name.upper():
+                                                                gameboard.oppBench[benchIndex].Pokemon.append(gameboard.oppDeck.pop(i))
+                                                                foundS0 = True
+                                                        i += 1
                                 i += 1
                         if entered == True and found == True:
                                 moreEnergy = True

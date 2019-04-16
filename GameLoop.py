@@ -430,21 +430,28 @@ def getPlayerActive(gameboard):
                                         i += 1
                 i += 1
         #Get energy for active
-        flag = True
-        moreEnergy = True
-        i = 0
-        while moreEnergy == True:
-                while flag == True:
-                        print("What energy is attached to the player's active pokemon?")
+        entered = True
+        found = True
+        if entered == True and found == True:
+                moreEnergy = True
+                while moreEnergy == True:
+                        print("What energy is attached to the active Pokemon?")
                         temp = input()
-                        if temp == "":
-                                flag = False
+                        if temp == '':
                                 moreEnergy = False
-                        if temp.upper() == gameboard.playerDeck[i].Name.upper():
-                                gameboard.playerActive[0].Energies.append(gameboard.playerDeck.pop(i))
-                                flag = False
-                        i += 1
-                i = 0
+                        else:
+                                i = 0
+                                found = False
+                                end = False
+                                while found == False and end == False:
+                                        if i >= len(gameboard.playerDeck):
+                                                print("Not found.")
+                                                end = True
+                                                i = -1
+                                        elif temp.upper() == gameboard.playerDeck[i].Name.upper():
+                                                found = True
+                                                gameboard.playerActive[0].Energies.append(gameboard.playerDeck.pop(i))
+                                        i += 1
         #Get damage for active
         print("How much damage is on the player's active pokemon?")
         temp = input()
@@ -490,21 +497,28 @@ def getOppActive(gameboard):
                                         i += 1
                 i += 1
         #Get energy for active
-        flag = True
-        moreEnergy = True
-        i = 0
-        while moreEnergy == True:
-                while flag == True:
-                        print("What energy is attached to the opponent's active pokemon?")
+        entered = True
+        found = True
+        if entered == True and found == True:
+                moreEnergy = True
+                while moreEnergy == True:
+                        print("What energy is attached to the active Pokemon?")
                         temp = input()
-                        if temp == "":
-                                flag = False
+                        if temp == '':
                                 moreEnergy = False
-                        elif temp.upper() == gameboard.oppDeck[i].Name.upper():
-                                gameboard.oppActive[0].Energies.append(gameboard.oppDeck.pop(i))
-                                flag = False
-                        i += 1
-                i = 0
+                        else:
+                                i = 0
+                                found = False
+                                end = False
+                                while found == False and end == False:
+                                        if i >= len(gameboard.oppDeck):
+                                                print("Not found.")
+                                                end = True
+                                                i = -1
+                                        elif temp.upper() == gameboard.oppDeck[i].Name.upper():
+                                                found = True
+                                                gameboard.oppActive[0].Energies.append(gameboard.oppDeck.pop(i))
+                                        i += 1
         #Get damage for active
         print("How much damage is on the opponent's active pokemon?")
         temp = input()

@@ -47,7 +47,7 @@ class Node:
 
     def __repr__(self):
         return "[M:" + str(self.move) + " W/V:" + str(self.wins) + "/" + str(self.visits) + " U:" + str(
-            self.untried_moves) + "]"
+            self.untriedMoves) + "]"
 
 def uct(rootstate, itermax):
     rootnode = Node(state=rootstate)
@@ -79,5 +79,8 @@ def uct(rootstate, itermax):
             node.update(state.checkWinCon(state.turn))
             node = node.parent
         print("returning move")
+
         print("length of rootnode.childNodes " + str(len(rootnode.childNodes)))
-        return sorted(rootnode.childNodes, key=lambda c: c.visits)[-1].move
+        x = sorted(rootnode.childNodes, key=lambda c: c.visits)[-1]
+        print(x)
+        return x.move

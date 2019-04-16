@@ -525,7 +525,8 @@ class Gameboard():
 
     def getMoves(self, turn):
         legalMoves = []
-        print("checkWinCon = " + str(self.checkWinCon(turn)))
+        #print("checkWinCon = " + str(self.checkWinCon(turn)))
+        print("turn: " + turn)
         if self.checkWinCon(turn) != 1 and self.checkWinCon(turn) != 0:
             if turn == 'p':
                 #print("legal moves: "+ str(legalMoves))

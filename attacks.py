@@ -110,7 +110,7 @@ def dustGathering(self, player):
 	else:
 		self.oppDrawCard()
 
-def teleport(self, pokemonIndex, player):
+def teleport(pokemonIndex, player):
         ## Switch this Pokémon with 1 of your Benched Pokémon
 	self.switch(pokemonIndex, player)
 

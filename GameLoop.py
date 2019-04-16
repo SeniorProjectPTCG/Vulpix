@@ -13,6 +13,7 @@
 
 import SetListTest
 import GameManager
+import mcts
 
 #import gameboard as display
 #from setlists import SUM
@@ -247,8 +248,11 @@ def GameLoop():
                 #Get opponents prizes
                 getOppPrize(gameboard)
 
-                
+                print(mcts.uct(gameboard,5))
 
+                del gameboard
+                input("Press enter to continue.")
+                GameLoop()
 def getStadium(gameboard):
         entered = True
         while entered == True:
@@ -496,7 +500,7 @@ def getOppActive(gameboard):
                         if temp == "":
                                 flag = False
                                 moreEnergy = False
-                        if temp.upper() == gameboard.oppDeck[i].Name.upper():
+                        elif temp.upper() == gameboard.oppDeck[i].Name.upper():
                                 gameboard.oppActive[0].Energies.append(gameboard.oppDeck.pop(i))
                                 flag = False
                         i += 1
@@ -657,45 +661,6 @@ def getOppBench(gameboard):
                                 benchIndex += 1
 
 
-        #         flag = True
-        #         i = 0
-        #         print("What is the players benched pokemon?")
-        #         temp = input()
-        #         if temp == '':
-        #                 morePokemon = False
-        #                 flag = False
-        #         while flag == True:
-        #                 if i >= len(gameboard.playerDeck):
-        #                         print("Not found.")
-        #                         i = -1
-        #                         flag = False
-        #                 if temp.upper() == gameboard.playerDeck[i].Name.upper():
-        #                         benchCount += 1
-        #                         print("Bench count " + str(benchCount))
-        #                         gameboard.playerBench.append(gameboard.playerDeck.pop(i))
-        #                         flag = False
-        #                         i = 0
-        #                         moreEnergy = True
-        #                         while moreEnergy == True:
-        #                                 while flag == True:
-        #                                         print("What energies are attached to the player's benched pokemon?")
-        #                                         temp = input()
-        #                                         if temp == "":
-        #                                                 flag = False
-        #                                                 moreEnergy = False
-        #                                         if temp.upper() == gameboard.playerDeck[i].Name.upper():
-        #                                                 gameboard.playerBench[benchCount - 1].energies.append(gameboard.playerDeck.pop(i))
-        #                                         i += 1
-        #                                 i = 0
-        #                 i += 1
-                
-        #         print("How much damage is on the player's benched pokemon?")
-        #         temp = input()
-        #         if temp == '':
-        #                 temp = 0
-        #         print(gameboard.playerBench[benchCount - 1].Hp)
-        #         gameboard.playerBench[benchCount - 1].Hp -= int(temp)
-        #         print(gameboard.playerBench[benchCount -1].Hp)
         #gameboard.playEnergy()
         #app = QtWidgets.QApplication(sys.argv)
         #MainWindow = QtWidgets.QMainWindow()

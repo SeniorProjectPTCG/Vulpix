@@ -41,6 +41,7 @@ class Node:
         """ Update this node - one additional visit and result additional wins.
         result must be from the viewpoint of playerJustmoved.
         """
+        print("updating node result = " + str(result))
         self.visits += 1
         self.wins += result
 
@@ -55,28 +56,28 @@ def uct(rootstate, itermax):
         node = rootnode
         state = copy.deepcopy(rootstate)
         #print(str(node.untriedMoves))
-        #if opponent hasn't lost
-        if ((len(state.oppDeck)>= 0) and len(state.playerPrize)>0 and len(state.oppActive)>0):
-            print("opp hasnt lost")
-            #Select
-            while node.untriedMoves == [] and node.childNodes != []:
-                node = node.uctSelectChild()
-                node.move[0](node.move[1:])
-            
-            #Expand
-            if node.untriedMoves != [] and node.parent == None:
-                m = random.choice(node.untriedMoves)
-                state.makeMove(m)
-                print("adding child")
-                node = node.addChild(m, state)
-                print(node.untriedMoves)
+    
+        #Select
+        while node.untriedMoves == [] and node.childNodes != []:
+            node = node.uctSelectChild()
+            node.move[0](node.move[1:])
+        
+        #Expand
+        if node.untriedMoves != [] and node.parent == None:
+            m = random.choice(node.untriedMoves)
+            state.makeMove(m)
+            print("adding child")
+            node = node.addChild(m, state)
+            print(node.untriedMoves)
 
-            #Rollout
-            #while not state.getMoves(state.turn) == []:
-            #    state.makeMove(random.choice(state.getMoves(state.turn)))
+        #Rollout
+        while not state.getMoves(state.turn) == []:
+            state.makeMove(random.choice(state.getMoves(state.turn)))
 
-            #Backpropegate
-            while node is not None:
-                node.update(.5)
-                node = node.parent
+        #Backpropegate
+        while node is not None:
+            node.update(state.checkWinCon(state.turn))
+            node = node.parent
+        print("returning move")
+        print("length of rootnode.childNodes " + str(len(rootnode.childNodes)))
         return sorted(rootnode.childNodes, key=lambda c: c.visits)[-1].move

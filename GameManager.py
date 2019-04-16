@@ -117,9 +117,7 @@ class Gameboard():
         if len(self.playerDeck) > 0:
             self.playerHand.append(self.playerDeck.pop(self.playerDeckIndex))
             print("Player drew a Card!")
-        else:
-            print("player decked out - opponent wins")
-            sys.exit()
+            
         #self.playerDeckIndex += 1
 
     def playerIsBasic(self, i):
@@ -227,9 +225,7 @@ class Gameboard():
         if len(self.oppDeck) > 0:
             self.oppHand.append(self.oppDeck.pop(self.oppDeckIndex))
             print("Opponent drew a Card!")
-        else:
-            print("opponent decked out - player wins")
-            sys.exit()
+        
         #self.oppDeckIndex += 1
 
     def oppIsBasic(self, i):
@@ -439,12 +435,6 @@ class Gameboard():
                         print(self.oppActive[0].Name + " moved to opponents active slot")
                         self.playerHand.append(self.playerPrize.pop(0))
                         print("player has " + str(len(self.playerPrize)) + " left")
-                        if len(self.playerPrize) <= 0:
-                            print("Player has taken all prizes - Player wins")
-                            sys.exit()
-                    else:
-                        print("opponent out of Pokemon - Player wins")
-                        sys.exit()
         elif turn == 'o':
             if self.checkEnergyCost(cost, self.oppActive[0].Energies):
                 print(self.playerActive[0].Name + " HP: " + str(self.playerActive[0].Hp))
@@ -492,13 +482,8 @@ class Gameboard():
                         print(self.playerActive[0].Name + " moved to players active slot")
                         self.oppHand.append(self.oppPrize.pop(0))
                         print("opponent has " + str(len(self.oppPrize)) + " left")
-                        if len(self.oppPrize) <= 0:
-                            print("Opponent has taken all prizes - Opponent wins")
-                            sys.exit()
-                    else:
-                        print("player out of Pokemon - opponent wins")
-                        sys.exit()
-
+                        
+        self.passTurn(turn)
 
     # def attackDamage(self, attacker, defender, choice):
 
@@ -528,72 +513,86 @@ class Gameboard():
 ##                    self.playerHand[pokemonIndex].Pokemon.append(self.playerBench.pop(benchIndex))
 ##                    self.playerBench[benchIndex].append(self.playerHand[pokemonIndex])
 ##                # do the same for bench
+    def passTurn(self, turn):
+        if turn == 'p':
+            self.checkWinCon(turn)
+            self.turn = 'o'
+            self.oppDrawCard()
+        elif turn == 'o':
+            self.checkWinCon(turn)
+            self.turn == 'p'
+            self.playerDrawCard()
 
     def getMoves(self, turn):
         legalMoves = []
-        if turn == 'p':
-            #print("legal moves: "+ str(legalMoves))
-            if self.supporterPlayed == False:
+        print("checkWinCon = " + str(self.checkWinCon(turn)))
+        if self.checkWinCon(turn) != 1 and self.checkWinCon(turn) != 0:
+            if turn == 'p':
+                #print("legal moves: "+ str(legalMoves))
+                if self.supporterPlayed == False:
+                    for i in range(len(self.playerHand)):
+                        if self.playerHand[i].Card_Type == "Supporter":
+                            legalMoves.append((self.playSupporter,turn, i))
+                if self.energyPlayed == False:
+                    #print(legalMoves)
+                    for i in range(len(self.playerHand)):
+                        if self.playerHand[i].Card_Type == "Energy":
+                            legalMoves.append((self.playEnergy,turn,i))
+                            #print(legalMoves)
                 for i in range(len(self.playerHand)):
-                    if self.playerHand[i].Card_Type == "Supporter":
-                        legalMoves.append((self.playSupporter,turn, i))
-            if self.energyPlayed == False:
-                #print(legalMoves)
-                for i in range(len(self.playerHand)):
-                    if self.playerHand[i].Card_Type == "Energy":
-                        legalMoves.append((self.playEnergy,turn,i))
-                        #print(legalMoves)
-            for i in range(len(self.playerHand)):
-                if self.playerHand[i].Card_Type == "Pokemon":
-                    if self.playerHand[i].Stage == 0 and len(self.playerBench) < 5:
-                        legalMoves.append((self.playBasic,turn, i))
-                    elif self.playerHand[i].Card_Type == "Pokemon" and self.playerHand[i].Stage > 0:
-                        if self.playerHand[i].PreEvolution == self.playerActive[0].Name:
-                            legalMoves.append((self.evolve,i, "active", 0, turn))
-                        else:
-                            for j in range(len(self.playerBench)):
-                                if self.playerBench[j].Name == self.playerHand[i].PreEvolution:
-                                    legalMoves.append((self.evolve,i, "bench", j, turn))
-                elif self.playerHand[i].Card_Type == "Item":
-                    legalMoves.append((self.playItem,turn, i))
-            if self.retreated == False:
-                for i in range(len(self.playerBench)):
-                    legalMoves.append((self.retreat,i,turn))
-            if self.checkEnergyCost(self.playerActive[0].Attack_One_Cost, self.playerActive[0].Energies):
-                legalMoves.append((self.attack, turn, self.playerActive[0].Attack_One_Name, self.playerActive[0].Attack_One_Damage, self.playerActive[0].Attack_One_Cost))
-            if self.playerActive[0].Attack_Two_Name != "None":
-                if self.checkEnergyCost(self.playerActive[0].Attack_Two_Cost, self.playerActive[0].Energies):
-                    legalMoves.append((self.attack, turn, self.playerActive[0].Attack_Two_Name, self.playerActive[0].Attack_Two_Damage, self.playerActive[0].Attack_Two_Cost))
-        elif turn == 'o':
-            if supporterPlayed == False:
-                for i in range(len(oppHand)):
-                    if oppHand[i].Card_Type == "Supporter":
-                        legalMoves.append((self.playSupporter,turn, i))
-            if energyPlayed == False:
-                for i in range(len(oppHand)):
-                    if oppHand[i].Card_Type == "Energy":
-                        legalMoves.append((self.playEnergy,turn,i))
-            for i in range(len(oppHand)):
-                if oppHand[i].Card_Type == "Pokemon":
-                    if oppHand[i].Stage == 0 and len(oppBench) < 5:
-                        legalMoves.append((self.playBasic,turn, i))
-                    elif self.oppHand[i].Card_Type == "Pokemon" and self.oppHand[i].Stage > 0:
-                        if self.oppHand[i].PreEvolution == self.oppActive[0].Name:
-                            legalMoves.append((self.evolve,i, "active", 0, turn))
-                        else:
-                            for j in range(len(self.oppBench)):
-                                if self.oppBench[j].Name == self.oppHand[i].PreEvolution:
-                                    legalMoves.append((self.evolve,i, "bench", j, turn))
-                elif oppHand[i].Card_Type == "Item":
-                    legalMoves.append((self.playItem,turn, i))
-            if self.retreated == False:
-                for i in range(len(oppBench)):
-                    legalMoves.append((self.retreat,i,turn))
-            if self.checkEnergyCost(self.oppActive[0].Attack_One_Cost, self.oppActive[0].Energies):
-                legalMoves.append((self.attack, turn, self.oppActive[0].Attack_One_Name, self.oppActive[0].Attack_One_Damage, self.oppActive[0].Attack_One_Cost))
-            if self.oppActive[0].Attack_Two_Name != "None":
-                if self.checkEnergyCost(self.oppActive[0].Attack_Two_Cost, self.oppActive[0].Energies):
-                    legalMoves.append((self.attack, turn, self.oppActive[0].Attack_Two_Name, self.oppActive[0].Attack_Two_Damage, self.oppActive.Attack_Two_Cost))
+                    if self.playerHand[i].Card_Type == "Pokemon":
+                        if self.playerHand[i].Stage == 0 and len(self.playerBench) < 5:
+                            legalMoves.append((self.playBasic,turn, i))
+                        elif self.playerHand[i].Card_Type == "Pokemon" and self.playerHand[i].Stage > 0:
+                            if self.playerHand[i].PreEvolution == self.playerActive[0].Name:
+                                legalMoves.append((self.evolve,i, "active", 0, turn))
+                            else:
+                                for j in range(len(self.playerBench)):
+                                    if self.playerBench[j].Name == self.playerHand[i].PreEvolution:
+                                        legalMoves.append((self.evolve,i, "bench", j, turn))
+                    elif self.playerHand[i].Card_Type == "Item":
+                        legalMoves.append((self.playItem,turn, i))
+                if self.retreated == False:
+                    for i in range(len(self.playerBench)):
+                        legalMoves.append((self.retreat,i,turn))
+                if self.checkEnergyCost(self.playerActive[0].Attack_One_Cost, self.playerActive[0].Energies):
+                    legalMoves.append((self.attack, turn, self.playerActive[0].Attack_One_Name, self.playerActive[0].Attack_One_Damage, self.playerActive[0].Attack_One_Cost))
+                if self.playerActive[0].Attack_Two_Name != "None":
+                    if self.checkEnergyCost(self.playerActive[0].Attack_Two_Cost, self.playerActive[0].Energies):
+                        legalMoves.append((self.attack, turn, self.playerActive[0].Attack_Two_Name, self.playerActive[0].Attack_Two_Damage, self.playerActive[0].Attack_Two_Cost))
+                legalMoves.append((self.passTurn, turn))
+
+            elif turn == 'o':
+                if self.supporterPlayed == False:
+                    for i in range(len(self.oppHand)):
+                        if self.oppHand[i].Card_Type == "Supporter":
+                            legalMoves.append((self.playSupporter,turn, i))
+                if self.energyPlayed == False:
+                    for i in range(len(self.oppHand)):
+                        if self.oppHand[i].Card_Type == "Energy":
+                            legalMoves.append((self.playEnergy,turn,i))
+                for i in range(len(self.oppHand)):
+                    if self.oppHand[i].Card_Type == "Pokemon":
+                        if self.oppHand[i].Stage == 0 and len(self.oppBench) < 5:
+                            legalMoves.append((self.playBasic,turn, i))
+                        elif self.oppHand[i].Card_Type == "Pokemon" and self.oppHand[i].Stage > 0:
+                            if self.oppHand[i].PreEvolution == self.oppActive[0].Name:
+                                legalMoves.append((self.evolve,i, "active", 0, turn))
+                            else:
+                                for j in range(len(self.oppBench)):
+                                    if self.oppBench[j].Name == self.oppHand[i].PreEvolution:
+                                        legalMoves.append((self.evolve,i, "bench", j, turn))
+                    elif self.oppHand[i].Card_Type == "Item":
+                        legalMoves.append((self.playItem,turn, i))
+                if self.retreated == False:
+                    for i in range(len(self.oppBench)):
+                        legalMoves.append((self.retreat,i,turn))
+                if self.checkEnergyCost(self.oppActive[0].Attack_One_Cost, self.oppActive[0].Energies):
+                    legalMoves.append((self.attack, turn, self.oppActive[0].Attack_One_Name, self.oppActive[0].Attack_One_Damage, self.oppActive[0].Attack_One_Cost))
+                if self.oppActive[0].Attack_Two_Name != "None":
+                    if self.checkEnergyCost(self.oppActive[0].Attack_Two_Cost, self.oppActive[0].Energies):
+                        legalMoves.append((self.attack, turn, self.oppActive[0].Attack_Two_Name, self.oppActive[0].Attack_Two_Damage, self.oppActive.Attack_Two_Cost))
+                legalMoves.append((self.passTurn, turn))
         return legalMoves
     #stadiumPlayed = False
     
@@ -648,12 +647,12 @@ class Gameboard():
 ##                        self.energyPlayed = True
 ##                        print(name + " played")
     def checkWinCon(self, turn):
-        if len(oppDeck) <= 0 or len(playerPrize) <= 0 or len(oppActive) <= 0:
+        if len(self.oppDeck) <= 0 or len(self.playerPrize) <= 0 or len(self.oppActive) <= 0:
             if turn == 'p':
                 return 1
             elif turn == 'o':
                 return 0
-        elif len(playerDeck) <= 0 or len(oppPrize) <= 0 or len(playerActive) <= 0:
+        elif len(self.playerDeck) <= 0 or len(self.oppPrize) <= 0 or len(self.playerActive) <= 0:
             if turn == 'p':
                 return 0
             elif turn == 'o':
@@ -695,7 +694,7 @@ class Gameboard():
                         if self.stadium[0].Owner == 'p':
                             self.playerDiscard.append(self.stadium.pop(0)) # Discard current stadium if it is owned by player
                             self.stadium.append(self.playerHand.pop(index)) # moves card from hand to stadium spot
-                        if self.stadium[0].Owner == '0':
+                        if self.stadium[0].Owner == 'o':
                             self.oppDiscard.append(self.stadium.pop(0)) # Discard current stadium if it is owned by opponent
                             self.stadium.append(self.playerHand.pop(index)) # moves card from hand to stadium spot
                         
@@ -706,7 +705,10 @@ class Gameboard():
         if turn == 'p':
             print("active before: " + self.playerBench[0].Name)
             if self.playerActive[0].RetreatCost <= len(self.playerActive[0].Energies):
+                for i in range(self.playerActive[0].RetreatCost):
+                    self.playerDiscard.append(playerActive[0].Energies.pop(0))
                 self.switch(pokemonIndex, turn)
+                self.retreated = True
             else:
                 print("thats not a pokemon")
 

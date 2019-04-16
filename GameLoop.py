@@ -250,6 +250,9 @@ def GameLoop():
 
                 print(mcts.uct(gameboard,5))
 
+                del gameboard
+                input("Press enter to continue.")
+                GameLoop()
 def getStadium(gameboard):
         entered = True
         while entered == True:

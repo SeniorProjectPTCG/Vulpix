@@ -28,13 +28,14 @@ class Node:
             Return the added child node
         """
         n = Node(move=m, parent=self, state=s)
-        self.untriedMoves = (s.getMoves(s.turn))
-        try:
-            self.untriedMoves.remove(m)
-        except Exception as e:
-            pass
-        
-        
+        #print("in addchild m =" + str(m))
+        self.untriedMoves.remove(m)
+        #print(str(self.untriedMoves))
+        # self.untriedMoves = (s.getMoves(s.turn))
+        # try:
+        #     self.untriedMoves.remove(m)
+        # except Exception as e:
+        #     pass
         self.childNodes.append(n)
         return n
 
@@ -42,7 +43,7 @@ class Node:
         """ Update this node - one additional visit and result additional wins.
         result must be from the viewpoint of playerJustmoved.
         """
-        print("updating node result = " + str(result))
+        #print("updating node result = " + str(result))
         self.visits += 1
         self.wins += result
 
@@ -52,35 +53,38 @@ class Node:
 
 def uct(rootstate, itermax):
     rootnode = Node(state=rootstate)
-
+    x = copy.deepcopy(rootstate)
+    #print("rootnode = " + str(rootnode))
     for i in range(itermax):
         print("i = " + str(i))
         node = rootnode
-        state = copy.deepcopy(rootstate)
-        print(str(state.playerDeck[2].Name))
+        print("node = " + str(node))
+        state = copy.deepcopy(x)
+        #print(str(state.playerDeck[2].Name))
     
         #Select
         while node.untriedMoves == [] and node.childNodes != []:
             node = node.uctSelectChild()
-            node.move[0](node.move[1:])
+            #node.move[0](node.move[1:])
         
         #Expand
         if node.untriedMoves != []:
             m = random.choice(node.untriedMoves)
             state.makeMove(m)
-            print("adding child")
+            #print("adding child")
+            #print(node.untriedMoves)
             node = node.addChild(m, state)
             #print(node.untriedMoves)
 
         #Rollout
-        while not state.getMoves(state.turn) == []:
+        while node.untriedMoves != [] and node.parent == None:
             state.makeMove(random.choice(state.getMoves(state.turn)))
 
         #Backpropegate
         while node.parent is not None:
             node.update(state.checkWinCon(state.turn))
             node = node.parent
-        print("returning move")
+        #print("returning move")
 
     print("length of rootnode.childNodes " + str(len(rootnode.childNodes)))
     x = sorted(rootnode.childNodes, key=lambda c: c.visits)[-1]

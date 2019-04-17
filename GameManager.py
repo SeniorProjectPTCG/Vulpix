@@ -360,7 +360,7 @@ class Gameboard():
         #         print("Player drew a mulligan!")
 
     def checkEnergyCost(self, cost, attached):
-        print("Checking energy costs...")
+        #print("Checking energy costs...")
         test = attached.copy()
         count = 0
         for i in cost:
@@ -378,10 +378,10 @@ class Gameboard():
                     count += 1
         
         if count == len(cost):
-            print("Has enough energy to attack")
+            #print("Has enough energy to attack")
             return True
         else:
-            print("Does not have enough energy to attack")
+            #print("Does not have enough energy to attack")
             
             return False
 
@@ -603,6 +603,7 @@ class Gameboard():
         print(move)
         print(move[1:])
         move[0](*move[1:])
+        return
 
     def playEnergy(self, turn, index):
         ## ONCE PER TURN (Typically)
@@ -949,7 +950,7 @@ class Card():
     #Basic = False
     Hp = 0
     Attack_One_Damage = 0
-    Attack_One_Nme = ''
+    Attack_One_Name = ''
     Attack_One_Cost = ''
     Attack_Two_Damage = 0
     Attack_Two_Name = ''

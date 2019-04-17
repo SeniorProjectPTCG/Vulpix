@@ -248,7 +248,7 @@ def GameLoop():
                 #Get opponents prizes
                 getOppPrize(gameboard)
 
-                print(mcts.uct(gameboard,500))
+                print("Move = " + str(mcts.uct(gameboard,500)))
 
                 del gameboard
                 input("Press enter to continue.")
@@ -292,7 +292,7 @@ def getPlayerPrize(gameboard):
         print("How many prizes does the player have left")
         temp = input()
         if temp == '':
-                temp = 0
+                temp = 1
         x = int(temp)
         for i in range(x):
                 if len(gameboard.playerDeck) > 0:
@@ -302,7 +302,7 @@ def getOppPrize(gameboard):
         print("How many prizes does the opponent have left?")
         temp = input()
         if temp == '':
-                temp = 0
+                temp = 1
         x = int(temp)
         for i in range(x):
                 if len(gameboard.oppDeck) > 0:

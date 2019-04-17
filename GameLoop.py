@@ -248,7 +248,7 @@ def GameLoop():
                 #Get opponents prizes
                 getOppPrize(gameboard)
 
-                print(mcts.uct(gameboard,5))
+                print(mcts.uct(gameboard,500))
 
                 del gameboard
                 input("Press enter to continue.")

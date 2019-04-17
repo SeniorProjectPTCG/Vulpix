@@ -112,7 +112,7 @@ def dustGathering(self, player):
 
 def teleport(pokemonIndex, player):
         ## Switch this Pokémon with 1 of your Benched Pokémon
-	self.switch(pokemonIndex, player)
+	switch(pokemonIndex, player)
 
 def shiningArrow(attacker, defender, location): ## NEEDS BENCH ATTACK SUPPORT
         ## This attack does 50 damage to 1 of your opponent's Pokémon.

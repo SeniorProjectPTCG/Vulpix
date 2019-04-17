@@ -86,7 +86,9 @@ class Gameboard():
     ## Just a thought to reduce redundant code. Currently, I am just trying to get code down, but if we choose to do this we can edit it in Phase 3.
     ## This will also depend on how we handle turns and stuff like that. We can discuss it during our next weekly team meeting.
 
-    
+    def Clone(self):
+        st = self
+        return st
 
     ###  GENRAL MEMBER FUNCTIONS  ###
     def randomizeDecks(self):
@@ -513,14 +515,14 @@ class Gameboard():
 ##                    self.playerHand[pokemonIndex].Pokemon.append(self.playerBench.pop(benchIndex))
 ##                    self.playerBench[benchIndex].append(self.playerHand[pokemonIndex])
 ##                # do the same for bench
-    def passTurn(self, turn):
-        if turn == 'p':
-            self.checkWinCon(turn)
+    def passTurn(self, t):
+        if t == 'p':
+            self.checkWinCon(t)
             self.turn = 'o'
             self.oppDrawCard()
-        elif turn == 'o':
-            self.checkWinCon(turn)
-            self.turn == 'p'
+        elif t == 'o':
+            self.checkWinCon(t)
+            self.turn = 'p'
             self.playerDrawCard()
 
     def getMoves(self, turn):

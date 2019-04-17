@@ -2,6 +2,7 @@
 #import GameLoop
 import copy
 import random
+import numpy as np
 
 class Node:
     def __init__(self, move=None, parent=None, state=None):
@@ -53,9 +54,10 @@ def uct(rootstate, itermax):
     rootnode = Node(state=rootstate)
 
     for i in range(itermax):
+        print("i = " + str(i))
         node = rootnode
         state = copy.deepcopy(rootstate)
-        #print(str(node.untriedMoves))
+        print(str(state.playerDeck[2].Name))
     
         #Select
         while node.untriedMoves == [] and node.childNodes != []:
@@ -63,24 +65,24 @@ def uct(rootstate, itermax):
             node.move[0](node.move[1:])
         
         #Expand
-        if node.untriedMoves != [] and node.parent == None:
+        if node.untriedMoves != []:
             m = random.choice(node.untriedMoves)
             state.makeMove(m)
             print("adding child")
             node = node.addChild(m, state)
-            print(node.untriedMoves)
+            #print(node.untriedMoves)
 
         #Rollout
         while not state.getMoves(state.turn) == []:
             state.makeMove(random.choice(state.getMoves(state.turn)))
 
         #Backpropegate
-        while node is not None:
+        while node.parent is not None:
             node.update(state.checkWinCon(state.turn))
             node = node.parent
         print("returning move")
 
-        print("length of rootnode.childNodes " + str(len(rootnode.childNodes)))
-        x = sorted(rootnode.childNodes, key=lambda c: c.visits)[-1]
-        print(x)
-        return x.move
+    print("length of rootnode.childNodes " + str(len(rootnode.childNodes)))
+    x = sorted(rootnode.childNodes, key=lambda c: c.visits)[-1]
+    print(x)
+    return x.move

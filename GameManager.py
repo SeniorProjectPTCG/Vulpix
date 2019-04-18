@@ -662,7 +662,7 @@ class Gameboard():
             elif turn == 'o':
                 return 1
         else:
-            return 0.5
+            return 0
 
     def playItem(self,index, turn):
         ## Plays an item from hand and does the effect

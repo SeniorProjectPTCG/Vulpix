@@ -5,8 +5,9 @@ import random
 import numpy as np
 
 class Node:
-    def __init__(self, move=None, parent=None, state=None):
+    def __init__(self, move=None, parent=None, state=None, moveName=''):
         self.move = move
+        self.moveName = moveName
         self.parent = parent
         self.childNodes = []
         self.wins = 0
@@ -27,7 +28,21 @@ class Node:
         """ Remove m from untriedMoves and add a new child node for this move.
             Return the added child node
         """
-        n = Node(move=m, parent=self, state=s)
+        name = ''
+        if str(m[0]).find("playItem") != -1:
+            if len(m) > 2:
+                if m[1] == 'p':
+                    name = s.playerHand[m[2]].Name
+        elif str(m[0]).find("playSupporter") != -1:
+            if len(m) > 2:
+                if m[1] == 'p':
+                    name = s.playerHand[m[2]].Name
+        elif str(m[0]).find("playEnergy") != -1:
+            if len(m) > 2:
+                if m[2] == 'p':
+                    name = s.playerHand[m[1]].Name
+                    #print("addchild: " +name)
+        n = Node(move=m, parent=self, state=s, moveName=name)
         #print("in addchild m =" + str(m))
         self.untriedMoves.remove(m)
         #print(str(self.untriedMoves))
@@ -88,5 +103,5 @@ def uct(rootstate, itermax):
 
     #print("length of rootnode.childNodes " + str(len(rootnode.childNodes)))
     x = sorted(rootnode.childNodes, key=lambda c: c.visits)[-1]
-    #print(x)
-    return x.move
+    print(x.moveName)
+    return x.move, x.moveName

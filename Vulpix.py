@@ -20,25 +20,15 @@ def newGame():
         GameLoop()
 
 def GameLoop():
-        # Game loop should keep track of whose turn it is
-        # using the turn flag. We can then use this flag to
-        # set up the functions in the Gamemanager file to
-        # condense the fuctions that are currently seperated
-        # like player and opp prize setups. At the begining of
-        # the game we can  have a random number generator acting
-        # as a coin to select who goes first and sets the flag.
-        # Then all the setups will take place for that player then
-        # change the flag and setup the next player and so on.
-        # We just need to make sure we setup the boardstate before hand,
-        # ie have prizes layed out and determine mulligans.
-        #Start a new game
-        
+        #Initialize game variables
         
         turn = ''
         winner = False
         
         ## Initialize the gameboard
         gameboard = GameManager.Gameboard()
+        gameboard.__init__()
+        
         ## Initialize the decks
         obj = GameManager.Card(card1)
         gameboard.playerDeck.append(obj)
@@ -195,11 +185,10 @@ def GameLoop():
         # Set the gameboard to the default state
         gameboard.setup()
 
-        #Control game
+        #Control game variable
         go = True
 
         while go == True:
-                
                 # Get players board state from the user
                 getPlayerActive(gameboard)
                 
@@ -236,8 +225,8 @@ def GameLoop():
                 ## Check for win condition
                 gameOver = gameboard.checkWinCon(gameboard.turn)
                 if gameOver != 1 and gameOver != 0:
-                        selectedMove = str(mcts.uct(gameboard,50))
-                        move = parseMove(selectedMove)
+                        selectedMove, name = mcts.uct(gameboard,500)
+                        move= parseMove(selectedMove, name)
                         print("The suggested move is " + move)
                 elif gameOver == 1:
                         print("Player has won")
@@ -247,12 +236,14 @@ def GameLoop():
                         newGame()
 
                 del gameboard
-                input("Press enter to continue.")
+                temp = input("Press enter to continue. Enter 'quit' to exit\n")
+                if temp.lower() == 'quit':
+                        sys.exit()
                 GameLoop()
 
 # Parse the move object to display the move in a user friendly way
-def parseMove(move):
-        temp = move
+def parseMove(move, name):
+        temp = str(move)
         string = ""
         done = False
         i = 0
@@ -271,6 +262,8 @@ def parseMove(move):
                 else:
                         done = True
                 i += 1
+        if name != '':
+                string = string + " " + name
         return string
 
 # The following functions get the gamestate information
@@ -329,14 +322,20 @@ def getPlayerPrize(gameboard):
         
 
 def getOppPrize(gameboard):
-        print("How many prizes does the opponent have left?")
-        temp = input()
-        if temp == '':
-                temp = 1
-        x = int(temp)
-        for i in range(x):
-                if len(gameboard.oppDeck) > 0:
-                        gameboard.oppPrize.append(gameboard.oppDeck.pop(0))
+        goodData = False
+        while goodData == False:
+                print("How many prizes does the opponent have left?")
+                temp = input()
+                if temp == '':
+                        temp = 1
+                try:
+                        x = int(temp)
+                        goodData = True
+                        for i in range(x):
+                                if len(gameboard.oppDeck) > 0:
+                                        gameboard.oppPrize.append(gameboard.oppDeck.pop(0))
+                except Exception as e:
+                        print("You must enter a numerical value")
 
 def getPlayerHand(gameboard):
         entered = True
@@ -363,14 +362,20 @@ def getPlayerHand(gameboard):
                                         i += 1
 
 def getOppHand(gameboard):
-        print("How many cards are in the opponent's hand")
-        temp = input()
-        if temp == '':
-                temp = 0
-        x = int(temp)
-        for i in range(x):
-                if len(gameboard.oppDeck) > 0:
-                        gameboard.oppHand.append(gameboard.oppDeck.pop(0))
+        goodData = False
+        while goodData == False:
+                print("How many cards are in the opponent's hand")
+                temp = input()
+                if temp == '':
+                        temp = 0
+                try:
+                        x = int(temp)
+                        goodData = True
+                        for i in range(x):
+                                 if len(gameboard.oppDeck) > 0:
+                                        gameboard.oppHand.append(gameboard.oppDeck.pop(0))
+                except Exception as e:
+                        print("You must enter a numerical value")
 
 def getPlayerDiscard(gameboard):
         entered = True
@@ -488,6 +493,7 @@ def getPlayerActive(gameboard):
         temp = input()
         if temp == '':
                 temp = 0
+
         gameboard.playerActive[0].Hp -= int(temp)
 
 def getOppActive(gameboard):

@@ -13,18 +13,19 @@ def attackDamage(defender, damage):
 
 def checkWeakness(attacker, defender, damage):
 	damage = checkResist(attacker, defender, damage)
-	if (alterOfTheSunneInPlayAttacks == True):
+	if alterOfTheSunneInPlayAttacks == True:
 		if (defender.Pokemon_Type == 'F' or defender.Pokemon_Type == 'M'):
 			return damage
-	elif (attacker.Pokemon_Type == defender.Weakness):
+	if (attacker.Pokemon_Type == defender.Weakness):
 		damage *= 2
 	return damage
 
 def checkResist(attacker, defender, damage):
-	if defender.Resistance == attacker.Pokemon_Type:
-		damage -= 20
-		if damage < 0:
-			damage = 0
+	if defender.Resistance != '':
+		if defender.Resistance == attacker.Pokemon_Type:
+			damage -= 20
+			if damage < 0:
+				damage = 0
 	return damage
 
 def basicAttack(attacker, defender, damage):

@@ -40,7 +40,7 @@ def GameLoop():
         ## Initialize the gameboard
         #ui = display.Ui_MainWindow()
         gameboard = GameManager.Gameboard()
-
+        print(gameboard.turn)
         #gui = display.Ui_MainWindow()
 
         
@@ -248,9 +248,10 @@ def GameLoop():
                 #Get opponents prizes
                 getOppPrize(gameboard)
 
-                print("Move = " + str(mcts.uct(gameboard,500)))
+                print("Move = " + str(mcts.uct(gameboard,25)))
 
                 del gameboard
+                
                 input("Press enter to continue.")
                 GameLoop()
 def getStadium(gameboard):
@@ -404,6 +405,7 @@ def getPlayerActive(gameboard):
                         flag = False
                         gameboard.playerActive.append(gameboard.playerDeck.pop(i))
                         if gameboard.playerActive[0].Stage == 2:
+                                print(gameboard.playerActive[0].Name)
                                 i = 0
                                 foundS1 = False
                                 while i < len(gameboard.playerDeck) and foundS1 == False:

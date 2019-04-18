@@ -10,7 +10,7 @@ class Node:
         self.parent = parent
         self.childNodes = []
         self.wins = 0
-        self.visits = 0
+        self.visits = 1
         #print(state.turn)
 
         self.untriedMoves = state.getMoves(state.turn)
@@ -56,9 +56,9 @@ def uct(rootstate, itermax):
     x = copy.deepcopy(rootstate)
     #print("rootnode = " + str(rootnode))
     for i in range(itermax):
-        print("i = " + str(i))
+        #print("i = " + str(i))
         node = rootnode
-        print("node = " + str(node))
+        #print("node = " + str(node))
         state = copy.deepcopy(x)
         #print(str(state.playerDeck[2].Name))
     
@@ -86,7 +86,7 @@ def uct(rootstate, itermax):
             node = node.parent
         #print("returning move")
 
-    print("length of rootnode.childNodes " + str(len(rootnode.childNodes)))
+    #print("length of rootnode.childNodes " + str(len(rootnode.childNodes)))
     x = sorted(rootnode.childNodes, key=lambda c: c.visits)[-1]
-    print(x)
+    #print(x)
     return x.move

@@ -11,14 +11,13 @@
 ###################DESCRIPTION########################
 ## This file will run a main game loop 
 
-import SetListTest
 import GameManager
 import mcts
-
-#import gameboard as display
-#from setlists import SUM
-#from PyQt5 import QtCore, QtGui, QtWidgets
 import sys
+
+def newGame():
+        input("Press enter to start a new game")
+        GameLoop()
 
 def GameLoop():
         # Game loop should keep track of whose turn it is
@@ -32,21 +31,15 @@ def GameLoop():
         # change the flag and setup the next player and so on.
         # We just need to make sure we setup the boardstate before hand,
         # ie have prizes layed out and determine mulligans.
-
+        #Start a new game
+        
         
         turn = ''
         winner = False
         
         ## Initialize the gameboard
-        #ui = display.Ui_MainWindow()
         gameboard = GameManager.Gameboard()
 
-        #gui = display.Ui_MainWindow()
-
-        
-
-        ## Populate player deck
-        print("Starting player deck Population...")
         obj = GameManager.Card(card1)
         gameboard.playerDeck.append(obj)
         gameboard.oppDeck.append(obj)
@@ -199,22 +192,16 @@ def GameLoop():
                 gameboard.playerDeck.append(obj)
                 gameboard.oppDeck.append(obj)
 
-        print("Player deck created")
-
-
-##        def attackT():  #used to pass arguements
-##                gui.attack(gameboard)
-##        def retreatT():
-##                gui.retreat(gameboard, 0)
-##
 
         gameboard.setup()
 
-        playerWins = 0
-        oppWins = 0
+        #Control game
         go = True
 
+
         while go == True:
+                
+
                 # Get players board state from the user
                 getPlayerActive(gameboard)
                 
@@ -248,11 +235,46 @@ def GameLoop():
                 #Get opponents prizes
                 getOppPrize(gameboard)
 
-                print("Move = " + str(mcts.uct(gameboard,500)))
+                gameOver = gameboard.checkWinCon(gameboard.turn)
+                if gameOver != 1 and gameOver != 0:
+                        selectedMove = str(mcts.uct(gameboard,50))
+                        move = parseMove(selectedMove)
+                        print("The suggested move is " + move)
+                elif gameOver == 1:
+                        print("Player has won")
+                        newGame()
+                elif gameOver == 0:
+                        print("Opponent has won")
+                        newGame()
 
                 del gameboard
                 input("Press enter to continue.")
                 GameLoop()
+
+# Parse the move object to display the move in a user friendly way
+def parseMove(move):
+        temp = move
+        string = ""
+        done = False
+        i = 0
+        #Find period in the string
+        while done == False:
+                if temp[i] == ".":
+                        done = True
+                i += 1
+        done = False
+        #Find captal letter to denote new word
+        while done == False:
+                if temp[i].isupper():
+                        string = string + " " + temp[i].lower()
+                elif temp[i] != ' ':
+                        string = string + temp[i]
+                else:
+                        done = True
+                i += 1
+        return string
+# The following functions get the gamestate information
+# from the user
 def getStadium(gameboard):
         entered = True
         while entered == True:
@@ -289,14 +311,22 @@ def getStadium(gameboard):
                                         i += 1
 
 def getPlayerPrize(gameboard):
-        print("How many prizes does the player have left")
-        temp = input()
-        if temp == '':
-                temp = 1
-        x = int(temp)
-        for i in range(x):
-                if len(gameboard.playerDeck) > 0:
-                        gameboard.playerPrize.append(gameboard.playerDeck.pop(0))
+        goodData = False
+        while goodData == False:
+                print("How many prizes does the player have left")
+                temp = input()
+                if temp == '':
+                        temp = 1
+                try:
+                        x = int(temp)
+                        goodData = True
+                        for i in range(x):
+                                if len(gameboard.playerDeck) > 0:
+                                        gameboard.playerPrize.append(gameboard.playerDeck.pop(0))
+                except Exception as e:
+                        print("You must enter a numerical value")
+        
+        
 
 def getOppPrize(gameboard):
         print("How many prizes does the opponent have left?")
@@ -1103,7 +1133,7 @@ card33 = {'Name' : 'Mimikyu',
 
 ## MAIN ##
 
-GameLoop()
+newGame()
 
 
 

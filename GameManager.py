@@ -22,65 +22,66 @@ import mcts
 #import gamedisplay
 ## This class will control the entire Gameboard
 class Gameboard():
-    turn = 'p'
-    #Player Lists
-    playerDeck = []
-    playerHand = []
-    playerDiscard = []
-    playerPrize = []
-    playerBench = []
-    playerActive = []
+    def __init__(self):
+        self.turn = 'p'
+        #Player Lists
+        self.playerDeck = []
+        self.playerHand = []
+        self.playerDiscard = []
+        self.playerPrize = []
+        self.playerBench = []
+        self.playerActive = []
 
-    #Opponent Lists
-    oppDeck = []
-    oppHand = []
-    oppDiscard = []
-    oppPrize = []
-    oppBench = []
-    oppActive = []
+        #Opponent Lists
+        self.oppDeck = []
+        self.oppHand = []
+        self.oppDiscard = []
+        self.oppPrize = []
+        self.oppBench = []
+        self.oppActive = []
 
-    #Helper Structures
-    playerDeckIndex = 0
-    oppDeckIndex = 0
-    stadium = []
-    playerMulligan = 0
-    oppMulligan = 0
+        #Helper Structures
+        self.playerDeckIndex = 0
+        self.oppDeckIndex = 0
+        self.stadium = []
+        self.playerMulligan = 0
+        self.oppMulligan = 0
 
-    #Limit Supporters to one per turn
-    supporterPlayed = False
-    stadiumPlayed = False
-    energyPlayed = False
+        #Limit Supporters to one per turn
+        self.supporterPlayed = False
+        self.stadiumPlayed = False
+        self.energyPlayed = False
 
-    #Status effect bools
-    playerBurned = False
-    playerParalyzed = False
-    playerPoisoned = False
-    playerAsleep = False
-    playerConfused = False
-    oppBurned = False
-    oppParalyzed = False
-    oppPoisoned = False
-    oppAsleep = False
-    oppConfused = False
-    drawForTurn = False
-    #Attack not available boolean used in attacks like amnesia
-    playerAttackNotAvail = 0
-    oppAttackNotAvail = 0
+        #Status effect bools
+        self.playerBurned = False
+        self.playerParalyzed = False
+        self.playerPoisoned = False
+        self.playerAsleep = False
+        self.playerConfused = False
+        self.oppBurned = False
+        self.oppParalyzed = False
+        self.oppPoisoned = False
+        self.oppAsleep = False
+        self.oppConfused = False
+        self.drawForTurn = False
+        #Attack not available boolean used in attacks like amnesia
+        self.playerAttackNotAvail = 0
+        self.oppAttackNotAvail = 0
 
-    #Agility bool
-    playerAgility = False
-    oppAgility = False
+        #Agility bool
+        self.playerAgility = False
+        self.oppAgility = False
 
-    #Pokemon cant retreat next turn bool
-    playerCantRetreat = False
-    oppCantRetreat = False
+        #Pokemon cant retreat next turn bool
+        self.playerCantRetreat = False
+        self.oppCantRetreat = False
 
-    #Last attack used var is used for copycat attack
-    playerLastAttack = ""
-    oppLastAttack = ""
+        #Last attack used var is used for copycat attack
+        self.playerLastAttack = ""
+        self.oppLastAttack = ""
 
-    #Can only retreat once per turn
-    retreated = False
+        #Can only retreat once per turn
+        self.retreated = False
 
     ## All of the player/opp member functions could possibly be combined into one function each and have a flag based on turn or access.
     ## Just a thought to reduce redundant code. Currently, I am just trying to get code down, but if we choose to do this we can edit it in Phase 3.
@@ -431,8 +432,9 @@ class Gameboard():
                     print(self.oppActive[0].Name + " knocked out!")
                     for i in reversed(range(len(self.oppActive[0].Energies))):
                         self.oppDiscard.append(self.oppActive[0].Energies.pop(i))
+                    self.oppDiscard.append(self.oppActive.pop(0))
+                    print("length of oppActive" + str(len(self.oppActive)))
                     if len(self.oppBench) > 0:
-                        self.oppDiscard.append(self.oppActive.pop(0))
                         self.oppActive.append(self.oppBench.pop(0))
                         print(self.oppActive[0].Name + " moved to opponents active slot")
                         self.playerHand.append(self.playerPrize.pop(0))
@@ -479,6 +481,7 @@ class Gameboard():
                     for i in reversed(range(len(self.playerActive[0].Energies))):
                         self.playerDiscard.append(self.playerActive[0].Energies.pop(i))
                     self.playerDiscard.append(self.playerActive.pop(0))
+                    print("length of playerActive" + str(len(self.playerActive)))
                     if len(self.playerBench) > 0:
                         self.playerActive.append(self.playerBench.pop(0))
                         print(self.playerActive[0].Name + " moved to players active slot")
@@ -517,19 +520,20 @@ class Gameboard():
 ##                # do the same for bench
     def passTurn(self, t):
         if t == 'p':
-            self.checkWinCon(t)
+            #self.checkWinCon(t)
             self.turn = 'o'
             self.oppDrawCard()
         elif t == 'o':
-            self.checkWinCon(t)
+            #self.checkWinCon(t)
             self.turn = 'p'
+            print("play will draw card")
             self.playerDrawCard()
 
     def getMoves(self, turn):
         legalMoves = []
         #print("checkWinCon = " + str(self.checkWinCon(turn)))
-        print("turn: " + turn)
-        if self.checkWinCon(turn) != 1 and self.checkWinCon(turn) != 0:
+        #print("turn: " + turn)
+        if self.checkWinCon(turn) != 0 and self.checkWinCon(turn) != 1:
             if turn == 'p':
                 #print("legal moves: "+ str(legalMoves))
                 if self.supporterPlayed == False:
@@ -600,8 +604,8 @@ class Gameboard():
     #stadiumPlayed = False
     
     def makeMove(self, move):
-        print(move)
-        print(move[1:])
+        #print(move)
+        #print(move[1:])
         move[0](*move[1:])
         return
 
@@ -609,21 +613,26 @@ class Gameboard():
         ## ONCE PER TURN (Typically)
         ## Plays an energy from hand to a pokemon
         if turn == 'p':
-            if self.playerHand[index].Card_Type == "Energy":
-                print("Player attached " + self.playerHand[index].Name)
-                self.playerActive[0].Energies.append(self.playerHand.pop(index))
-            if debug:
-                for i in range(len(self.playerActive[0].Energies)):
-                    print(self.playerActive[0].Energies[i].Name)
-                print("Player's Energy count is " + str(len(self.playerActive[0].Energies)))
+            if len(self.playerHand) > index:
+                if self.playerHand[index].Card_Type == "Energy":
+                    #print("Player attached " + self.playerHand[index].Name)
+                    self.playerActive[0].Energies.append(self.playerHand.pop(index))
+                    self.energyPlayed = True
+                if debug:
+                    for i in range(len(self.playerActive[0].Energies)):
+                        print(self.playerActive[0].Energies[i].Name)
+                    print("Player's Energy count is " + str(len(self.playerActive[0].Energies)))
         if turn == 'o':
-            if self.oppHand[index].Card_Type == "Energy":
-                print("Opponent attached " + self.oppHand[index].Name)
-                self.oppActive[0].Energies.append(self.oppHand.pop(index))
-            if debug:
-                for i in range(len(self.oppActive[0].Energies)):
-                    print(self.oppActive[0].Energies[i].Name)
-                print("Opponent's Energy count is " + str(len(self.oppActive[0].Energies)))
+            if len(self.oppHand) > index: 
+                if self.oppHand[index].Card_Type == "Energy":
+                    #print("Opponent attached " + self.oppHand[index].Name)
+                    self.oppActive[0].Energies.append(self.oppHand.pop(index))
+                    self.energyPlayed = True
+                if debug:
+                    for i in range(len(self.oppActive[0].Energies)):
+                        print(self.oppActive[0].Energies[i].Name)
+                    print("Opponent's Energy count is " + str(len(self.oppActive[0].Energies)))
+        
 ##        temp = []
 ##        if turn == 'p':
 ##            for i in range(len(self.playerHand)):
@@ -651,18 +660,21 @@ class Gameboard():
 ##                        self.energyPlayed = True
 ##                        print(name + " played")
     def checkWinCon(self, turn):
-        if len(self.oppDeck) <= 0 or len(self.playerPrize) <= 0 or len(self.oppActive) <= 0:
-            if turn == 'p':
-                return 1
-            elif turn == 'o':
-                return 0
-        elif len(self.playerDeck) <= 0 or len(self.oppPrize) <= 0 or len(self.playerActive) <= 0:
-            if turn == 'p':
-                return 0
-            elif turn == 'o':
-                return 1
-        else:
+        if len(self.playerPrize) <= 0 or len(self.oppActive) <= 0:
+            print("did i get here?")
+            return 1
+        elif len(self.oppPrize) <= 0 or len(self.playerActive) <= 0:
             return 0
+        if len(self.oppPrize) <= 0 or len(self.playerActive) <= 0:
+            return 0
+        elif len(self.playerPrize) <= 0 or len(self.oppActive) <= 0:
+            return 1
+        else:
+<<<<<<< Updated upstream
+            return 0
+=======
+            return .5
+>>>>>>> Stashed changes
 
     def playItem(self,index, turn):
         ## Plays an item from hand and does the effect
@@ -707,21 +719,21 @@ class Gameboard():
         ## ONCE PER TURN (typically)
         ## Switches active with a bench pokemon
         if turn == 'p':
-            print("active before: " + self.playerBench[0].Name)
+            #print("active before: " + self.playerBench[0].Name)
             if self.playerActive[0].RetreatCost <= len(self.playerActive[0].Energies):
                 for i in range(self.playerActive[0].RetreatCost):
                     self.playerDiscard.append(playerActive[0].Energies.pop(0))
                 self.switch(pokemonIndex, turn)
                 self.retreated = True
-            else:
-                print("thats not a pokemon")
+           # else:
+                #print("thats not a pokemon")
 
     def switch(self, pokemonIndex, turn):
         if len(self.playerBench) > 0:
             temp = self.playerActive.pop(0)
             self.playerActive.append(self.playerBench.pop(pokemonIndex))
             self.playerBench.append(temp)
-            print("active after: " + self.playerActive[0].Name)
+            #print("active after: " + self.playerActive[0].Name)
             
     def useAbility(self, turn):
         ## USAGE AMOUNT VARIES

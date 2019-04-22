@@ -505,6 +505,15 @@ class Gameboard():
                         self.playerHand[pokemonIndex].Tools.append(self.playerActive[0].Tools.pop(0))
                     self.playerHand[pokemonIndex].Pokemon.append(self.playerActive.pop(0))
                     self.playerActive.append(self.playerHand[pokemonIndex])
+        if turn == 'o':
+            if loc == 'active':
+                if self.oppActive[0].Name == self.oppHand[pokemonIndex].PreEvolution: #Pokemon evolves into pokemon in active
+                    for i in range(len(self.oppActive[0].Energies)-1,-1,-1):
+                        self.oppHand[pokemonIndex].Energies.append(self.oppActive[0].Energies.pop(i))
+                    if len(self.oppActive[0].Tools) > 0:
+                        self.oppHand[pokemonIndex].Tools.append(self.oppActive[0].Tools.pop(0))
+                    self.oppHand[pokemonIndex].Pokemon.append(self.oppActive.pop(0))
+                    self.oppActive.append(self.oppHand[pokemonIndex])
                     #self.playerHand.pop(pokemonIndex)
 ##            elif loc == 'bench':
 ##                if self.playerBench[benchIndex].Name == self.playerHand[pokemonIndex].PreEvolution: #Pokemon evolves into pokemon in bench

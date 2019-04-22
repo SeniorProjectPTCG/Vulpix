@@ -15,6 +15,8 @@ import GameManager
 import mcts
 import sys
 
+stadiumOwner = ''
+
 def newGame():
         input("Press enter to start a new game")
         GameLoop()
@@ -25,6 +27,7 @@ def GameLoop():
         turn = ''
         winner = False
         
+
         ## Initialize the gameboard
         gameboard = GameManager.Gameboard()
         gameboard.__init__()
@@ -207,6 +210,12 @@ def GameLoop():
                 #get player's prizes
                 getPlayerPrize(gameboard)
 
+                #find out if energy was played this turn
+                getEnergyPlayed(gameboard)
+
+                #find out if supporter was played this turn
+                getSupporterPlayed(gameboard)
+
                 # Get opponents active pokemon
                 getOppActive(gameboard)
 
@@ -225,7 +234,7 @@ def GameLoop():
                 ## Check for win condition
                 gameOver = gameboard.checkWinCon(gameboard.turn)
                 if gameOver != 1 and gameOver != 0:
-                        selectedMove, name = mcts.uct(gameboard,500)
+                        selectedMove, name = mcts.uct(gameboard,1000)
                         move= parseMove(selectedMove, name)
                         print("The suggested move is " + move)
                 elif gameOver == 1:
@@ -235,12 +244,76 @@ def GameLoop():
                         print("Opponent has won")
                         newGame()
 
-                del gameboard
                 temp = input("Press enter to continue. Enter 'quit' to exit\n")
                 if temp.lower() == 'quit':
                         sys.exit()
+
+                resetState(gameboard)
                 GameLoop()
 
+def resetState(gameboard):
+    # reset discard stacks
+    for i in range(len(gameboard.playerDiscard)):
+        gameboard.playerDeck.append(gameboard.playerDiscard.pop(0))
+    for i in range(len(gameboard.oppDiscard)):
+        gameboard.oppDeck.append(gameboard.oppDiscard.pop(0))
+    # reset prizes
+    for i in range(len(gameboard.playerPrize)):
+        gameboard.playerDeck.append(gameboard.playerPrize.pop(0))
+    for i in range(len(gameboard.oppPrize)):
+        gameboard.oppDeck.append(gameboard.oppPrize.pop(0))
+    # reset hands
+    for i in range(len(gameboard.playerHand)):
+        gameboard.playerDeck.append(gameboard.playerHand.pop(0))
+    for i in range(len(gameboard.oppHand)):
+        gameboard.oppDeck.append(gameboard.oppHand.pop(0))
+    # reset stadium
+    if len(gameboard.stadium) > 0:
+        global stadiumOwner
+        if stadiumOwner == 'p':
+            gameboard.playerDeck.append(gameboard.stadium.pop(0))
+        elif stadiumOwner == 'o':
+            gameboard.oppDeck.append(gameboard.stadium.pop(0))
+    # reset actives
+    for i in range(len(gameboard.playerActive)):
+        if gameboard.playerActive[i].Stage == 2:
+            gameboard.playerDeck.append(gameboard.playerActive[i].Pokemon[0].Pokemon.pop(0))
+            gameboard.playerDeck.append(gameboard.playerActive[i].Pokemon.pop(0))
+        if gameboard.playerActive[i].Stage == 1:
+            gameboard.playerDeck.append(gameboard.playerActive[i].Pokemon.pop(0))
+        for j in range(len(gameboard.playerActive[i].Energies)):
+            gameboard.playerDeck.append(gameboard.playerActive[i].Energies.pop(0))
+        gameboard.playerDeck.append(gameboard.playerActive.pop(0))
+    for i in range(len(gameboard.oppActive)):
+        if gameboard.oppActive[i].Stage == 2:
+            gameboard.oppDeck.append(gameboard.oppActive[i].Pokemon[0].Pokemon.pop(0))
+            gameboard.oppDeck.append(gameboard.oppActive[i].Pokemon.pop(0))
+        if gameboard.oppActive[i].Stage == 1:
+            gameboard.oppDeck.append(gameboard.oppActive[i].Pokemon.pop(0))
+        for j in range(len(gameboard.oppActive[i].Energies)):
+            gameboard.oppDeck.append(gameboard.oppActive[i].Energies.pop(0))
+        gameboard.oppDeck.append(gameboard.oppActive.pop(0))
+    # reset bench
+    for i in range(len(gameboard.playerBench)):
+        if gameboard.playerBench[i].Stage == 2:
+            gameboard.playerDeck.append(gameboard.playerBench[i].Pokemon[0].Pokemon.pop(0))
+            gameboard.playerDeck.append(gameboard.playerBench[i].Pokemon.pop(0))
+        if gameboard.playerBench[i].Stage == 1:
+            gameboard.playerDeck.append(gameboard.playerBench[i].Pokemon.pop(0))
+        for j in range(len(gameboard.playerBench[i].Energies)):
+            gameboard.playerDeck.append(gameboard.playerBench[i].Energies.pop(0))
+        gameboard.playerDeck.append(gameboard.playerBench.pop(0))
+    for i in range(len(gameboard.oppBench)):
+        if gameboard.oppBench[i].Stage == 2:
+            gameboard.oppDeck.append(gameboard.oppBench[i].Pokemon[0].Pokemon.pop(0))
+            gameboard.oppDeck.append(gameboard.oppBench[i].Pokemon.pop(0))
+        if gameboard.oppBench[i].Stage == 1:
+            gameboard.oppDeck.append(gameboard.oppBench[i].Pokemon.pop(0))
+        for j in range(len(gameboard.oppBench[i].Energies)):
+            gameboard.oppDeck.append(gameboard.oppBench[i].Energies.pop(0))
+        gameboard.oppDeck.append(gameboard.oppBench.pop(0))
+    # Shuffle decks
+    gameboard.randomizeDecks()
 # Parse the move object to display the move in a user friendly way
 def parseMove(move, name):
         temp = str(move)
@@ -268,40 +341,77 @@ def parseMove(move, name):
 
 # The following functions get the gamestate information
 # from the user
+
+def getEnergyPlayed(gameboard):
+    goodData = False
+    while goodData == False:
+        temp = ''
+        temp = input("Has an energy been played this turn? (y/n)")
+        if temp.upper() == "Y":
+            gameboard.energyPlayed = True
+            goodData = True
+        elif temp.upper() == "N":
+            gameboard.energyPlayed = False
+            goodData = True
+        else:
+            print("I didn't understand that.")
+
+def getSupporterPlayed(gameboard):
+    goodData = False
+    while goodData == False:
+        temp = ''
+        temp = input("Has an supporter been played this turn? (y/n)")
+        if temp.upper() == "Y":
+            gameboard.supporterPlayed = True
+            goodData = True
+        elif temp.upper() == "N":
+            gameboard.supporterPlayed = False
+            goodData = True
+        else:
+            print("I didn't understand that.")
+
+
 def getStadium(gameboard):
         entered = True
+        global stadiumOwner
         while entered == True:
                 print("What stadium is in play?")
                 temp = input()
                 if temp == '':
                         entered = False
                 else:
-                        print("Who played the stadium?")
-                        temp2 = input()
-                        i = 0
-                        found = False
-                        end = False
-                        if temp2 == 'p':
-                                while found == False and end == False:
-                                        if i >= len(gameboard.playerDeck):
-                                                print("Not found")
-                                                end = True
-                                        elif temp.upper() == gameboard.playerDeck[i].Name.upper():
-                                                gameboard.stadium.append(gameboard.playerDeck.pop(i))
-                                                found = True
-                                                entered = False #Exit the loop
-                                        i += 1
-                        elif temp2 == 'o':
-                                while found == False and end == False:
-                                        if i >= len(gameboard.oppDeck):
-                                                print("Not found")
-                                                end = True
-                                        elif temp.upper() == gameboard.oppDeck[i].Name.upper():
-                                                gameboard.stadium.append(gameboard.oppDeck.pop(i))
-                                                found = True
-                                                #exit the loop
-                                                entered = False
-                                        i += 1
+                        temp2 = ""
+                        while temp2.upper() != 'P' and temp2.upper() != 'O':
+                            print("Who played the stadium? Enter p for player or o for opponent.")
+                            temp2 = input()
+                            i = 0
+                            found = False
+                            end = False
+                            if temp2 == 'p':
+                                    while found == False and end == False:
+                                            if i >= len(gameboard.playerDeck):
+                                                    print("Not found")
+                                                    end = True
+                                            elif temp.upper() == gameboard.playerDeck[i].Name.upper():
+                                                    gameboard.stadium.append(gameboard.playerDeck.pop(i))
+                                                    found = True
+                                                    entered = False #Exit the loop
+                                                    stadiumOwner = 'p'
+                                            i += 1
+                            elif temp2 == 'o':
+                                    while found == False and end == False:
+                                            if i >= len(gameboard.oppDeck):
+                                                    print("Not found")
+                                                    end = True
+                                            elif temp.upper() == gameboard.oppDeck[i].Name.upper():
+                                                    gameboard.stadium.append(gameboard.oppDeck.pop(i))
+                                                    found = True
+                                                    #exit the loop
+                                                    entered = False
+                                                    stadiumOwner = 'o'
+                                            i += 1
+                            else:
+                                print("Enter p for player or o for opponent")
 
 def getPlayerPrize(gameboard):
         goodData = False
@@ -451,8 +561,6 @@ def getPlayerActive(gameboard):
                                 foundS0 = False
                                 while i < len(gameboard.playerDeck) and foundS0 == False:
                                         if gameboard.playerActive[0].Pokemon[0].PreEvolution.upper() == gameboard.playerDeck[i].Name.upper():
-                                                print(gameboard.playerActive[0].Pokemon[0].PreEvolution.upper())
-                                                print(gameboard.playerDeck[i].Name.upper())
                                                 gameboard.playerActive[0].Pokemon[0].Pokemon.append(gameboard.playerDeck.pop(i))
                                                 foundS0 = True
                                         i += 1

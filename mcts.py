@@ -1,8 +1,16 @@
-#from gameboard import *
-#import GameLoop
+######################################################
+##                 Project Vulpix                   ##
+##                Senior Project 2                  ##
+##                 Andrew Siddall                   ##
+##                 Chris Crisson                    ##
+##               Matthew Bedillion                  ##
+##               Adlene Bellaoucha                  ##
+##               January 31, 2019                   ##
+######################################################
+
 import copy
 import random
-import numpy as np
+import math
 
 class Node:
     def __init__(self, move=None, parent=None, state=None, moveName=''):
@@ -21,7 +29,7 @@ class Node:
             lambda c: c.wins/c.visits + UCTK * sqrt(2*log(self.visits)/c.visits to vary the amount of
             exploration versus exploitation.
         """
-        s = sorted(self.childNodes, key=lambda c: c.wins / c.visits + np.sqrt(2 * np.log(self.visits) / c.visits))[-1]
+        s = sorted(self.childNodes, key=lambda c: c.wins / c.visits + math.sqrt(2 * math.log(self.visits) / c.visits))[-1]
         return s
 
     def addChild(self, m, s):

@@ -15,7 +15,6 @@ debug = False
 import random
 import attacks
 import items
-import ai
 import sys
 import mcts
 
@@ -542,6 +541,8 @@ class Gameboard():
         #print("checkWinCon = " + str(self.checkWinCon(turn)))
         #print("turn: " + turn)
         # If someone has won return an empty list to indicate terminal state
+        # Flag to add pass turn only if nothing else is available
+        passFlag = True
         if self.checkWinCon(turn) != 1 and self.checkWinCon(turn) != 0:
             if turn == 'p':
                 #print("legal moves: "+ str(legalMoves))
@@ -549,66 +550,86 @@ class Gameboard():
                     for i in range(len(self.playerHand)):
                         if self.playerHand[i].Card_Type == "Supporter":
                             legalMoves.append((self.playSupporter,turn, i))
+                            #passFlag = False
                 if self.energyPlayed == False:
                     #print(legalMoves)
                     for i in range(len(self.playerHand)):
                         if self.playerHand[i].Card_Type == "Energy":
                             legalMoves.append((self.playEnergy,turn,i))
+                            passFlag = False
                             #print(legalMoves)
                 for i in range(len(self.playerHand)):
                     if self.playerHand[i].Card_Type == "Pokemon":
                         if self.playerHand[i].Stage == 0 and len(self.playerBench) < 5:
                             legalMoves.append((self.playBasic,turn, i))
+                            passFlag = False
                         elif self.playerHand[i].Card_Type == "Pokemon" and self.playerHand[i].Stage > 0:
                             if self.playerHand[i].PreEvolution == self.playerActive[0].Name:
                                 legalMoves.append((self.evolve,i, "active", 0, turn))
+                                passFlag = False
                             else:
                                 for j in range(len(self.playerBench)):
                                     if self.playerBench[j].Name == self.playerHand[i].PreEvolution:
                                         legalMoves.append((self.evolve,i, "bench", j, turn))
+                                        passFlag = False
                     elif self.playerHand[i].Card_Type == "Item":
                         legalMoves.append((self.playItem,turn, i))
+                        passFlag = False
                 if self.retreated == False:
                     for i in range(len(self.playerBench)):
                         legalMoves.append((self.retreat,i,turn))
+                        passFlag = False
                 if self.checkEnergyCost(self.playerActive[0].Attack_One_Cost, self.playerActive[0].Energies):
                     legalMoves.append((self.attack, turn, self.playerActive[0].Attack_One_Name, self.playerActive[0].Attack_One_Damage, self.playerActive[0].Attack_One_Cost))
+                    passFlag = False
                 if self.playerActive[0].Attack_Two_Name != "None":
                     if self.checkEnergyCost(self.playerActive[0].Attack_Two_Cost, self.playerActive[0].Energies):
                         legalMoves.append((self.attack, turn, self.playerActive[0].Attack_Two_Name, self.playerActive[0].Attack_Two_Damage, self.playerActive[0].Attack_Two_Cost))
-                legalMoves.append((self.passTurn, turn))
+                        passFlag = False
+                if passFlag == True:
+                    legalMoves.append((self.passTurn, turn))
 
             elif turn == 'o':
                 if self.supporterPlayed == False:
                     for i in range(len(self.oppHand)):
                         if self.oppHand[i].Card_Type == "Supporter":
                             legalMoves.append((self.playSupporter,turn, i))
+                            passFlag = False
                 if self.energyPlayed == False:
                     for i in range(len(self.oppHand)):
                         if self.oppHand[i].Card_Type == "Energy":
                             legalMoves.append((self.playEnergy,turn,i))
+                            passFlag = False
                 for i in range(len(self.oppHand)):
                     if self.oppHand[i].Card_Type == "Pokemon":
                         if self.oppHand[i].Stage == 0 and len(self.oppBench) < 5:
                             legalMoves.append((self.playBasic,turn, i))
+                            passFlag = False
                         elif self.oppHand[i].Card_Type == "Pokemon" and self.oppHand[i].Stage > 0:
                             if self.oppHand[i].PreEvolution == self.oppActive[0].Name:
                                 legalMoves.append((self.evolve,i, "active", 0, turn))
+                                passFlag = False
                             else:
                                 for j in range(len(self.oppBench)):
                                     if self.oppBench[j].Name == self.oppHand[i].PreEvolution:
                                         legalMoves.append((self.evolve,i, "bench", j, turn))
+                                        passFlag = False
                     elif self.oppHand[i].Card_Type == "Item":
                         legalMoves.append((self.playItem,turn, i))
+                        passFlag = False
                 if self.retreated == False:
                     for i in range(len(self.oppBench)):
                         legalMoves.append((self.retreat,i,turn))
+                        passFlag = False
                 if self.checkEnergyCost(self.oppActive[0].Attack_One_Cost, self.oppActive[0].Energies):
                     legalMoves.append((self.attack, turn, self.oppActive[0].Attack_One_Name, self.oppActive[0].Attack_One_Damage, self.oppActive[0].Attack_One_Cost))
+                    passFlag = False
                 if self.oppActive[0].Attack_Two_Name != "None":
                     if self.checkEnergyCost(self.oppActive[0].Attack_Two_Cost, self.oppActive[0].Energies):
                         legalMoves.append((self.attack, turn, self.oppActive[0].Attack_Two_Name, self.oppActive[0].Attack_Two_Damage, self.oppActive.Attack_Two_Cost))
-                legalMoves.append((self.passTurn, turn))
+                        passFlag = False
+                if passFlag == True:
+                    legalMoves.append((self.passTurn, turn))
         return legalMoves
     #stadiumPlayed = False
     

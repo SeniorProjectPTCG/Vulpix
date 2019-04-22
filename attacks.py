@@ -1,3 +1,13 @@
+######################################################
+##                 Project Vulpix                   ##
+##                Senior Project 2                  ##
+##                 Andrew Siddall                   ##
+##                 Chris Crisson                    ##
+##               Matthew Bedillion                  ##
+##               Adlene Bellaoucha                  ##
+##               January 31, 2019                   ##
+######################################################
+
 import random
 
 

@@ -346,7 +346,7 @@ def getEnergyPlayed(gameboard):
     goodData = False
     while goodData == False:
         temp = ''
-        temp = input("Has an energy been played this turn? (y/n)")
+        temp = input("Has an energy been played this turn? (y/n)\n")
         if temp.upper() == "Y":
             gameboard.energyPlayed = True
             goodData = True
@@ -360,7 +360,7 @@ def getSupporterPlayed(gameboard):
     goodData = False
     while goodData == False:
         temp = ''
-        temp = input("Has an supporter been played this turn? (y/n)")
+        temp = input("Has an supporter been played this turn? (y/n)\n")
         if temp.upper() == "Y":
             gameboard.supporterPlayed = True
             goodData = True

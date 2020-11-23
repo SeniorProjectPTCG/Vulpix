@@ -1,0 +1,161 @@
+
+Turn: 0 of player
+The suggested move for player is play energy
+---Player's Board---
+Active: Froakie HP: 60
+260 Energies Attached: 
+
+---Bench Pokemon---
+
+Prize Count is : 6
+Deck Size is: 47
+--Player Hand--
+Metal Energy
+Metal Energy
+Metal Energy
+Metal Energy
+Metal Energy
+
+---Opponent's Board---
+Active: Wingull HP: 60
+260 Energies Attached: 
+
+---Bench Pokemon---
+Name: Totodile HP: 70
+260 Energies Attached: 
+
+Prize Count is : 6
+Deck Size is: 47
+--Opponent's Hand--
+Metal Energy
+Metal Energy
+Metal Energy
+Metal Energy
+Metal Energy
+
+Turn: 1 of opponent
+The suggested move for opponent is play energy
+---Player's Board---
+Active: Froakie HP: 60
+491 Energies Attached: 
+
+---Bench Pokemon---
+
+Prize Count is : 6
+Deck Size is: 47
+--Player Hand--
+Metal Energy
+Metal Energy
+Metal Energy
+Metal Energy
+Metal Energy
+
+---Opponent's Board---
+Active: Wingull HP: 60
+491 Energies Attached: 
+
+---Bench Pokemon---
+Name: Totodile HP: 70
+491 Energies Attached: 
+
+Prize Count is : 6
+Deck Size is: 47
+--Opponent's Hand--
+Metal Energy
+Metal Energy
+Metal Energy
+Metal Energy
+
+Turn: 1 of opponent
+The suggested move for opponent is retreat
+---Player's Board---
+Active: Froakie HP: 60
+648 Energies Attached: 
+
+---Bench Pokemon---
+
+Prize Count is : 6
+Deck Size is: 47
+--Player Hand--
+Metal Energy
+Metal Energy
+Metal Energy
+Metal Energy
+Metal Energy
+
+---Opponent's Board---
+Active: Wingull HP: 60
+648 Energies Attached: 
+
+---Bench Pokemon---
+Name: Totodile HP: 70
+648 Energies Attached: 
+
+Prize Count is : 6
+Deck Size is: 47
+--Opponent's Hand--
+Metal Energy
+Metal Energy
+Metal Energy
+
+Turn: 1 of opponent
+The suggested move for opponent is play energy
+---Player's Board---
+Active: Froakie HP: 60
+847 Energies Attached: 
+
+---Bench Pokemon---
+
+Prize Count is : 6
+Deck Size is: 47
+--Player Hand--
+Metal Energy
+Metal Energy
+Metal Energy
+Metal Energy
+Metal Energy
+
+---Opponent's Board---
+Active: Wingull HP: 60
+847 Energies Attached: 
+
+---Bench Pokemon---
+Name: Totodile HP: 70
+847 Energies Attached: 
+
+Prize Count is : 6
+Deck Size is: 47
+--Opponent's Hand--
+Metal Energy
+Metal Energy
+
+Turn: 1 of opponent
+The suggested move for opponent is play energy
+---Player's Board---
+Active: Froakie HP: 60
+1062 Energies Attached: 
+
+---Bench Pokemon---
+
+Prize Count is : 6
+Deck Size is: 47
+--Player Hand--
+Metal Energy
+Metal Energy
+Metal Energy
+Metal Energy
+Metal Energy
+
+---Opponent's Board---
+Active: Wingull HP: 60
+1062 Energies Attached: 
+
+---Bench Pokemon---
+Name: Totodile HP: 70
+1062 Energies Attached: 
+
+Prize Count is : 6
+Deck Size is: 47
+--Opponent's Hand--
+Metal Energy
+

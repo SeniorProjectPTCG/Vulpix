@@ -1,3 +1,13 @@
+######################################################
+##                 Project Vulpix                   ##
+##                Senior Project 2                  ##
+##                 Andrew Siddall                   ##
+##                 Chris Crisson                    ##
+##               Matthew Bedillion                  ##
+##               Adlene Bellaoucha                  ##
+##               January 31, 2019                   ##
+######################################################
+
 import random
 
 
@@ -37,8 +47,8 @@ def whimsyTackle(attacker, defender, damage):
 	damage = checkWeakness(attacker, defender, damage)
 	if x == 1:
 		attackDamage(defender, damage)
-	else:
-		print("tails, attack does no damage")
+	#else:
+		#print("tails, attack does no damage")
 
 def amnesia(attacker, defender, damage, player, choice):
         ## Choose 1 of your opponent's Active Pokémon's attacks.
@@ -110,9 +120,9 @@ def dustGathering(self, player):
 	else:
 		self.oppDrawCard()
 
-def teleport(self, pokemonIndex, player):
+#def teleport(pokemonIndex, player):
         ## Switch this Pokémon with 1 of your Benched Pokémon
-	self.switch(pokemonIndex, player)
+#	self.switch(pokemonIndex, player)
 
 def shiningArrow(attacker, defender, location): ## NEEDS BENCH ATTACK SUPPORT
         ## This attack does 50 damage to 1 of your opponent's Pokémon.

@@ -1,0 +1,243 @@
+
+Turn: 0 of player
+Player actually played energy!
+___________________END OF ACTION______________________________
+---Player's Board---
+Active: Buizel HP: 60
+1 Energies Attached: 
+
+---Bench Pokemon---
+
+Prize Count is : 6
+Deck Size is: 47
+--Player Hand--
+Metal Energy
+Metal Energy
+Metal Energy
+Metal Energy
+Metal Energy
+
+---Opponent's Board---
+Active: Buizel HP: 60
+1 Energies Attached: 
+
+---Bench Pokemon---
+Name: Totodile HP: 70
+0 Energies Attached: 
+Name: Totodile HP: 70
+0 Energies Attached: 
+Name: Remoraid HP: 60
+0 Energies Attached: 
+
+Prize Count is : 6
+Deck Size is: 47
+--Opponent's Hand--
+Metal Energy
+
+Turn: 1 of player
+Player attacked!
+------------------------------END OF TURN-----------------------------
+----Player's Board---
+Active: Buizel HP: 60
+1 Energies Attached: 
+
+---Bench Pokemon---
+
+Prize Count is : 6
+Deck Size is: 46
+--Player Hand--
+Metal Energy
+Metal Energy
+Metal Energy
+Metal Energy
+Metal Energy
+Wingull
+
+---Opponent's Board---
+Active: Buizel HP: 60
+1 Energies Attached: 
+
+---Bench Pokemon---
+Name: Totodile HP: 70
+0 Energies Attached: 
+Name: Totodile HP: 70
+0 Energies Attached: 
+Name: Remoraid HP: 60
+0 Energies Attached: 
+
+Prize Count is : 6
+Deck Size is: 46
+--Opponent's Hand--
+Metal Energy
+Metal Energy
+
+Turn: 2 of player
+---Player's Board---
+Active: Buizel HP: 60
+1 Energies Attached: 
+
+---Bench Pokemon---
+Name: Wingull HP: 60
+0 Energies Attached: 
+
+Prize Count is : 6
+Deck Size is: 46
+--Player Hand--
+Metal Energy
+Metal Energy
+Metal Energy
+Metal Energy
+Metal Energy
+
+---Opponent's Board---
+Active: Buizel HP: 60
+1 Energies Attached: 
+
+---Bench Pokemon---
+Name: Totodile HP: 70
+0 Energies Attached: 
+Name: Totodile HP: 70
+0 Energies Attached: 
+Name: Remoraid HP: 60
+0 Energies Attached: 
+
+Prize Count is : 6
+Deck Size is: 45
+--Opponent's Hand--
+Metal Energy
+Metal Energy
+Buizel
+
+Turn: 3 of opponent
+opponent retreat
+------------------------------END OF TURN-----------------------------
+----Player's Board---
+Active: Buizel HP: 60
+1 Energies Attached: 
+
+---Bench Pokemon---
+Name: Wingull HP: 60
+0 Energies Attached: 
+
+Prize Count is : 6
+Deck Size is: 45
+--Player Hand--
+Metal Energy
+Metal Energy
+Metal Energy
+Metal Energy
+Metal Energy
+Metal Energy
+
+---Opponent's Board---
+Active: Buizel HP: 60
+1 Energies Attached: 
+
+---Bench Pokemon---
+Name: Totodile HP: 70
+0 Energies Attached: 
+Name: Totodile HP: 70
+0 Energies Attached: 
+Name: Remoraid HP: 60
+0 Energies Attached: 
+Name: Buizel HP: 60
+1 Energies Attached: 
+
+Prize Count is : 6
+Deck Size is: 44
+--Opponent's Hand--
+Metal Energy
+Metal Energy
+Metal Energy
+
+Turn: 3 of opponent
+opponent retreat
+------------------------------END OF TURN-----------------------------
+----Player's Board---
+Active: Buizel HP: 60
+1 Energies Attached: 
+
+---Bench Pokemon---
+Name: Wingull HP: 60
+0 Energies Attached: 
+
+Prize Count is : 6
+Deck Size is: 44
+--Player Hand--
+Metal Energy
+Metal Energy
+Metal Energy
+Metal Energy
+Metal Energy
+Metal Energy
+Froakie
+
+---Opponent's Board---
+Active: Buizel HP: 60
+1 Energies Attached: 
+
+---Bench Pokemon---
+Name: Totodile HP: 70
+0 Energies Attached: 
+Name: Totodile HP: 70
+0 Energies Attached: 
+Name: Remoraid HP: 60
+0 Energies Attached: 
+Name: Buizel HP: 60
+1 Energies Attached: 
+
+Prize Count is : 6
+Deck Size is: 43
+--Opponent's Hand--
+Metal Energy
+Metal Energy
+Metal Energy
+Metal Energy
+
+Turn: 3 of opponent
+opponent retreat
+------------------------------END OF TURN-----------------------------
+----Player's Board---
+Active: Buizel HP: 60
+1 Energies Attached: 
+
+---Bench Pokemon---
+Name: Wingull HP: 60
+0 Energies Attached: 
+
+Prize Count is : 6
+Deck Size is: 43
+--Player Hand--
+Metal Energy
+Metal Energy
+Metal Energy
+Metal Energy
+Metal Energy
+Metal Energy
+Froakie
+Metal Energy
+
+---Opponent's Board---
+Active: Buizel HP: 60
+1 Energies Attached: 
+
+---Bench Pokemon---
+Name: Totodile HP: 70
+0 Energies Attached: 
+Name: Totodile HP: 70
+0 Energies Attached: 
+Name: Remoraid HP: 60
+0 Energies Attached: 
+Name: Buizel HP: 60
+1 Energies Attached: 
+
+Prize Count is : 6
+Deck Size is: 42
+--Opponent's Hand--
+Metal Energy
+Metal Energy
+Metal Energy
+Metal Energy
+Wingull
+
+Turn: 3 of opponent

@@ -37,6 +37,8 @@ class Node:
         """ Remove m from untriedMoves and add a new child node for this move.
             Return the added child node
         """
+
+        ## Saves the move name
         name = ''
         if str(m[0]).find("playItem") != -1:
             if len(m) > 2:
@@ -85,28 +87,33 @@ def uct(rootstate, itermax):
     """ Conduct a UCT search for itermax iterations starting from rootstate.
     Return the best move from the rootstate.
     Assumes 2 alternating players (player 1 starts), with game results in the range [0.0, 1.0]."""
+    print("Creating new state...")
+    #state = copy.deepcopy(rootstate)  ## Added to test if this fixes issues with mcts affecting gamestate
+    #rootnode = Node(state=state)   ## Added to test if this fixes issues with mcts affecting gamestate
     rootnode = Node(state=rootstate)
 ##    x = copy.deepcopy(rootstate)       #Removed for test
-    #print("rootnode = " + str(rootnode))
+    
     print("Starting MCTS...")
     for i in range(itermax):
         if debug:
             print("i = " + str(i))
         node = rootnode
-        #print("node = " + str(node))
+        print("Creating new state...")
         state = copy.deepcopy(rootstate)
-        #print(str(state.playerDeck[2].Name))
+        
     
         #Select
-        print("Starting Selection...")
+        
         while node.untriedMoves == [] and node.childNodes != []:
+            print("Starting Selection...")
             node = node.uctSelectChild()
-            #state.makeMove(node.move)       #Added for test
+            state.makeMove(node.move)       #Added for test
         print("Exiting Selection...")
         
         #Expand
-        print("Starting Expansion..")
-        if node.untriedMoves != [] and node.parent == None:      #added node.parent condition
+        
+        if node.untriedMoves != [] :      #added and node.parent == None condition
+            print("Starting Expansion..")
             m = random.choice(node.untriedMoves)
             state.makeMove(m)
             #print("adding child")
@@ -116,16 +123,18 @@ def uct(rootstate, itermax):
         print("Exiting Expansion..")
 
         #Rollout
-        print("Starting Rollout...")
-##        while node.untriedMoves != [] and node.parent == None:
-##            state.makeMove(random.choice(state.getMoves(state.turn)))
-        while not state.getMoves(state.turn) == []:  # while state is non-terminal
+        
+        while node.untriedMoves != [] and node.parent == None:
+            print("Starting Rollout...")
             state.makeMove(random.choice(state.getMoves(state.turn)))
+##        while not state.getMoves(state.turn) == []:  # while state is non-terminal
+##            state.makeMove(random.choice(state.getMoves(state.turn)))
         print("Exiting Rollout...")
 
         #Backpropegate
-        print("Starting Backpropeagtion...")
+        
         while node.parent is not None:
+            print("Starting Backpropeagtion...")
             node.update(state.checkWinCon(state.turn))
             node = node.parent
         #print("returning move")

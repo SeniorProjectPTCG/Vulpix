@@ -61,12 +61,17 @@ def newGame():
 
         # Set the gameboard to the default state
         #gameboard.setup()
+
+        # Opens the file for logging purposes
         with open('gamelog.txt', 'w') as file:
                 file.write("\n")
+
+        #Set ups the intial board for player and opponent
         print("Setting up player...")
         gameboard.playerSetUp()
         print("Setting up opponent...")
         gameboard.oppSetUp()
+        #Calls the GameLoop starting the main loop of the program
         GameLoop(gameboard)
 
 def GameLoop(gameboard, count=0):
@@ -86,7 +91,11 @@ def GameLoop(gameboard, count=0):
         #0 - Player
         #1 - Opponent
         print("___________________Start of Next ACTION______________________________")
-        counter = count
+        counter = count    #Counter for logging which turn it is
+        #Handles the game turn.
+        #This should be changed in a future iteration of this program
+        #Have one variable called playerTurn and make it a bool. True from player turn and Fasle for opponent
+        #Would make hendling it easier.
         if gameboard.turn == 'p':
                 turn = 'player'
         elif gameboard.turn == 'o':
@@ -104,20 +113,24 @@ def GameLoop(gameboard, count=0):
 
                 ## Check for win condition
                 gameOver = gameboard.checkWinCon(gameboard.turn)
-                displayBoard(gameboard)
+                displayBoard(gameboard)   #Displays the gameboard for the user. this is good for debugging
                 counter += 1
+                #Opens file for logging purposes
                 with open('gamelog.txt', 'a') as file:
                         file.write("Turn: " + str(count) + " of " + turn + "\n")
-                        
+                        #Checks if there is a game over
                         if gameOver != 1 and gameOver != 0:
-                                selectedMove = str(mcts.uct(gameboard,maxIteration))
+                                selectedMove = str(mcts.uct(gameboard,maxIteration))  #Runs the mcts and saves the result as a string to selected move
                                 move = parseMove(selectedMove)
                                 print("The suggested move for " + turn + " is " + move)
+
+                                ## Handles the actual gameplay for the AI
+                                ## Checks the move and carries out the action associated with the mcts selected move
                                 if move == 'play energy':
                                         if turn == 'player':
                                                 for i in range(len(gameboard.playerHand)):
                                                         if gameboard.playerHand[i].Card_Type == "Energy":
-                                                            gameboard.energyPlayed = False
+                                                            gameboard.energyPlayed = False  #The mcts is affecting the energyPlayed flag when it runs so it needs to be changed to false before running play energy
                                                             gameboard.playEnergy('p',i)
                                                             gameboard.energyPlayed = True
                                                             print("Player actually played energy!")
@@ -139,7 +152,7 @@ def GameLoop(gameboard, count=0):
                                         if gameboard.checkEnergyCost(gameboard.playerActive[0].Attack_One_Cost, gameboard.playerActive[0].Energies):
                                                 #print(gameboard.oppActive[0].Name + "'s HP went down to " + str((gameboard.oppActive[0].Hp - gameboard.playerActive[0].Attack_One_Damage)) + " from " + str(gameboard.oppActive[0].HP))
                                                 gameboard.attack(gameboard.turn, gameboard.playerActive[0].Attack_One_Name, gameboard.playerActive[0].Attack_One_Damage, gameboard.playerActive[0].Attack_One_Cost)
-                                                gameOver = gameboard.checkWinCon(gameboard.turn)
+                                                gameOver = gameboard.checkWinCon(gameboard.turn)  #Checks for a game over after an attack
                                                 if gameOver == 1:
                                                         print("Player has won")
                                                         file.write("Player has won!\n")
@@ -178,7 +191,7 @@ def GameLoop(gameboard, count=0):
                                                 file.write("Opponent attacked!\n")
                                                 file.write("------------------------------END OF TURN-----------------------------\n-")
 
-                                elif (move == 'pass turn' or move == 'retreat') and turn == 'player':
+                                elif (move == 'pass turn' or move == 'retreat') and turn == 'player':  #Retreat isn't implemented yet so we just make it pass turn
                                         gameboard.passTurn(gameboard.turn)
                                         print(turn + " " + move)
                                         gameboard.turn = 'o'
@@ -264,7 +277,8 @@ def parseMove(move):
         return string
 
 
-
+## Displays the board to the user
+## Mainly used for debugging purposes
 def displayBoard(gameboard):
         print("---Player's Board---")
         print("Active: " + gameboard.playerActive[0].Name + " HP: " + str(gameboard.playerActive[0].Hp))
@@ -307,7 +321,9 @@ def displayBoard(gameboard):
         for i in range(len(gameboard.oppHand)):
                 print(gameboard.oppHand[i].Name)
         print("\n")
-        
+
+
+## Saves the board to a log file
 def saveBoard(gameboard):
         with open('gamelog.txt', 'a') as file:
                 file.write("---Player's Board---\n")
@@ -373,6 +389,7 @@ def saveBoard(gameboard):
 
 
 # These are the dictionaries to build the Card objects from
+# These will need to be moved to a seperate file in the future for better practices
 card1 = {'Name' : 'Buizel',
         'Card_Type' : 'Pokemon',
         'Stage' : 0,

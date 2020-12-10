@@ -204,7 +204,8 @@ class Gameboard():
                         print("Temp2: ", temp2)
                         print("i = ", i)
                         print(self.playerHand[i])
-                    self.playerHand.pop(i)  
+                    self.playerHand.pop(i)
+                    break  
                     
 
             print("Player hand after settting up play: ")
@@ -309,7 +310,8 @@ class Gameboard():
                     if debug:
                         print("I : ", i)
                         print("Temp2: ", temp2)
-                    self.oppHand.pop(i)  
+                    self.oppHand.pop(i)
+                    break  
                                    
             print("Opponent's hand done showing")                
 
@@ -325,6 +327,7 @@ class Gameboard():
                     if "Metal Energy" in test[j].Name:  #Checks to see if there is a metal Energy attached
                         test.pop(j)
                         count += 1
+                        break
             elif i == "P":  # Has P in attack cost
                 if "Psychic Energy" in test:
                     test.remove("Psychic Energy")
@@ -348,37 +351,61 @@ class Gameboard():
         ## Use one of the card's attack. This ends the turn
         ## Must have proper amount and type of energy
         #global turn
-        if turn == 'p':
-            if self.checkEnergyCost(cost, self.playerActive[0].Energies) == True:
-                attacks.basicAttack(self.playerActive[0],self.oppActive[0],self.playerActive[0].Attack_One_Damage)
-                print(self.oppActive[0].Name + " has " + str(self.oppActive[0].Hp) + " due to " + str(self.playerActive[0].Attack_One_Damage) + " damage from " + self.playerActive[0].Attack_One_Name )
-                
-                if(self.oppActive[0].Hp <= 0):
-                    print(self.oppActive[0].Name + " knocked out!")
-                    for i in reversed(range(len(self.oppActive[0].Energies))):
-                        self.oppDiscard.append(self.oppActive[0].Energies.pop(i))
-                    self.oppDiscard.append(self.oppActive.pop(0))
-                    if len(self.oppBench) > 0:
-                        self.oppActive.append(self.oppBench.pop(0))
-                        print(self.oppActive[0].Name + " moved to opponents active slot")
-                        self.playerHand.append(self.playerPrize.pop(0))
-                        print("player has " + str(len(self.playerPrize)) + " left")
-        elif turn == 'o':
-            if self.checkEnergyCost(cost, self.oppActive[0].Energies):
-                attacks.basicAttack(self.oppActive[0],self.playerActive[0],self.oppActive[0].Attack_One_Damage)
-                print(self.oppActive[0].Name + " did " + str(self.oppActive[0].Attack_One_Damage) + " to " + self.playerActive[0].Name)
-                
-                if(self.playerActive[0].Hp <= 0):
-                    print(self.playerActive[0].Name + " knocked out!")
-                    for i in reversed(range(len(self.playerActive[0].Energies))):
-                        self.playerDiscard.append(self.playerActive[0].Energies.pop(i))
-                    self.playerDiscard.append(self.playerActive.pop(0))
-                    if len(self.playerBench) > 0:
-                        self.playerActive.append(self.playerBench.pop(0))
-                        print(self.playerActive[0].Name + " moved to players active slot")
-                        self.oppHand.append(self.oppPrize.pop(0))
-                        print("opponent has " + str(len(self.oppPrize)) + " left")
-                        
+        try:
+            if turn == 'p':
+                if self.checkEnergyCost(cost, self.playerActive[0].Energies) == True:
+                    attacks.basicAttack(self.playerActive[0],self.oppActive[0],self.playerActive[0].Attack_One_Damage)
+                    print(self.oppActive[0].Name + " has " + str(self.oppActive[0].Hp) + " due to " + str(self.playerActive[0].Attack_One_Damage) + " damage from " + self.playerActive[0].Attack_One_Name )
+                    
+                    if(self.oppActive[0].Hp <= 0):
+                        print(self.oppActive[0].Name + " knocked out!")
+                        for i in reversed(range(len(self.oppActive[0].Energies))):
+                            self.oppDiscard.append(self.oppActive[0].Energies.pop(i))
+                        self.oppDiscard.append(self.oppActive.pop(0))
+                        if len(self.oppBench) > 0:
+                            self.oppActive.append(self.oppBench.pop(0))
+                            print(self.oppActive[0].Name + " moved to opponents active slot")
+                            self.playerHand.append(self.playerPrize.pop(0))
+                            print("player has " + str(len(self.playerPrize)) + " left")
+            elif turn == 'o':
+                if self.checkEnergyCost(cost, self.oppActive[0].Energies):
+                    attacks.basicAttack(self.oppActive[0],self.playerActive[0],self.oppActive[0].Attack_One_Damage)
+                    print(self.oppActive[0].Name + " did " + str(self.oppActive[0].Attack_One_Damage) + " to " + self.playerActive[0].Name)
+                    
+                    if(self.playerActive[0].Hp <= 0):
+                        print(self.playerActive[0].Name + " knocked out!")
+                        for i in reversed(range(len(self.playerActive[0].Energies))):
+                            self.playerDiscard.append(self.playerActive[0].Energies.pop(i))
+                        self.playerDiscard.append(self.playerActive.pop(0))
+                        if len(self.playerBench) > 0:
+                            self.playerActive.append(self.playerBench.pop(0))
+                            print(self.playerActive[0].Name + " moved to players active slot")
+                            self.oppHand.append(self.oppPrize.pop(0))
+                            print("opponent has " + str(len(self.oppPrize)) + " left")
+        except IndexError:
+            
+            if turn == "o":
+                print("Opp active: " + self.oppActive[0].Name)
+                print("Opp active 1st energy: " + self.oppActive[0].Energies[0].Name)
+                print("Opp active energies: " + str(len(self.oppActive[0].Energies)))
+                print("Opp active HP: " + str(self.oppActive[0].Hp))
+                print("Attack Cost: " + cost)
+                print("Player active: " + self.playerActive[0].Name)
+                print("Player active HP: " + str(self.playerActive[0].Hp))
+                print("Player active 1st energy: " + self.playerActive[0].Energies[0].Name)
+                print("Player active energies: " + str(len(self.playerActive[0].Energies)))
+            else:                          
+                print("Player active: " + self.playerActive[0].Name)
+                print("Player active HP: " + str(self.playerActive[0].Hp))
+                print("Player active 1st energy: " + self.playerActive[0].Energies[0])
+                print("Player active energies: " + str(len(self.playerActive[0].Energies)))
+                print("Attack Cost: " + cost)
+                print("Opp active: " + self.oppActive[0].Name)
+                print("Opp active 1st energy: " + self.oppActive[0].Energies[0])
+                print("Opp active energies: " + str(len(self.oppActive[0].Energies)))
+                print("Opp active HP: " + str(self.oppActive[0].Hp))
+            raise
+                           
         self.passTurn(turn)
 
 
@@ -429,8 +456,10 @@ class Gameboard():
                     for i in range(len(self.playerHand)):
                         if self.playerHand[i].Card_Type == "Pokemon":
                             if self.playerHand[i].Stage == 0 and len(self.playerBench) < 5:
+                                print(F"The index for the hand that is passed to the play basic from getMoves is {i}")
                                 legalMoves.append((self.playBasic,i, turn))
                                 passFlag = False
+                                
 
                 if self.retreated == False and (self.playerActive[0].Retreat_Cost <= len(self.playerActive[0].Energies)):
                     #print("Attempted to retreat")
@@ -455,8 +484,10 @@ class Gameboard():
                 for i in range(len(self.oppHand)):
                     if self.oppHand[i].Card_Type == "Pokemon":
                         if self.oppHand[i].Stage == 0 and len(self.oppBench) < 5:
+                            print(F"The index for the hand that is passed to the play basic from getMoves is {i}")
                             legalMoves.append((self.playBasic,i, turn))
                             passFlag = False
+                            
 
                 if self.retreated == False and (self.oppActive[0].Retreat_Cost <= len(self.oppActive[0].Energies)):
                     for i in range(len(self.oppBench)):
@@ -510,8 +541,20 @@ class Gameboard():
         #print("Length of Opp Active: " + str(len(self.oppActive)))
         #print("Length of Player Active: " + str(len(self.playerActive)))
         if len(self.oppDeck) <= 0 or len(self.playerPrize) <= 0 or len(self.oppActive) <= 0:  # Checks to see if opp decked out, player took all prizes, or opp has no active; Player wins
+            if len(self.oppDeck) <= 0:
+                print("Player won by deck out!")
+            elif len(self.playerPrize) <= 0:
+                print("Player has no more prizes to take!!")
+            elif len(self.oppActive) <= 0:
+                print("Opponent has no pokemon left!!")
             return 1
         elif len(self.playerDeck) <= 0 or len(self.oppPrize) <= 0 or len(self.playerActive) <= 0:   # Checks to see if player decked out, opp took all prizes, or player has no active; Opp wins
+            if len(self.playerDeck) <= 0:
+                print("Opponent won by deck out!")
+            elif len(self.oppPrize) <= 0:
+                print("Opponent has no more prizes to take!!")
+            elif len(self.playerActive) <= 0:
+                print("Player has no pokemon left!!")
             return 0
         else:
             return 0.5
@@ -541,18 +584,42 @@ class Gameboard():
     def playBasic(self, handIndex, turn):
         ## Plays a basic from hand to bench, space permitting)
         
-        if turn == 'p':
-            
-            if len(self.playerBench) < 5:
-                
-                print("player played " + self.playerHand[handIndex].Name + " to the bench!")
-                self.playerBench.append(self.playerHand.pop(handIndex))
-        elif turn == 'o':
-            
-            if len(self.oppBench) < 5:
-                print("Oppenent played " + self.oppHand[handIndex].Name + " to the bench!")
-                self.oppBench.append(self.oppHand.pop(handIndex))
-
+            if turn == 'p':
+                try:    
+                    if len(self.playerBench) < 5:
+                        if self.playerHand[handIndex].Card_Type == "Pokemon":
+                            print("player played " + self.playerHand[handIndex].Name + " to the bench!")
+                            self.playerBench.append(self.playerHand.pop(handIndex))
+                except IndexError:
+                    print("--Player Hand--")
+                    for i in range(len(self.playerHand)):
+                        print(str(i))
+                        print(self.playerHand[i].Name)
+                        
+                    print("Player had error playing basic. Bench size is " + str(len(self.playerBench)))
+                    print("Hand size is " + str(len(self.playerHand)) + " and Index is " + str(handIndex))
+                    raise
+                    
+        
+            elif turn == 'o':
+                try:
+                    if len(self.oppBench) < 5:
+                        if self.oppHand[handIndex].Card_Type == "Pokemon":
+                            print("Oppenent played " + self.oppHand[handIndex].Name + " to the bench!")
+                            self.oppBench.append(self.oppHand.pop(handIndex))
+                        else:
+                            pass
+                except IndexError:
+                    print("--Opponent Hand--")
+                    for i in range(len(self.oppHand)):
+                        print(str(i))
+                        print(self.oppHand[i].Name)
+                                        
+                    print("Opponent had error playing basic. Bench size is " + str(len(self.oppBench)))
+                    print("Hand size is " + str(len(self.oppHand)) + " and Index is " + str(handIndex))
+                    raise
+                    
+                    
     def betweenTurns(self):
         ## Checking win Conditions
         ## Checking and doing status effects
@@ -561,7 +628,8 @@ class Gameboard():
         ## Resetting statuses and effects
         pass
     
-
+## Sets up the card class and all of the attributes of the card class
+## Should be in a card file and will need to be moved there in future iterations
 class Card():
     # Name = ''
     #Card_Type = ''

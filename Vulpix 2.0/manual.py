@@ -7,6 +7,9 @@ import GameManager_clean as GameManager
 import Deck
 import attacks
 import sys
+import random
+import time
+
 
 ## Helper fucntions
 
@@ -66,10 +69,11 @@ def startGame():
         gameboard.playerDrawCard()
     elif gameboard.turn == 'o':
         gameboard.oppDrawCard()
-    gameLoop(gameboard)
+    return gameLoop(gameboard)
 
 
 def gameLoop(gameboard):
+    debug = False
     go = True
     
     while go:
@@ -80,18 +84,25 @@ def gameLoop(gameboard):
         
         # Check for winner
         gameOver = gameboard.checkWinCon(gameboard.turn)
-        print(gameOver)
+        #print(gameOver)
         ## Print out menu
-        print("Currently is " + turn + "'s turn!")
-        print("----Menu----")
-        print("1. Play Energy")
-        print("2. Play Basic")
-        print("3. Attack")
-        print("4. Pass")
-        print("5. Show Board")
+        #print("Currently is " + turn + "'s turn!")
+        #print("----Menu----")
+        #print("1. Play Energy")
+        #print("2. Play Basic")
+        #print("3. Attack")
+        #print("4. Pass")
+        #print("5. Show Board")
+        
+        if debug:
+            displayBoard(gameboard)
         ## Get menu choice
-        choice = input("Choose an action: ")
-
+        ##choice = input("Choose an action: ")
+        
+        ##  --Random Play through--
+        choice = random.randint(1,4)
+        choice = str(choice)
+        
         
 
         if choice == '1':   # Choice is play energy
@@ -101,10 +112,12 @@ def gameLoop(gameboard):
                         #gameboard.energyPlayed = False
                         gameboard.playEnergy('p',i)
                         gameboard.energyPlayed = True
-                        print("Player actually played energy!")
+                        if debug:
+                            print("Player actually played energy!")
                         break
                     else:
-                        print("No energy to play!")
+                        if debug:
+                            print("No energy to play!")
 
             elif turn == 'opponent':
                 for i in range(len(gameboard.oppHand)):
@@ -112,35 +125,60 @@ def gameLoop(gameboard):
                         #gameboard.energyPlayed = False
                         gameboard.playEnergy('o',i)
                         gameboard.energyPlayed = True
-                        print("Opponent actually played energy!")
+                        if debug:
+                            print("Opponent actually played energy!")
                         break
                     else:
-                        print("No energy to play!")
+                        if debug:
+                            print("No energy to play!")
 
         elif choice == '2':  # Choice is play basic
-            pass
+            if turn == 'player':
+                if len(gameboard.playerBench) < 5:
+                    #print("Attempted to play bench pokemon")
+                    for i in range(len(gameboard.playerHand)):
+                        if gameboard.playerHand[i].Card_Type == "Pokemon":
+                            if gameboard.playerHand[i].Stage == 0 and len(gameboard.playerBench) < 5:
+                                if debug:
+                                    print("Player played " + gameboard.playerHand[i].Name + " to the bench")                                                           
+                                gameboard.playBasic(i, gameboard.turn)                                                            
+                                break
+            elif turn == "opponent":
+                if len(gameboard.oppBench) < 5:
+                    #print("Attempted to play bench pokemon")
+                    for i in range(len(gameboard.oppHand)):
+                        if gameboard.oppHand[i].Card_Type == "Pokemon":
+                            if gameboard.oppHand[i].Stage == 0 and len(gameboard.oppBench) < 5:
+                                if debug:
+                                    print("Opponent played " + gameboard.oppHand[i].Name + " to the bench")                                                        
+                                gameboard.playBasic(i, gameboard.turn)                                                     
+                                break
+
         
         elif choice == '3':  # Choice is attack
             if turn == 'player':
-                print("Player is attempting to attack")
+                if debug:
+                    print("Player is attempting to attack")
                 if gameboard.checkEnergyCost(gameboard.playerActive[0].Attack_One_Cost, gameboard.playerActive[0].Energies):
                     #print(gameboard.oppActive[0].Name + "'s HP went down to " + str(gameboard.oppActive[0].Hp - gameboard.playerActive[0].Attack_One_Damage) + " from " + str(gameboard.oppActive[0].Hp))
                     gameboard.attack(gameboard.turn, gameboard.playerActive[0].Attack_One_Name, gameboard.playerActive[0].Attack_One_Damage, gameboard.playerActive[0].Attack_One_Cost)
                     gameOver = gameboard.checkWinCon(gameboard.turn)
                     if gameOver == 1:
                         print("Player has won")
+                        
                         go = False
-                        break
-                        del gameboard
+                        return 1
+                        
             
                     elif gameOver == 0:
                         print("Opponent has won")
                         go = False
-                        break
-                        del gameboard
-                    print(turn + " attacked " + gameboard.oppActive[0].Name + " for " + str(gameboard.playerActive[0].Attack_One_Damage))
+                        return 0
+                    if debug:    
+                        print(turn + " attacked " + gameboard.oppActive[0].Name + " for " + str(gameboard.playerActive[0].Attack_One_Damage))
                 else:
-                    print("Not enough energy to attack")
+                    if debug:
+                        print("Not enough energy to attack")
                     
             elif turn == 'opponent':
                 if gameboard.checkEnergyCost(gameboard.oppActive[0].Attack_One_Cost, gameboard.oppActive[0].Energies):
@@ -150,13 +188,13 @@ def gameLoop(gameboard):
                     if gameOver == 1:
                         print("Player has won")
                         go = False
-                        break
+                        return 1
                         #del gameboard
             
                     elif gameOver == 0:
                         print("Opponent has won")
                         go = False
-                        break
+                        return 0
                         #del gameboard
                     print(turn + " attacked " + gameboard.playerActive[0].Name + " for " + str(gameboard.oppActive[0].Attack_One_Damage))
                     #gameboard.turn = 'p'
@@ -184,14 +222,26 @@ def gameLoop(gameboard):
             print("Player has won")
             go = False
             del gameboard
-            break
+            return 1
             
         elif gameOver == 0:
             print("Opponent has won")
             go = False
             del gameboard
-            break
-            
+            return 0
+    del gameboard        
 
-        
-startGame()
+start = time.time()
+GAMES = 2500
+playerWins = 0
+oppWins = 0
+for i in range(GAMES):
+    wins = startGame()
+    if wins == 1:
+        playerWins += 1
+    elif wins == 0:
+        oppWins += 1
+end = time.time()
+print(f"Runtime of the program is {end - start}")
+print(f"Player has {playerWins} of {GAMES} for a {(playerWins/GAMES)*100} winning percentage")
+print(f"Opponent has {oppWins} of {GAMES} for a {(oppWins/GAMES)*100} winning percentage")
